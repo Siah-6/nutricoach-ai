@@ -821,18 +821,18 @@ $profile = getUserProfile(getCurrentUserId());
                 const data = await response.json();
                 
                 if (data.success) {
-                    currentSession = data.data.session_id;
+                    currentSession = data.session_id;
                     completedExercises.clear();
                     displayTrackingWorkout();
                     
-                    if (data.data.resumed) {
+                    if (data.resumed) {
                         showNotification('💪 Continuing your workout!', 'success');
                     } else {
                         showNotification('💪 Workout Started! Let\'s go!', 'success');
                     }
                 } else {
                     // Show error message (e.g., already completed today)
-                    showAlreadyCompletedMessage(data.message || 'Cannot start workout');
+                    showAlreadyCompletedMessage(data.error || data.message || 'Cannot start workout');
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -928,10 +928,10 @@ $profile = getUserProfile(getCurrentUserId());
                     completedExercises.add(index);
                     displayTrackingWorkout();
                     
-                    if (data.data.leveled_up) {
-                        showNotification(`🎉 LEVEL UP! You're now Level ${data.data.level}!`, 'success', 5000);
+                    if (data.leveled_up) {
+                        showNotification(`🎉 LEVEL UP! You're now Level ${data.level}!`, 'success', 5000);
                     } else {
-                        showNotification(`💪 +${data.data.xp_earned} XP! Total: ${data.data.total_xp} XP`, 'success');
+                        showNotification(`💪 +${data.xp_earned} XP! Total: ${data.total_xp} XP`, 'success');
                     }
                 } else {
                     showNotification('Failed to complete exercise', 'error');
@@ -956,18 +956,17 @@ $profile = getUserProfile(getCurrentUserId());
                 const data = await response.json();
                 
                 if (data.success) {
-                    const result = data.data;
                     let message = `🎉 Workout Complete!\n\n`;
-                    message += `💪 Exercises: ${result.exercises_completed}\n`;
-                    message += `⭐ Total XP: +${result.total_xp_earned}\n`;
+                    message += `💪 Exercises: ${data.exercises_completed}\n`;
+                    message += `⭐ Total XP: +${data.total_xp_earned}\n`;
                     
-                    if (result.leveled_up) {
-                        message += `\n🎊 LEVEL UP to Level ${result.level}!`;
+                    if (data.leveled_up) {
+                        message += `\n🎊 LEVEL UP to Level ${data.level}!`;
                     }
                     
-                    if (result.achievements && result.achievements.length > 0) {
+                    if (data.achievements && data.achievements.length > 0) {
                         message += `\n\n🏆 Achievements Unlocked:\n`;
-                        result.achievements.forEach(ach => {
+                        data.achievements.forEach(ach => {
                             message += `• ${ach.name} (+${ach.xp} XP)\n`;
                         });
                     }
@@ -980,9 +979,9 @@ $profile = getUserProfile(getCurrentUserId());
                             <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
                             <h2 style="font-size: 2rem; margin-bottom: 1rem;">Workout Complete!</h2>
                             <div style="font-size: 1.25rem; margin-bottom: 2rem;">
-                                <div>💪 ${result.exercises_completed} exercises completed</div>
-                                <div>⭐ +${result.total_xp_earned} XP earned</div>
-                                ${result.leveled_up ? `<div style="margin-top: 1rem; font-size: 1.5rem;">🎊 Level ${result.level}!</div>` : ''}
+                                <div>💪 ${data.exercises_completed} exercises completed</div>
+                                <div>⭐ +${data.total_xp_earned} XP earned</div>
+                                ${data.leveled_up ? `<div style="margin-top: 1rem; font-size: 1.5rem;">🎊 Level ${data.level}!</div>` : ''}
                             </div>
                             <button onclick="location.reload()" style="background: white; color: #4CAF50; border: none; padding: 1rem 2rem; border-radius: 12px; font-size: 1.125rem; font-weight: 700; cursor: pointer;">
                                 Start New Workout
@@ -1007,14 +1006,13 @@ $profile = getUserProfile(getCurrentUserId());
                 const response = await fetch('../api/workout/get-current-session.php');
                 const data = await response.json();
                 
-                if (data.success && data.data.has_session) {
-                    const session = data.data;
-                    currentSession = session.session_id;
-                    currentExercises = session.exercises;
+                if (data.success && data.has_session) {
+                    currentSession = data.session_id;
+                    currentExercises = data.exercises;
                     
                     // Mark completed exercises
                     completedExercises.clear();
-                    session.completed_exercises.forEach(exerciseName => {
+                    data.completed_exercises.forEach(exerciseName => {
                         const index = currentExercises.findIndex(ex => ex.name === exerciseName);
                         if (index !== -1) {
                             completedExercises.add(index);
@@ -1023,7 +1021,7 @@ $profile = getUserProfile(getCurrentUserId());
                     
                     // Show the workout in progress
                     workoutDisplay.classList.add('active');
-                    workoutTitle.textContent = session.workout_type;
+                    workoutTitle.textContent = data.workout_type;
                     workoutBadge.textContent = 'In Progress';
                     displayTrackingWorkout();
                     
