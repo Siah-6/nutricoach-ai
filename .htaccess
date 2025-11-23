@@ -1,0 +1,18 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Make sure the RewriteBase is correct (usually / )
+RewriteBase /
+
+# Redirect www → non-www (optional)
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Fallback to index.php for PHP frameworks (Laravel, CodeIgniter, custom apps)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]

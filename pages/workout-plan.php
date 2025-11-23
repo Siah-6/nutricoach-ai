@@ -24,7 +24,7 @@ $user = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Plan - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -41,7 +41,7 @@ $user = getCurrentUser();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const { Utils, Fitness } = window.NutriCoach;
 
@@ -50,7 +50,7 @@ $user = getCurrentUser();
 
             try {
                 const response = await Fitness.getWorkoutPlan();
-                const plan = response.data.plan;
+                const plan = response.plan;
 
                 if (!plan || !plan.exercises) {
                     container.innerHTML = `

@@ -4,10 +4,10 @@
  */
 
 // Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');              // Change if needed
-define('DB_PASS', '');                  // Add your MySQL password here
-define('DB_NAME', 'nutricoach_db');
+define('DB_HOST', 'localhost');       // Or your server IP (for VPS)
+define('DB_NAME', 'u149335938_nutricoach_db');   // Replace with your actual database name
+define('DB_USER', 'u149335938_nutricoach_db'); // Replace with your actual username
+define('DB_PASS', 'Siah010603');    // Replace with your MySQL password
 define('DB_CHARSET', 'utf8mb4');
 
 // AI Configuration

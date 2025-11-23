@@ -2,6 +2,9 @@
 /**
  * User Signup API Endpoint
  */
+header("Content-Type: application/json");
+var_dump("PHP reached here");
+
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/functions.php';

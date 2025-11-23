@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 Utils.showAlert(response.message, 'success');
                 
                 setTimeout(function() {
-                    if (response.data.onboarding_completed) {
-                        window.location.href = '/xampp/NutriCoachAI/pages/dashboard.php';
+                    if (response.onboarding_completed) {
+                        window.location.href = 'pages/dashboard.php';
                     } else {
-                        window.location.href = '/xampp/NutriCoachAI/pages/onboarding.php';
+                        window.location.href = 'pages/onboarding.php';
                     }
                 }, 1000);
                 
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 Utils.showAlert(response.message, 'success');
                 
                 setTimeout(function() {
-                    window.location.href = '/xampp/NutriCoachAI/pages/onboarding.php';
+                    window.location.href = 'pages/onboarding.php';
                 }, 1000);
                 
             } catch (error) {
@@ -217,7 +217,7 @@ window.logout = async function() {
             window.NutriCoach.Utils.showAlert('Logged out successfully', 'success');
         }
         setTimeout(function() {
-            window.location.href = '/xampp/NutriCoachAI/';
+            window.location.href = './';
         }, 1000);
     } catch (error) {
         alert('Logout failed');

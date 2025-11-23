@@ -24,7 +24,7 @@ $user = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -126,7 +126,7 @@ $user = getCurrentUser();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const { Utils, Fitness } = window.NutriCoach;
         let weightChart, workoutChart;
@@ -135,7 +135,7 @@ $user = getCurrentUser();
         async function loadProgress() {
             try {
                 const response = await Fitness.getProgress(30);
-                const logs = response.data.logs;
+                const logs = response.logs;
 
                 if (logs && logs.length > 0) {
                     renderCharts(logs);

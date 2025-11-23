@@ -24,20 +24,20 @@ if (isLoggedIn()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NutriCoach AI - Your Personal AI-Powered Fitness Coach">
     <title>NutriCoach AI - Transform Your Fitness Journey</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="navbar-content">
-                <a href="/xampp/NutriCoachAI/" class="navbar-brand">🏋️ NutriCoach AI</a>
+                <a href="./" class="navbar-brand">🏋️ NutriCoach AI</a>
                 <button class="navbar-toggle" aria-label="Toggle menu">☰</button>
                 <ul class="navbar-menu">
                     <li><a href="#features">Features</a></li>
                     <li><a href="#how-it-works">How It Works</a></li>
-                    <li><a href="/xampp/NutriCoachAI/pages/faq.php">FAQ</a></li>
-                    <li><a href="/xampp/NutriCoachAI/pages/support.php">Support</a></li>
+                    <li><a href="pages/faq.php">FAQ</a></li>
+                    <li><a href="pages/support.php">Support</a></li>
                     <li><a href="#" onclick="openLoginModal()">Login</a></li>
                     <li><a href="#" onclick="openSignupModal()" class="btn btn-primary">Get Started</a></li>
                 </ul>
@@ -47,7 +47,7 @@ if (isLoggedIn()) {
 
     <!-- Hero Section -->
     <section class="hero">
-        <img src="/xampp/NutriCoachAI/assets/images/gym-hero.jpg" alt="Fitness" class="hero-background" onerror="this.style.display='none'">
+        <img src="assets/images/gym-hero.jpg" alt="Fitness" class="hero-background" onerror="this.style.display='none'">
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1 class="hero-title">Transform Your Body with AI-Powered Coaching</h1>
@@ -154,8 +154,8 @@ if (isLoggedIn()) {
         <div class="container">
             <p>&copy; 2024 NutriCoach AI. All rights reserved.</p>
             <p>
-                <a href="/xampp/NutriCoachAI/pages/faq.php" style="color: white; margin: 0 1rem;">FAQ</a>
-                <a href="/xampp/NutriCoachAI/pages/support.php" style="color: white; margin: 0 1rem;">Support</a>
+                <a href="pages/faq.php" style="color: white; margin: 0 1rem;">FAQ</a>
+                <a href="pages/support.php" style="color: white; margin: 0 1rem;">Support</a>
             </p>
         </div>
     </footer>
@@ -239,7 +239,7 @@ if (isLoggedIn()) {
         </div>
     </div>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js?v=<?php echo time(); ?>"></script>
-    <script src="/xampp/NutriCoachAI/assets/js/auth-simple.js?v=<?php echo time(); ?>"></script>
+    <script src="assets/js/main.js?v=<?php echo time(); ?>"></script>
+    <script src="assets/js/auth-simple.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

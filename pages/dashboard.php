@@ -27,8 +27,8 @@ $profile = getUserProfile(getCurrentUserId());
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -142,19 +142,19 @@ $profile = getUserProfile(getCurrentUserId());
                         </div>
                         <div class="card-body">
                             <div class="action-buttons">
-                                <a href="/xampp/NutriCoachAI/pages/workout-plan-improved.php" class="action-btn">
+                                <a href="workout-plan-improved.php" class="action-btn">
                                     <span class="action-icon">💪</span>
                                     <span>View Workout Plan</span>
                                 </a>
-                                <a href="/xampp/NutriCoachAI/pages/meal-plan-new.php" class="action-btn">
+                                <a href="meal-plan-new.php" class="action-btn">
                                     <span class="action-icon">🥗</span>
                                     <span>Today's Meals</span>
                                 </a>
-                                <a href="/xampp/NutriCoachAI/pages/progress.php" class="action-btn">
+                                <a href="progress.php" class="action-btn">
                                     <span class="action-icon">📊</span>
                                     <span>Track Progress</span>
                                 </a>
-                                <a href="/xampp/NutriCoachAI/pages/profile.php" class="action-btn">
+                                <a href="profile.php" class="action-btn">
                                     <span class="action-icon">👤</span>
                                     <span>Edit Profile</span>
                                 </a>
@@ -168,7 +168,7 @@ $profile = getUserProfile(getCurrentUserId());
                     <div class="card">
                         <div class="card-header">
                             <h2>Today's Workout</h2>
-                            <a href="/xampp/NutriCoachAI/pages/workout-plan-improved.php" class="btn btn-outline">View Full Plan</a>
+                            <a href="workout-plan-improved.php" class="btn btn-outline">View Full Plan</a>
                         </div>
                         <div class="card-body" id="todayWorkout">
                             <div class="spinner"></div>
@@ -181,7 +181,7 @@ $profile = getUserProfile(getCurrentUserId());
                     <div class="card">
                         <div class="card-header">
                             <h2>Today's Nutrition</h2>
-                            <a href="/xampp/NutriCoachAI/pages/meal-plan-new.php" class="btn btn-outline">View Full Plan</a>
+                            <a href="meal-plan-new.php" class="btn btn-outline">View Full Plan</a>
                         </div>
                         <div class="card-body" id="todayMeals">
                             <div class="spinner"></div>
@@ -194,13 +194,13 @@ $profile = getUserProfile(getCurrentUserId());
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
-    <script src="/xampp/NutriCoachAI/assets/js/dashboard.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
     <script>
         // Load XP and Level stats
         async function loadXPStats() {
             try {
-                const response = await fetch('/xampp/NutriCoachAI/api/workout/get-stats.php');
+                const response = await fetch('../api/workout/get-stats.php');
                 const data = await response.json();
                 
                 if (data.success) {

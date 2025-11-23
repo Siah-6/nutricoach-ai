@@ -19,9 +19,9 @@ $currentUser = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Coach Chat - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/dashboard.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/mobile-redesign.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../assets/css/dashboard.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../assets/css/mobile-redesign.css">
     <style>
         /* Full screen chat layout */
         html, body {
@@ -343,27 +343,27 @@ $currentUser = getCurrentUser();
     <!-- Mobile Bottom Navigation Only -->
     <?php if (isLoggedIn()): ?>
     <nav class="mobile-bottom-nav">
-        <a href="/xampp/NutriCoachAI/pages/dashboard.php" class="nav-item">
+        <a href="dashboard.php" class="nav-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
             <span>Home</span>
         </a>
-        <a href="/xampp/NutriCoachAI/pages/workout-plan-new.php" class="nav-item">
+        <a href="workout-plan-new.php" class="nav-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M6.5 6.5h11v11h-11z"></path>
                 <path d="M3 3v18h18"></path>
             </svg>
             <span>Workout</span>
         </a>
-        <a href="/xampp/NutriCoachAI/pages/chat.php" class="nav-item nav-item-center active">
+        <a href="chat.php" class="nav-item nav-item-center active">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
             <span>AI Chat</span>
         </a>
-        <a href="/xampp/NutriCoachAI/pages/meal-plan-new.php" class="nav-item">
+        <a href="meal-plan-new.php" class="nav-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
                 <path d="M7 2v20"></path>
@@ -371,7 +371,7 @@ $currentUser = getCurrentUser();
             </svg>
             <span>Meals</span>
         </a>
-        <a href="/xampp/NutriCoachAI/pages/profile.php" class="nav-item">
+        <a href="profile.php" class="nav-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
@@ -381,7 +381,7 @@ $currentUser = getCurrentUser();
     </nav>
     <?php endif; ?>
     
-    <script src="/xampp/NutriCoachAI/assets/js/main.js?v=<?php echo time(); ?>"></script>
+    <script src="../assets/js/main.js?v=<?php echo time(); ?>"></script>
     <script>
         (function() {
             console.log('Chat page script loading...');
@@ -542,12 +542,12 @@ $currentUser = getCurrentUser();
                 console.log('API response:', response);
                 hideTyping();
                 
-                // Check for response in data object (API returns {success: true, data: {response: "..."}})
-                if (response && response.data && response.data.response) {
-                    addMessage(response.data.response, 'ai');
-                } else if (response && response.response) {
-                    // Fallback for direct response format
+                // Check for response (new format has response at top level)
+                if (response && response.response) {
                     addMessage(response.response, 'ai');
+                } else if (response && response.data && response.data.response) {
+                    // Fallback for old format
+                    addMessage(response.data.response, 'ai');
                 } else {
                     console.error('Invalid response format:', response);
                     addMessage('Sorry, I received an invalid response. Please try again.', 'ai');

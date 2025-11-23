@@ -2,8 +2,25 @@
  * NutriCoach AI - Main JavaScript File
  */
 
-// API Base URL
-const API_BASE = window.location.origin + '/xampp/NutriCoachAI';
+// API Base URL - Dynamically determine based on current location
+const API_BASE = (() => {
+    const path = window.location.pathname;
+    let base;
+    
+    // If we're in /pages/, go up one level; if we're at root, stay at root
+    if (path.includes('/pages/')) {
+        base = window.location.origin + path.substring(0, path.indexOf('/pages/'));
+    } else if (path.includes('/assets/')) {
+        base = window.location.origin + path.substring(0, path.indexOf('/assets/'));
+    } else {
+        // We're at the root (index.php)
+        const dir = path.substring(0, path.lastIndexOf('/'));
+        base = window.location.origin + (dir || '');
+    }
+    
+    console.log('API_BASE initialized:', base);
+    return base;
+})();
 
 // Utility Functions
 const Utils = {
@@ -368,11 +385,17 @@ window.logout = async function() {
         await Auth.logout();
         Utils.showAlert('Logged out successfully', 'success');
         setTimeout(function() {
-            window.location.href = '/xampp/NutriCoachAI/';
+            // Redirect to root - determine if we're in pages/ or at root
+            const path = window.location.pathname;
+            if (path.includes('/pages/')) {
+                window.location.href = '../index.php';
+            } else {
+                window.location.href = './';
+            }
         }, 1000);
     } catch (error) {
         console.error('Logout error:', error);
-        // Force logout even if API fails
-        window.location.href = '/xampp/NutriCoachAI/api/auth/logout.php';
+        // Force logout even if API fails - redirect to logout endpoint
+        window.location.href = API_BASE + '/api/auth/logout.php';
     }
 };

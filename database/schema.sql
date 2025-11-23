@@ -1,9 +1,6 @@
 -- NutriCoach AI Database Schema
 -- MySQL 8.0+
 
-CREATE DATABASE IF NOT EXISTS nutricoach_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE nutricoach_db;
-
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

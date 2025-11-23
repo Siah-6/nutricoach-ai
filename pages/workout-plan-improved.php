@@ -25,8 +25,8 @@ $profile = getUserProfile(getCurrentUserId());
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Plan - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/mobile-redesign.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/mobile-redesign.css">
     <style>
         .workout-container {
             padding: 1rem;
@@ -286,7 +286,7 @@ $profile = getUserProfile(getCurrentUserId());
         </div>
     </div>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const workoutDisplay = document.getElementById('workoutDisplay');
         const workoutTitle = document.getElementById('workoutTitle');
@@ -808,7 +808,7 @@ $profile = getUserProfile(getCurrentUserId());
         // Start workout session
         async function startWorkoutSession() {
             try {
-                const response = await fetch('/xampp/NutriCoachAI/api/workout/start-session.php', {
+                const response = await fetch('../api/workout/start-session.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -853,7 +853,7 @@ $profile = getUserProfile(getCurrentUserId());
                         <p style="font-size: 0.875rem; margin-bottom: 0.5rem; opacity: 0.9;">Rest is important for muscle growth!</p>
                         <p style="font-size: 1rem; font-weight: 600;">Come back tomorrow to earn more XP 💪</p>
                     </div>
-                    <button onclick="location.href='/xampp/NutriCoachAI/pages/dashboard.php'" style="background: white; color: #F39C12; border: none; padding: 1rem 2rem; border-radius: 12px; font-size: 1.125rem; font-weight: 700; cursor: pointer;">
+                    <button onclick="location.href='dashboard.php'" style="background: white; color: #F39C12; border: none; padding: 1rem 2rem; border-radius: 12px; font-size: 1.125rem; font-weight: 700; cursor: pointer;">
                         Back to Dashboard
                     </button>
                 </div>
@@ -911,7 +911,7 @@ $profile = getUserProfile(getCurrentUserId());
         // Complete exercise
         async function completeExercise(index, name, details) {
             try {
-                const response = await fetch('/xampp/NutriCoachAI/api/workout/complete-exercise.php', {
+                const response = await fetch('../api/workout/complete-exercise.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -945,7 +945,7 @@ $profile = getUserProfile(getCurrentUserId());
         // Finish workout
         async function finishWorkout() {
             try {
-                const response = await fetch('/xampp/NutriCoachAI/api/workout/finish-session.php', {
+                const response = await fetch('../api/workout/finish-session.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1004,7 +1004,7 @@ $profile = getUserProfile(getCurrentUserId());
         // Check for existing workout session on page load
         async function checkExistingSession() {
             try {
-                const response = await fetch('/xampp/NutriCoachAI/api/workout/get-current-session.php');
+                const response = await fetch('../api/workout/get-current-session.php');
                 const data = await response.json();
                 
                 if (data.success && data.data.has_session) {

@@ -47,10 +47,38 @@ function getCurrentUser() {
 
 // Redirect to a page
 function redirect($url) {
-    // Add XAMPP path prefix if not already present
-    if (strpos($url, '/xampp/NutriCoachAI') === false && strpos($url, 'http') === false) {
-        $url = '/xampp/NutriCoachAI' . $url;
+    // If it's an absolute URL (http/https), use as is
+    if (strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) {
+        header("Location: " . $url);
+        exit();
     }
+    
+    // Get the base path dynamically from the current script location
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    
+    // Determine if we're in a subdirectory (like /pages/)
+    $scriptDir = dirname($scriptName);
+    
+    // Find the app root (where index.php is)
+    // If we're in /pages/, go up one level; if at root, stay at root
+    if (strpos($scriptDir, '/pages') !== false) {
+        $basePath = substr($scriptDir, 0, strpos($scriptDir, '/pages'));
+    } else {
+        $basePath = $scriptDir;
+    }
+    
+    // Handle different URL formats
+    if ($url === '/' || $url === '') {
+        // Redirect to app root
+        $url = $basePath . '/index.php';
+    } elseif (strpos($url, '/') === 0) {
+        // Absolute path from app root
+        $url = $basePath . $url;
+    } else {
+        // Relative path - keep as is (shouldn't happen often)
+        $url = $url;
+    }
+    
     header("Location: " . $url);
     exit();
 }
@@ -109,8 +137,18 @@ function errorResponse($message, $statusCode = 400) {
 }
 
 // Success response helper
-function successResponse($data = [], $message = 'Success') {
-    jsonResponse(['success' => true, 'message' => $message, 'data' => $data]);
+function successResponse($data = [], $message = null) {
+    $response = ['success' => true];
+    
+    // If message is provided, add it to response
+    if ($message !== null) {
+        $response['message'] = $message;
+    }
+    
+    // Merge data directly into response (not nested under 'data' key)
+    $response = array_merge($response, $data);
+    
+    jsonResponse($response);
 }
 
 // Calculate BMI

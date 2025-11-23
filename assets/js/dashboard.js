@@ -18,7 +18,7 @@ async function loadTodayWorkout() {
     
     try {
         const response = await Fitness.getWorkoutPlan();
-        const plan = response.data.plan;
+        const plan = response.plan;
         
         if (!plan || !plan.exercises || plan.exercises.length === 0) {
             container.innerHTML = `
@@ -74,9 +74,9 @@ async function loadTodayMeals() {
     
     try {
         const response = await Fitness.getMealPlan();
-        const meals = response.data.meals;
-        const totals = response.data.totals;
-        const targets = response.data.targets;
+        const meals = response.meals;
+        const totals = response.totals;
+        const targets = response.targets;
         
         if (!meals || meals.length === 0) {
             container.innerHTML = `
@@ -127,7 +127,7 @@ async function loadChatHistory() {
     
     try {
         const response = await Chat.getHistory(10);
-        const history = response.data.history;
+        const history = response.history;
         
         if (!history || history.length === 0) {
             container.innerHTML = `
@@ -206,7 +206,7 @@ function setupChatForm() {
                 // Add AI response
                 const aiMessageHTML = `
                     <div class="chat-message ai">
-                        <div class="chat-bubble">${response.data.response}</div>
+                        <div class="chat-bubble">${response.response}</div>
                     </div>
                 `;
                 messagesContainer.insertAdjacentHTML('beforeend', aiMessageHTML);

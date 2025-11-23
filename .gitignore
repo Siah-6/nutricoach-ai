@@ -32,3 +32,8 @@ composer.lock
 # Environment files
 .env
 .env.local
+
+# config
+.production.php
+config/config.production.php
+config/config.example.php

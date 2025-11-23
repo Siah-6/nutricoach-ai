@@ -24,7 +24,7 @@ $user = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workout Plan - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -74,7 +74,7 @@ $user = getCurrentUser();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const { Utils, Chat } = window.NutriCoach;
         let currentMuscle = null;
@@ -111,7 +111,9 @@ Format as a simple list. Make it suitable for intermediate fitness level.`;
                 
                 const response = await Chat.sendMessage(prompt);
                 
-                if (response && response.data && response.data.response) {
+                if (response && response.response) {
+                    displayWorkout(muscleGroup, response.response);
+                } else if (response && response.data && response.data.response) {
                     displayWorkout(muscleGroup, response.data.response);
                 } else {
                     throw new Error('Invalid response from AI');

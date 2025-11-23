@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Redirect based on onboarding status
                 setTimeout(() => {
-                    if (response.data.onboarding_completed) {
+                    if (response.onboarding_completed) {
                         window.location.href = '/pages/dashboard.php';
                     } else {
                         window.location.href = '/pages/onboarding.php';

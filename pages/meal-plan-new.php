@@ -30,7 +30,7 @@ $profile = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Plan - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -98,7 +98,7 @@ $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const { Utils, Chat } = window.NutriCoach;
         const userCalories = <?php echo $profile['daily_calories'] ?? 2000; ?>;
@@ -158,7 +158,9 @@ Make it practical for Filipinos on a budget!`;
                 
                 const response = await Chat.sendMessage(prompt);
                 
-                if (response && response.data && response.data.response) {
+                if (response && response.response) {
+                    displayMealPlan(budget, response.response);
+                } else if (response && response.data && response.data.response) {
                     displayMealPlan(budget, response.data.response);
                 } else {
                     throw new Error('Invalid response from AI');
@@ -242,15 +244,16 @@ Make it practical for Filipinos on a budget!`;
             try {
                 const response = await Chat.sendMessage(`Based on my previous meal plan, ${userInput}. Keep it Filipino, affordable, and within my nutrition goals (${userCalories} calories, ${userProtein}g protein). Provide the updated meal suggestion.`);
                 
-                if (response && response.data && response.data.response) {
+                const aiResponse = response.response || response.data?.response;
+                if (aiResponse) {
                     container.innerHTML = `
                         <div class="card">
                             <div class="card-header">
-                                <h2>✏️ Customized Meal Plan</h2>
+                                <h3>🤖 AI Suggestion</h3>
                             </div>
                             <div class="card-body">
                                 <div class="ai-meal-response">
-                                    ${response.data.response.replace(/\n/g, '<br>')}
+                                    ${aiResponse.replace(/\n/g, '<br>')}
                                 </div>
                                 <div style="margin-top: 2rem;">
                                     <button onclick="customizeMeal()" class="btn btn-primary">

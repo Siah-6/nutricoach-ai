@@ -26,8 +26,8 @@ $user = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Your Profile - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/onboarding.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/onboarding.css">
 </head>
 <body>
     <div class="onboarding-container">
@@ -287,7 +287,7 @@ $user = getCurrentUser();
         </form>
     </div>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js?v=<?php echo time(); ?>"></script>
-    <script src="/xampp/NutriCoachAI/assets/js/onboarding-clean.js?v=<?php echo time(); ?>"></script>
+    <script src="../assets/js/main.js?v=<?php echo time(); ?>"></script>
+    <script src="../assets/js/onboarding-clean.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

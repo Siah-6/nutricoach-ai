@@ -24,7 +24,7 @@ $user = getCurrentUser();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Plan - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -44,7 +44,7 @@ $user = getCurrentUser();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const { Utils, Fitness } = window.NutriCoach;
 
@@ -53,9 +53,9 @@ $user = getCurrentUser();
 
             try {
                 const response = await Fitness.getMealPlan(date);
-                const meals = response.data.meals;
-                const totals = response.data.totals;
-                const targets = response.data.targets;
+                const meals = response.meals;
+                const totals = response.totals;
+                const targets = response.targets;
 
                 if (!meals || meals.length === 0) {
                     container.innerHTML = `

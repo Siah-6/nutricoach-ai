@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Show summary modal or redirect
                 setTimeout(() => {
-                    showSummary(response.data);
+                    showSummary(response);
                 }, 1000);
                 
             } catch (error) {
@@ -198,5 +198,5 @@ function showSummary(data) {
 
 // Redirect to dashboard
 window.goToDashboard = function goToDashboard() {
-    window.location.href = '/xampp/NutriCoachAI/pages/dashboard.php';
+    window.location.href = 'dashboard.php';
 }

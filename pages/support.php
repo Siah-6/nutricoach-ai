@@ -15,7 +15,7 @@ $user = isLoggedIn() ? getCurrentUser() : null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -65,15 +65,15 @@ $user = isLoggedIn() ? getCurrentUser() : null;
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js?v=<?php echo time(); ?>"></script>
+    <script src="../assets/js/main.js?v=<?php echo time(); ?>"></script>
     <?php if (!isLoggedIn()): ?>
     <script>
         // Redirect to homepage for login/signup since we don't have modals here
         window.openLoginModal = function() {
-            window.location.href = '/xampp/NutriCoachAI/?action=login';
+            window.location.href = '../index.php?action=login';
         };
         window.openSignupModal = function() {
-            window.location.href = '/xampp/NutriCoachAI/?action=signup';
+            window.location.href = '../index.php?action=signup';
         };
     </script>
     <?php endif; ?>

@@ -14,7 +14,7 @@ initSession();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -71,7 +71,7 @@ initSession();
 
                 <div class="card">
                     <h3>Still have questions?</h3>
-                    <p>Contact us through our <a href="/xampp/NutriCoachAI/pages/support.php">Support page</a> and we'll be happy to help!</p>
+                    <p>Contact us through our <a href="support.php">Support page</a> and we'll be happy to help!</p>
                 </div>
             </div>
         </div>
@@ -79,15 +79,15 @@ initSession();
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js?v=<?php echo time(); ?>"></script>
+    <script src="../assets/js/main.js?v=<?php echo time(); ?>"></script>
     <?php if (!isLoggedIn()): ?>
         <script>
             // Redirect to homepage for login/signup since we don't have modals here
             window.openLoginModal = function() {
-                window.location.href = '/xampp/NutriCoachAI/?action=login';
+                window.location.href = '../index.php?action=login';
             };
             window.openSignupModal = function() {
-                window.location.href = '/xampp/NutriCoachAI/?action=signup';
+                window.location.href = '../index.php?action=signup';
             };
         </script>
     <?php else: ?>
@@ -96,7 +96,7 @@ initSession();
                 if (confirm('Are you sure you want to logout?')) {
                     if (window.NutriCoach && window.NutriCoach.Auth) {
                         window.NutriCoach.Auth.logout().then(() => {
-                            window.location.href = '/xampp/NutriCoachAI/';
+                            window.location.href = '../index.php';
                         });
                     }
                 }

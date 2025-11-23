@@ -110,7 +110,7 @@ window.updateFrequency = function(value) {
 
 // Go to dashboard
 window.goToDashboard = function() {
-    window.location.href = '/xampp/NutriCoachAI/pages/dashboard.php';
+    window.location.href = 'dashboard.php';
 };
 
 // Form submission
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show summary
                 setTimeout(function() {
-                    showSummary(response.data);
+                    showSummary(response);
                 }, 1000);
                 
             } catch (error) {

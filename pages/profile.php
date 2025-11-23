@@ -21,7 +21,7 @@ $profile = getUserProfile(getCurrentUserId());
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - NutriCoach AI</title>
-    <link rel="stylesheet" href="/xampp/NutriCoachAI/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -115,7 +115,7 @@ $profile = getUserProfile(getCurrentUserId());
                                 <strong>Workout Frequency:</strong> <?php echo $profile['workout_frequency']; ?> days/week
                             </div>
                         </div>
-                        <a href="/xampp/NutriCoachAI/pages/onboarding.php" class="btn btn-outline mt-3">Update Fitness Profile</a>
+                        <a href="onboarding.php" class="btn btn-outline mt-3">Update Fitness Profile</a>
                     </div>
                 </div>
 
@@ -145,7 +145,7 @@ $profile = getUserProfile(getCurrentUserId());
                 <div class="card">
                     <div class="card-body text-center">
                         <p>Complete your onboarding to see your fitness profile.</p>
-                        <a href="/xampp/NutriCoachAI/pages/onboarding.php" class="btn btn-primary">Complete Onboarding</a>
+                        <a href="onboarding.php" class="btn btn-primary">Complete Onboarding</a>
                     </div>
                 </div>
                 <?php endif; ?>
@@ -155,7 +155,7 @@ $profile = getUserProfile(getCurrentUserId());
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-    <script src="/xampp/NutriCoachAI/assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script>
         const { Utils, User, FormValidator } = window.NutriCoach;
 
