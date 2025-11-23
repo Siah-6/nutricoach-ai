@@ -1,0 +1,240 @@
+/**
+ * Onboarding JavaScript - Clean Version
+ */
+
+console.log('onboarding-clean.js loading...');
+
+let currentStep = 1;
+const totalSteps = 8;
+
+// Update progress bar
+function updateProgress() {
+    const progress = (currentStep / totalSteps) * 100;
+    const progressBar = document.getElementById('progressBar');
+    const currentStepEl = document.getElementById('currentStep');
+    
+    if (progressBar) progressBar.style.width = progress + '%';
+    if (currentStepEl) currentStepEl.textContent = currentStep;
+}
+
+// Next step function - globally accessible
+window.nextStep = function() {
+    console.log('nextStep called, currentStep:', currentStep);
+    
+    const currentStepEl = document.querySelector(`.onboarding-step[data-step="${currentStep}"]`);
+    console.log('currentStepEl:', currentStepEl);
+    
+    if (!currentStepEl) {
+        console.error('Current step element not found!');
+        return;
+    }
+    
+    // Validate current step
+    const inputs = currentStepEl.querySelectorAll('input[required], select[required]');
+    console.log('Found inputs:', inputs.length);
+    let isValid = true;
+    
+    inputs.forEach(function(input) {
+        if (input.type === 'radio') {
+            const radioGroup = currentStepEl.querySelectorAll(`input[name="${input.name}"]`);
+            const isChecked = Array.from(radioGroup).some(function(radio) { return radio.checked; });
+            if (!isChecked) {
+                isValid = false;
+                console.log('Radio not checked:', input.name);
+                alert('Please select an option');
+            }
+        } else if (input.type === 'checkbox') {
+            // Checkboxes are optional for workout days
+        } else if (!input.value) {
+            isValid = false;
+            input.classList.add('error');
+            console.log('Empty input:', input.name);
+            alert('Please fill in all required fields');
+        } else {
+            input.classList.remove('error');
+        }
+    });
+    
+    if (!isValid) {
+        console.log('Validation failed');
+        return;
+    }
+    
+    console.log('Validation passed, moving to next step');
+    
+    // Move to next step
+    currentStepEl.classList.remove('active');
+    currentStep++;
+    
+    if (currentStep <= totalSteps) {
+        const nextStepEl = document.querySelector(`.onboarding-step[data-step="${currentStep}"]`);
+        if (nextStepEl) {
+            nextStepEl.classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            console.log('Moved to step:', currentStep);
+        } else {
+            console.error('Next step element not found!');
+        }
+    }
+};
+
+// Previous step function
+window.prevStep = function() {
+    console.log('prevStep called');
+    
+    const currentStepEl = document.querySelector(`.onboarding-step[data-step="${currentStep}"]`);
+    if (currentStepEl) {
+        currentStepEl.classList.remove('active');
+    }
+    
+    currentStep--;
+    
+    if (currentStep >= 1) {
+        const prevStepEl = document.querySelector(`.onboarding-step[data-step="${currentStep}"]`);
+        if (prevStepEl) {
+            prevStepEl.classList.add('active');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+};
+
+// Update frequency display
+window.updateFrequency = function(value) {
+    const frequencyValue = document.getElementById('frequencyValue');
+    if (frequencyValue) {
+        frequencyValue.textContent = `${value} day${value > 1 ? 's' : ''} per week`;
+    }
+};
+
+// Go to dashboard
+window.goToDashboard = function() {
+    window.location.href = '/xampp/NutriCoachAI/pages/dashboard.php';
+};
+
+// Form submission
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing onboarding');
+    
+    // Get utilities safely
+    const Utils = window.NutriCoach ? window.NutriCoach.Utils : null;
+    const User = window.NutriCoach ? window.NutriCoach.User : null;
+    
+    if (!Utils || !User) {
+        console.error('NutriCoach utilities not available');
+    }
+    
+    const form = document.getElementById('onboardingForm');
+    
+    if (form) {
+        console.log('Onboarding form found');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            if (!User) {
+                alert('System error: User utilities not loaded');
+                return;
+            }
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Get single values
+            data.gender = formData.get('gender');
+            data.fitness_goal = formData.get('fitness_goal');
+            data.fitness_level = formData.get('fitness_level');
+            data.activity_level = formData.get('activity_level');
+            data.age = parseInt(formData.get('age'));
+            data.height = parseFloat(formData.get('height'));
+            data.height_unit = formData.get('height_unit');
+            data.weight = parseFloat(formData.get('weight'));
+            data.weight_unit = formData.get('weight_unit');
+            data.workout_frequency = parseInt(formData.get('workout_frequency'));
+            
+            // Get workout days (array)
+            data.workout_days = formData.getAll('workout_days[]');
+            
+            console.log('Collected data:', data);
+            
+            // Validate workout days
+            if (data.workout_days.length === 0) {
+                if (Utils) {
+                    Utils.showAlert('Please select at least one workout day', 'warning');
+                } else {
+                    alert('Please select at least one workout day');
+                }
+                return;
+            }
+            
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            
+            try {
+                const response = await User.submitOnboarding(data);
+                console.log('Onboarding response:', response);
+                
+                if (Utils) {
+                    Utils.showAlert('Profile completed successfully!', 'success');
+                }
+                
+                // Show summary
+                setTimeout(function() {
+                    showSummary(response.data);
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Onboarding error:', error);
+                if (Utils) {
+                    Utils.showAlert(error.message, 'error');
+                } else {
+                    alert('Error: ' + error.message);
+                }
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Complete Setup';
+            }
+        });
+    }
+    
+    // Initialize progress
+    updateProgress();
+    console.log('Onboarding initialized successfully');
+});
+
+// Show summary
+function showSummary(data) {
+    const summaryHTML = `
+        <div style="text-align: center; padding: 2rem;">
+            <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">🎉 Your Fitness Profile is Ready!</h2>
+            <div style="background-color: var(--bg-light); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; text-align: left;">
+                    <div><strong>BMI:</strong> ${data.bmi}</div>
+                    <div><strong>BMR:</strong> ${data.bmr} cal</div>
+                    <div><strong>Daily Calories:</strong> ${data.daily_calories} cal</div>
+                    <div><strong>Protein:</strong> ${data.macros.protein}g</div>
+                    <div><strong>Carbs:</strong> ${data.macros.carbs}g</div>
+                    <div><strong>Fats:</strong> ${data.macros.fats}g</div>
+                </div>
+            </div>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">
+                We've created a personalized fitness plan just for you!
+            </p>
+            <button onclick="goToDashboard()" class="btn btn-primary btn-lg">
+                Go to Dashboard
+            </button>
+        </div>
+    `;
+    
+    const container = document.querySelector('.onboarding-container');
+    if (container) {
+        container.innerHTML = summaryHTML;
+    }
+}
+
+console.log('onboarding-clean.js loaded successfully');
+console.log('nextStep function:', typeof window.nextStep);
+console.log('prevStep function:', typeof window.prevStep);

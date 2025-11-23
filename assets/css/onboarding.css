@@ -1,0 +1,279 @@
+/* Onboarding Styles */
+
+.onboarding-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.onboarding-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 2rem;
+    max-width: 600px;
+}
+
+.onboarding-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    margin: 1.5rem 0 0.5rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+    width: 12.5%;
+}
+
+.progress-text {
+    color: white;
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+#onboardingForm {
+    background-color: white;
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.onboarding-step {
+    display: none;
+    animation: fadeInUp 0.4s ease;
+}
+
+.onboarding-step.active {
+    display: block;
+}
+
+.onboarding-step h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+}
+
+.option-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.option-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.option-card input[type="radio"],
+.option-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    transition: var(--transition);
+    background-color: white;
+    min-height: 150px;
+}
+
+.option-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.option-label {
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-align: center;
+}
+
+.option-desc {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
+.option-card input:checked + .option-content {
+    border-color: var(--primary-color);
+    background-color: rgba(76, 175, 80, 0.05);
+    transform: scale(1.05);
+}
+
+.option-card:hover .option-content {
+    border-color: var(--primary-light);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.button-group .btn {
+    flex: 1;
+    max-width: 200px;
+}
+
+.input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.input-group .form-control {
+    flex: 1;
+}
+
+.range-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--border-color);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.range-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: var(--shadow);
+}
+
+.range-value {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-top: 1rem;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.day-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.day-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.day-card span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-weight: 600;
+    transition: var(--transition);
+    background-color: white;
+}
+
+.day-card input:checked + span {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.day-card:hover span {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .onboarding-container {
+        padding: 1rem;
+    }
+    
+    #onboardingForm {
+        padding: 2rem 1.5rem;
+    }
+    
+    .onboarding-header h1 {
+        font-size: 2rem;
+    }
+    
+    .option-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .button-group .btn {
+        max-width: 100%;
+    }
+    
+    .days-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .onboarding-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    #onboardingForm {
+        padding: 1.5rem 1rem;
+    }
+    
+    .option-content {
+        padding: 1.5rem 0.75rem;
+        min-height: 120px;
+    }
+    
+    .option-icon {
+        font-size: 2.5rem;
+    }
+}
