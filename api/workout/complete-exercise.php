@@ -29,12 +29,15 @@ try {
     // XP calculation: 10 XP per exercise
     $xpEarned = 10;
     
+    logError("Complete exercise - User: $userId, Session: $sessionId, Exercise: $exerciseName");
+    
     // Record exercise completion
     $stmt = $db->prepare("
         INSERT INTO exercise_completions (session_id, user_id, exercise_name, sets_completed, reps_completed, xp_earned)
         VALUES (?, ?, ?, ?, ?, ?)
     ");
     $stmt->execute([$sessionId, $userId, $exerciseName, $sets, $reps, $xpEarned]);
+    logError("Exercise completion recorded");
     
     // Update session progress
     $stmt = $db->prepare("
@@ -44,10 +47,22 @@ try {
         WHERE id = ? AND user_id = ?
     ");
     $stmt->execute([$xpEarned, $sessionId, $userId]);
+    logError("Session progress updated");
+    
+    // Check if user has xp and level columns
+    $stmt = $db->prepare("SHOW COLUMNS FROM users LIKE 'xp'");
+    $stmt->execute();
+    $hasXpColumn = $stmt->fetch();
+    
+    if (!$hasXpColumn) {
+        logError("WARNING: users table missing 'xp' column! Run setup-gamification.php");
+        errorResponse('XP system not initialized. Please contact administrator.', 500);
+    }
     
     // Add XP to user
     $stmt = $db->prepare("UPDATE users SET xp = xp + ? WHERE id = ?");
-    $stmt->execute([$xpEarned, $userId]);
+    $result = $stmt->execute([$xpEarned, $userId]);
+    logError("XP added to user. Rows affected: " . $stmt->rowCount());
     
     // Get updated user stats
     $stmt = $db->prepare("SELECT xp, level FROM users WHERE id = ?");

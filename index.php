@@ -23,141 +23,121 @@ if (isLoggedIn()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NutriCoach AI - Your Personal AI-Powered Fitness Coach">
+    <meta name="theme-color" content="#0A1628">
     <title>NutriCoach AI - Transform Your Fitness Journey</title>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dark-theme.css">
+    <link rel="stylesheet" href="assets/css/landing-dark.css">
+    <link rel="stylesheet" href="assets/css/modal-dark.css">
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-content">
-                <a href="./" class="navbar-brand">🏋️ NutriCoach AI</a>
-                <button class="navbar-toggle" aria-label="Toggle menu">☰</button>
-                <ul class="navbar-menu">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#how-it-works">How It Works</a></li>
-                    <li><a href="pages/faq.php">FAQ</a></li>
-                    <li><a href="pages/support.php">Support</a></li>
-                    <li><a href="#" onclick="openLoginModal()">Login</a></li>
-                    <li><a href="#" onclick="openSignupModal()" class="btn btn-primary">Get Started</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+<body class="landing-page dark-theme">
     <!-- Hero Section -->
-    <section class="hero">
-        <img src="assets/images/gym-hero.jpg" alt="Fitness" class="hero-background" onerror="this.style.display='none'">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">Transform Your Body with AI-Powered Coaching</h1>
-            <p class="hero-subtitle">Personalized workout plans, nutrition guidance, and 24/7 AI fitness coach at your fingertips</p>
-            <button onclick="openSignupModal()" class="btn btn-primary btn-lg">Start Your Journey</button>
+    <section class="hero-dark">
+        <div class="hero-gradient"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="app-logo">
+                    <img src="assets/images/NutriLogo.png" alt="NutriCoach AI">
+                </div>
+                <h1 class="hero-title">Transform Your Body<br>with AI-Powered Coaching</h1>
+                <p class="hero-subtitle">Your personal fitness coach, workout plans, and nutrition guidance—all in your pocket</p>
+                <button onclick="openSignupModal()" class="btn-primary btn-hero">Start Your Journey</button>
+                <p class="hero-note">Join thousands achieving their fitness goals</p>
+            </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="p-5">
-        <div class="container">
-            <h2 class="text-center mb-5">Why Choose NutriCoach AI?</h2>
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🤖</div>
-                        <h3>AI-Powered Coaching</h3>
-                        <p>Get instant, personalized fitness advice from our advanced AI coach powered by Google Gemini</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">💪</div>
-                        <h3>Custom Workout Plans</h3>
-                        <p>Receive tailored workout routines based on your fitness level, goals, and preferences</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🥗</div>
-                        <h3>Nutrition Guidance</h3>
-                        <p>Get personalized meal plans and macro tracking to fuel your fitness journey</p>
-                    </div>
-                </div>
+    <section id="features" class="features-mobile">
+        <h2>Why Choose NutriCoach AI?</h2>
+        <p class="subtitle">Everything you need for your fitness journey</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="icon">🤖</div>
+                <h3>AI-Powered Coaching</h3>
+                <p>Get instant, personalized fitness advice from our advanced AI coach powered by Google Gemini</p>
             </div>
-            <div class="row mt-4">
-                <div class="col-12 col-md-4">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-                        <h3>Progress Tracking</h3>
-                        <p>Monitor your progress with detailed charts and analytics to stay motivated</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-                        <h3>Goal-Oriented</h3>
-                        <p>Whether you want to build muscle, lose weight, or stay fit, we've got you covered</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card text-center">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-                        <h3>Mobile-Friendly</h3>
-                        <p>Access your fitness coach anytime, anywhere on any device</p>
-                    </div>
-                </div>
+            
+            <div class="feature-card">
+                <div class="icon">💪</div>
+                <h3>Custom Workout Plans</h3>
+                <p>Receive tailored workout routines based on your fitness level, goals, and preferences</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">🥗</div>
+                <h3>Nutrition Guidance</h3>
+                <p>Get personalized meal plans and macro tracking to fuel your fitness journey</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Progress Tracking</h3>
+                <p>Monitor your progress with detailed charts and analytics to stay motivated</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">🎯</div>
+                <h3>Goal-Oriented</h3>
+                <p>Whether you want to build muscle, lose weight, or stay fit, we've got you covered</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="icon">🏆</div>
+                <h3>Gamification & XP</h3>
+                <p>Earn XP, level up, and unlock achievements as you complete workouts and reach milestones</p>
             </div>
         </div>
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="p-5" style="background-color: var(--bg-white);">
-        <div class="container">
-            <h2 class="text-center mb-5">How It Works</h2>
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <div class="card text-center">
-                        <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;">1</div>
-                        <h4>Sign Up</h4>
-                        <p>Create your free account in seconds</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="card text-center">
-                        <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;">2</div>
-                        <h4>Complete Profile</h4>
-                        <p>Tell us about your fitness goals and current level</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="card text-center">
-                        <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;">3</div>
-                        <h4>Get Your Plan</h4>
-                        <p>Receive personalized workout and meal plans</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="card text-center">
-                        <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem;">4</div>
-                        <h4>Start Training</h4>
-                        <p>Begin your transformation with AI guidance</p>
-                    </div>
-                </div>
+    <section id="how-it-works" class="how-it-works-mobile">
+        <h2>How It Works</h2>
+        
+        <div class="timeline">
+            <div class="timeline-item" data-step="1">
+                <h3>Sign Up</h3>
+                <p>Create your free account in seconds and join thousands of users transforming their bodies</p>
             </div>
-            <div class="text-center mt-5">
-                <button onclick="openSignupModal()" class="btn btn-primary btn-lg">Get Started Now</button>
+            
+            <div class="timeline-item" data-step="2">
+                <h3>Complete Profile</h3>
+                <p>Tell us about your fitness goals, current level, and preferences for a personalized experience</p>
+            </div>
+            
+            <div class="timeline-item" data-step="3">
+                <h3>Get Your Plan</h3>
+                <p>Receive AI-generated workout and meal plans tailored specifically to your goals</p>
+            </div>
+            
+            <div class="timeline-item" data-step="4">
+                <h3>Start Training</h3>
+                <p>Begin your transformation with 24/7 AI guidance, track progress, and earn rewards</p>
             </div>
         </div>
     </section>
 
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Transform?</h2>
+        <p>Join thousands of users achieving their fitness goals with AI-powered coaching</p>
+        <button onclick="openSignupModal()" class="cta-btn">Get Started Now</button>
+    </section>
+
     <!-- Footer -->
-    <footer class="p-4" style="background-color: var(--text-dark); color: white; text-align: center;">
-        <div class="container">
-            <p>&copy; 2024 NutriCoach AI. All rights reserved.</p>
-            <p>
-                <a href="pages/faq.php" style="color: white; margin: 0 1rem;">FAQ</a>
-                <a href="pages/support.php" style="color: white; margin: 0 1rem;">Support</a>
-            </p>
-        </div>
+    <footer class="footer-mobile">
+        <p>&copy; 2024 NutriCoach AI. All rights reserved.</p>
+        <p>
+            <a href="pages/faq.php">FAQ</a>
+            <a href="pages/support.php">Support</a>
+        </p>
     </footer>
 
     <!-- Login Modal -->

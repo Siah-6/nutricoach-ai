@@ -20,10 +20,12 @@ $userId = getCurrentUserId();
 $db = getDB();
 
 try {
-    // Get in-progress session
+    // Get in-progress session (not completed today)
     $stmt = $db->prepare("
         SELECT * FROM workout_sessions 
-        WHERE user_id = ? AND status = 'in_progress'
+        WHERE user_id = ? 
+        AND status = 'in_progress'
+        AND DATE(started_at) = CURDATE()
         ORDER BY started_at DESC
         LIMIT 1
     ");

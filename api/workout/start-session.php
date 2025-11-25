@@ -40,10 +40,12 @@ try {
         errorResponse('You already completed a workout today! Come back tomorrow for more XP. 💪', 400);
     }
     
-    // Check if user has an in-progress session
+    // Check if user has an in-progress session from today
     $stmt = $db->prepare("
         SELECT id FROM workout_sessions 
-        WHERE user_id = ? AND status = 'in_progress'
+        WHERE user_id = ? 
+        AND status = 'in_progress'
+        AND DATE(started_at) = CURDATE()
     ");
     $stmt->execute([$userId]);
     $existingSession = $stmt->fetch(PDO::FETCH_ASSOC);

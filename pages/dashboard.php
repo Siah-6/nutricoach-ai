@@ -26,11 +26,13 @@ $profile = getUserProfile(getCurrentUserId());
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0A1628">
     <title>Dashboard - NutriCoach AI</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/dark-theme.css">
+    <link rel="stylesheet" href="../assets/css/dashboard-dark.css">
 </head>
-<body>
+<body class="dark-theme">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <div class="dashboard-container">
@@ -74,119 +76,103 @@ $profile = getUserProfile(getCurrentUserId());
             </div>
 
             <!-- XP and Level Widget -->
-            <div class="card" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, #4A9DB5 0%, #3D8BA3 100%); color: white;">
-                <div class="card-body" style="padding: 1.5rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <div>
-                            <h2 style="margin: 0; font-size: 1.5rem; color: white;">Level <span id="userLevel">1</span> 💪</h2>
-                            <p style="margin: 0.25rem 0 0 0; opacity: 0.9; font-size: 0.875rem;">Keep crushing your workouts!</p>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-size: 2rem; font-weight: 700;" id="userXP">0</div>
-                            <div style="font-size: 0.75rem; opacity: 0.9;">Total XP</div>
-                        </div>
+            <div class="xp-card">
+                <div class="xp-header">
+                    <div class="xp-level">
+                        <h2>Level <span id="userLevel">1</span> 💪</h2>
+                        <p>Keep crushing your workouts!</p>
                     </div>
-                    
-                    <div style="background: rgba(255,255,255,0.2); border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 0.5rem;">
-                        <div id="xpProgressBar" style="background: white; height: 100%; width: 0%; transition: width 0.5s ease; border-radius: 10px;"></div>
+                    <div class="xp-total">
+                        <div class="xp-total-value" id="userXP">0</div>
+                        <div class="xp-total-label">Total XP</div>
                     </div>
-                    
-                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; opacity: 0.9;">
-                        <span><span id="xpProgress">0</span> XP</span>
-                        <span><span id="xpNeeded">100</span> XP to Level <span id="nextLevel">2</span></span>
+                </div>
+                
+                <div class="xp-progress-bar">
+                    <div id="xpProgressBar" class="xp-progress-fill"></div>
+                </div>
+                
+                <div class="xp-progress-text">
+                    <span><span id="xpProgress">0</span> XP</span>
+                    <span><span id="xpNeeded">100</span> XP to Level <span id="nextLevel">2</span></span>
+                </div>
+                
+                <div class="xp-stats">
+                    <div class="xp-stat">
+                        <span class="xp-stat-value" id="totalWorkouts">0</span>
+                        <span class="xp-stat-label">Workouts</span>
                     </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 700;" id="totalWorkouts">0</div>
-                            <div style="font-size: 0.75rem; opacity: 0.9;">Workouts</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 700;" id="totalExercises">0</div>
-                            <div style="font-size: 0.75rem; opacity: 0.9;">Exercises</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.5rem; font-weight: 700;" id="totalAchievements">0</div>
-                            <div style="font-size: 0.75rem; opacity: 0.9;">Achievements</div>
-                        </div>
+                    <div class="xp-stat">
+                        <span class="xp-stat-value" id="totalExercises">0</span>
+                        <span class="xp-stat-label">Exercises</span>
+                    </div>
+                    <div class="xp-stat">
+                        <span class="xp-stat-value" id="totalAchievements">0</span>
+                        <span class="xp-stat-label">Achievements</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Progress Tracking Widget -->
-            <?php include __DIR__ . '/../includes/progress-widget.php'; ?>
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-grid">
+                    <a href="workout-plan-improved.php" class="action-card">
+                        <span class="action-icon">💪</span>
+                        <h3>Workout Plan</h3>
+                    </a>
+                    <a href="meal-plan-new.php" class="action-card">
+                        <span class="action-icon">🥗</span>
+                        <h3>Meal Plan</h3>
+                    </a>
+                    <a href="chat.php" class="action-card">
+                        <span class="action-icon">🤖</span>
+                        <h3>AI Coach</h3>
+                    </a>
+                    <a href="profile.php" class="action-card">
+                        <span class="action-icon">👤</span>
+                        <h3>Profile</h3>
+                    </a>
+                </div>
+            </div>
 
-            <!-- Main Content Grid -->
-            <div class="dashboard-grid">
-                <!-- AI Chatbot Section -->
-                <div class="dashboard-section chatbot-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>🤖 AI Fitness Coach</h2>
-                        </div>
-                        <div class="card-body">
-                            <div id="chatMessages" class="chat-messages"></div>
-                            <form id="chatForm" class="chat-form">
-                                <input type="text" name="message" class="form-control" placeholder="Ask your AI coach anything..." required>
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </form>
-                        </div>
+            <!-- Today's Activity -->
+            <div class="activity-section">
+                <h2>Today's Activity</h2>
+                
+                <!-- Today's Workout -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h3>💪 Today's Workout</h3>
+                        <span class="activity-badge">Ready</span>
+                    </div>
+                    <div class="activity-content" id="todayWorkout">
+                        <p>Your personalized workout plan is ready. Start training to earn XP and level up!</p>
+                        <a href="workout-plan-improved.php" class="activity-btn">Start Workout</a>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="dashboard-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Quick Actions</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="action-buttons">
-                                <a href="workout-plan-improved.php" class="action-btn">
-                                    <span class="action-icon">💪</span>
-                                    <span>View Workout Plan</span>
-                                </a>
-                                <a href="meal-plan-new.php" class="action-btn">
-                                    <span class="action-icon">🥗</span>
-                                    <span>Today's Meals</span>
-                                </a>
-                                <a href="progress.php" class="action-btn">
-                                    <span class="action-icon">📊</span>
-                                    <span>Track Progress</span>
-                                </a>
-                                <a href="profile.php" class="action-btn">
-                                    <span class="action-icon">👤</span>
-                                    <span>Edit Profile</span>
-                                </a>
-                            </div>
-                        </div>
+                <!-- Today's Nutrition -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h3>🥗 Today's Nutrition</h3>
+                        <span class="activity-badge">Pending</span>
+                    </div>
+                    <div class="activity-content" id="todayMeals">
+                        <p>Track your meals and stay on top of your nutrition goals.</p>
+                        <a href="meal-plan-new.php" class="activity-btn">View Meal Plan</a>
                     </div>
                 </div>
 
-                <!-- Today's Workout Preview -->
-                <div class="dashboard-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Today's Workout</h2>
-                            <a href="workout-plan-improved.php" class="btn btn-outline">View Full Plan</a>
-                        </div>
-                        <div class="card-body" id="todayWorkout">
-                            <div class="spinner"></div>
-                        </div>
+                <!-- AI Coach Chat Preview -->
+                <div class="chat-preview">
+                    <h3>🤖 Ask Your AI Coach</h3>
+                    <div class="chat-messages" id="chatMessages">
+                        <p style="color: var(--text-secondary); text-align: center; padding: 1rem;">
+                            Start a conversation with your AI fitness coach
+                        </p>
                     </div>
-                </div>
-
-                <!-- Meal Plan Preview -->
-                <div class="dashboard-section">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Today's Nutrition</h2>
-                            <a href="meal-plan-new.php" class="btn btn-outline">View Full Plan</a>
-                        </div>
-                        <div class="card-body" id="todayMeals">
-                            <div class="spinner"></div>
-                        </div>
-                    </div>
+                    <a href="chat.php" class="activity-btn">Open Chat</a>
                 </div>
             </div>
         </div>
@@ -197,40 +183,68 @@ $profile = getUserProfile(getCurrentUserId());
     <script src="../assets/js/main.js"></script>
     <script src="../assets/js/dashboard.js"></script>
     <script>
-        // Load XP and Level stats
-        async function loadXPStats() {
-            try {
-                const response = await fetch('../api/workout/get-stats.php');
-                const data = await response.json();
-                
-                if (data.success) {
-                    const stats = data.data;
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load XP and Level stats
+            async function loadXPStats() {
+                try {
+                    const response = await fetch('../api/workout/get-stats.php');
+                    const data = await response.json();
                     
-                    // Update level and XP
-                    document.getElementById('userLevel').textContent = stats.level;
-                    document.getElementById('userXP').textContent = stats.xp;
-                    document.getElementById('nextLevel').textContent = stats.level + 1;
+                    console.log('📊 XP Stats loaded:', data);
                     
-                    // Update progress bar
-                    document.getElementById('xpProgress').textContent = stats.xp_progress;
-                    document.getElementById('xpNeeded').textContent = stats.xp_needed;
-                    document.getElementById('xpProgressBar').style.width = stats.progress_percent + '%';
-                    
-                    // Update stats
-                    document.getElementById('totalWorkouts').textContent = stats.total_workouts;
-                    document.getElementById('totalExercises').textContent = stats.total_exercises;
-                    document.getElementById('totalAchievements').textContent = stats.total_achievements;
+                    if (data.success) {
+                        // Data is merged directly into response, not nested under 'data'
+                        
+                        // Update level and XP with fallback to defaults
+                        document.getElementById('userLevel').textContent = data.level || 1;
+                        document.getElementById('userXP').textContent = data.xp || 0;
+                        document.getElementById('nextLevel').textContent = (data.level || 1) + 1;
+                        
+                        // Update progress bar
+                        document.getElementById('xpProgress').textContent = data.xp_progress || 0;
+                        document.getElementById('xpNeeded').textContent = data.xp_needed || 100;
+                        document.getElementById('xpProgressBar').style.width = (data.progress_percent || 0) + '%';
+                        
+                        // Update stats
+                        document.getElementById('totalWorkouts').textContent = data.total_workouts || 0;
+                        document.getElementById('totalExercises').textContent = data.total_exercises || 0;
+                        document.getElementById('totalAchievements').textContent = data.total_achievements || 0;
+                    } else {
+                        console.error('❌ Failed to load XP stats:', data.error || data.message);
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading XP stats:', error);
+                    // Set defaults on error
+                    document.getElementById('userLevel').textContent = 1;
+                    document.getElementById('userXP').textContent = 0;
+                    document.getElementById('nextLevel').textContent = 2;
+                    document.getElementById('xpProgress').textContent = 0;
+                    document.getElementById('xpNeeded').textContent = 100;
+                    document.getElementById('xpProgressBar').style.width = '0%';
                 }
-            } catch (error) {
-                console.error('Error loading XP stats:', error);
             }
-        }
-        
-        // Load stats on page load
-        loadXPStats();
-        
-        // Refresh stats every 30 seconds
-        setInterval(loadXPStats, 30000);
+            
+            // Load stats on page load
+            loadXPStats();
+            
+            // Refresh stats every 30 seconds
+            setInterval(loadXPStats, 30000);
+            
+            // Refresh stats when user returns to the page (e.g., from workout)
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    console.log('🔄 Page visible again, refreshing XP stats...');
+                    loadXPStats();
+                }
+            });
+            
+            // Also refresh when window gains focus (navigation from other pages)
+            window.addEventListener('focus', function() {
+                console.log('🔄 Window focused, refreshing XP stats...');
+                loadXPStats();
+            });
+        });
     </script>
 </body>
 </html>

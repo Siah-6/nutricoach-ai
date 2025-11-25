@@ -7,11 +7,14 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    xp INT DEFAULT 0,
+    level INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
     is_active BOOLEAN DEFAULT TRUE,
-    INDEX idx_email (email)
+    INDEX idx_email (email),
+    INDEX idx_level (level)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Password Reset Tokens Table
@@ -132,6 +135,58 @@ CREATE TABLE IF NOT EXISTS support_tickets (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_status (status),
     INDEX idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Workout Sessions Table
+CREATE TABLE IF NOT EXISTS workout_sessions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    workout_type VARCHAR(100) NOT NULL,
+    exercises JSON NOT NULL,
+    completed_exercises INT DEFAULT 0,
+    total_exercises INT NOT NULL,
+    xp_earned INT DEFAULT 0,
+    status ENUM('in_progress', 'completed', 'cancelled') DEFAULT 'in_progress',
+    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_status (status),
+    INDEX idx_completed_at (completed_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Achievements Table
+CREATE TABLE IF NOT EXISTS achievements (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    achievement_type VARCHAR(50) NOT NULL,
+    achievement_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    xp_reward INT DEFAULT 0,
+    earned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user_id (user_id),
+    INDEX idx_achievement_type (achievement_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Meal Logs Table (Daily Meal Tracking)
+CREATE TABLE IF NOT EXISTS meal_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    meal_type VARCHAR(50) NOT NULL,
+    foods JSON NOT NULL,
+    calories INT NOT NULL DEFAULT 0,
+    carbs DECIMAL(10,2) NOT NULL DEFAULT 0,
+    protein DECIMAL(10,2) NOT NULL DEFAULT 0,
+    fats DECIMAL(10,2) NOT NULL DEFAULT 0,
+    logged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user_date (user_id, logged_at),
+    INDEX idx_meal_type (meal_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Sessions Table (Optional - for database session management)

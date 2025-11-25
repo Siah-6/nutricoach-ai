@@ -29,10 +29,13 @@ $profile = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0A1628">
     <title>Meal Plan - NutriCoach AI</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-theme.css">
+    <link rel="stylesheet" href="../assets/css/meal-dark.css">
 </head>
-<body>
+<body class="dark-theme">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <div class="container" style="padding: 2rem 0;">

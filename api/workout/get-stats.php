@@ -25,18 +25,25 @@ try {
     $stmt->execute([$userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if (!$user) {
-        // Initialize XP and level if not set
-        $stmt = $db->prepare("UPDATE users SET xp = 0, level = 1 WHERE id = ?");
+    // Initialize XP and level if null or missing
+    if (!$user || $user['xp'] === null || $user['level'] === null) {
+        $stmt = $db->prepare("UPDATE users SET xp = COALESCE(xp, 0), level = COALESCE(level, 1) WHERE id = ?");
         $stmt->execute([$userId]);
-        $user = ['xp' => 0, 'level' => 1];
+        
+        // Re-fetch updated values
+        $stmt = $db->prepare("SELECT xp, level FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
+    // Ensure we have valid values (fallback to defaults)
+    $currentXp = intval($user['xp'] ?? 0);
+    $currentLevel = intval($user['level'] ?? 1);
+    
     // Calculate progress to next level
-    $currentLevel = $user['level'];
     $xpForCurrentLevel = ($currentLevel - 1) * 100;
     $xpForNextLevel = $currentLevel * 100;
-    $xpProgress = $user['xp'] - $xpForCurrentLevel;
+    $xpProgress = $currentXp - $xpForCurrentLevel;
     $xpNeeded = $xpForNextLevel - $xpForCurrentLevel;
     $progressPercent = ($xpProgress / $xpNeeded) * 100;
     
@@ -54,7 +61,7 @@ try {
     $totalAchievements = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     
     successResponse([
-        'xp' => $user['xp'],
+        'xp' => $currentXp,
         'level' => $currentLevel,
         'xp_progress' => $xpProgress,
         'xp_needed' => $xpNeeded,

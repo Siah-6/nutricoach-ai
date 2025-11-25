@@ -11,8 +11,16 @@ initSession();
 $isLoggedIn = isLoggedIn();
 $currentUser = $isLoggedIn ? getCurrentUser() : null;
 ?>
-<!-- Mobile Redesign CSS - Blue Theme -->
+<!-- Google Fonts - Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Dark Theme CSS -->
 <link rel="stylesheet" href="../assets/css/mobile-redesign.css">
+<link rel="stylesheet" href="../assets/css/dark-theme.css">
+<link rel="stylesheet" href="../assets/css/header-dark.css">
+<link rel="stylesheet" href="../assets/css/bottom-nav-dark.css">
 <link rel="stylesheet" href="../assets/css/splash.css">
 
 <!-- Splash Screen - Only on Dashboard -->
@@ -24,15 +32,16 @@ $currentUser = $isLoggedIn ? getCurrentUser() : null;
     <div class="splash-loader"></div>
 </div>
 <script>
-    // Only show splash on first visit
-    if (!sessionStorage.getItem('splashShown')) {
-        sessionStorage.setItem('splashShown', 'true');
+    // Show splash screen only once per session
+    if (!sessionStorage.getItem('dashboardVisited')) {
+        sessionStorage.setItem('dashboardVisited', 'true');
         window.addEventListener('load', function() {
             setTimeout(function() {
                 document.body.classList.add('loaded');
-            }, 1500);
+            }, 2000); // Show for 2 seconds
         });
     } else {
+        // Already visited, hide splash immediately
         document.body.classList.add('loaded');
     }
 </script>
@@ -50,7 +59,7 @@ $currentUser = $isLoggedIn ? getCurrentUser() : null;
                 <?php if ($isLoggedIn): ?>
                     <li><a href="dashboard.php">Dashboard</a></li>
                     <li><a href="workout-plan-improved.php">Workouts</a></li>
-                    <li><a href="meal-plan-new.php">Meals</a></li>
+                    <li><a href="meal-tracker.php">Meals</a></li>
                     <li><a href="progress.php">Progress</a></li>
                     <li><a href="profile.php">Profile</a></li>
                     <li><a href="#" onclick="logout(); return false;">Logout</a></li>
@@ -89,7 +98,7 @@ $currentUser = $isLoggedIn ? getCurrentUser() : null;
         </svg>
         <span>AI Chat</span>
     </a>
-    <a href="meal-plan-new.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'meal-plan-new.php' ? 'active' : ''; ?>">
+    <a href="meal-tracker.php" class="nav-item <?php echo basename($_SERVER['PHP_SELF']) == 'meal-tracker.php' ? 'active' : ''; ?>">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
             <path d="M7 2v20"></path>

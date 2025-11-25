@@ -1,0 +1,123 @@
+/**
+ * Header/Navbar - Dark Theme
+ */
+
+.navbar {
+    background: var(--bg-secondary) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4) !important;
+    padding: 0.75rem 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.navbar-menu li {
+    margin: 0;
+}
+
+.navbar-menu a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.navbar-menu a:hover {
+    color: var(--accent-blue);
+}
+
+.navbar-menu a.btn-primary {
+    color: white;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.875rem 0 !important;
+    }
+    
+    .navbar-brand {
+        font-size: 1.125rem !important;
+        gap: 0.625rem !important;
+    }
+    
+    .navbar-logo {
+        width: 36px !important;
+        height: 36px !important;
+        filter: brightness(0) invert(1) !important;
+    }
+    
+    .navbar-toggle {
+        display: block;
+    }
+    
+    .navbar-menu {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        flex-direction: column;
+        gap: 0;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .navbar-menu.active {
+        display: flex !important;
+    }
+    
+    .navbar-menu li {
+        width: 100%;
+    }
+    
+    .navbar-menu a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+    }
+}

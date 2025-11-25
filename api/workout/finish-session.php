@@ -35,6 +35,38 @@ try {
         errorResponse('Session not found or already completed', 404);
     }
     
+    // Check if user already completed this workout type today
+    $stmt = $db->prepare("
+        SELECT COUNT(*) as count FROM workout_sessions 
+        WHERE user_id = ? 
+        AND workout_type = ? 
+        AND status = 'completed'
+        AND DATE(completed_at) = CURDATE()
+        AND id != ?
+    ");
+    $stmt->execute([$userId, $session['workout_type'], $sessionId]);
+    $completedToday = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+    
+    if ($completedToday > 0) {
+        // Still mark as completed but don't award XP
+        $stmt = $db->prepare("
+            UPDATE workout_sessions 
+            SET status = 'completed',
+                completed_at = NOW(),
+                xp_earned = 0
+            WHERE id = ?
+        ");
+        $stmt->execute([$sessionId]);
+        
+        successResponse([
+            'session_completed' => true,
+            'already_completed_today' => true,
+            'xp_earned' => 0,
+            'message' => '✅ Workout logged! You already completed this workout today, so no XP awarded.'
+        ]);
+        return;
+    }
+    
     // Bonus XP for completing workout: 50 XP
     $bonusXP = 50;
     

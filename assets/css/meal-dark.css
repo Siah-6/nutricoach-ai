@@ -1,0 +1,140 @@
+/**
+ * Meal Plan - Dark Theme (Arise Inspired)
+ */
+
+/* Meal Plan Container */
+.container {
+    background: transparent !important;
+}
+
+body.dark-theme .container {
+    color: var(--text-primary) !important;
+}
+
+/* Page Title */
+body.dark-theme h1 {
+    color: var(--text-primary) !important;
+}
+
+/* Nutrition Goals Card */
+body.dark-theme .card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--radius-lg) !important;
+    color: var(--text-primary) !important;
+}
+
+body.dark-theme .card h3,
+body.dark-theme .card h4,
+body.dark-theme .card h5 {
+    color: var(--text-primary) !important;
+}
+
+body.dark-theme .card p,
+body.dark-theme .card-body {
+    color: var(--text-secondary) !important;
+}
+
+/* Budget Selection */
+body.dark-theme .budget-option {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+}
+
+body.dark-theme .budget-option:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--accent-blue) !important;
+}
+
+body.dark-theme .budget-option.active {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-light) 100%) !important;
+    border-color: var(--accent-blue) !important;
+    color: white !important;
+}
+
+/* Meal Cards */
+body.dark-theme .meal-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--radius-lg) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease;
+}
+
+body.dark-theme .meal-card:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-theme .meal-card h4,
+body.dark-theme .meal-card h5 {
+    color: var(--text-primary) !important;
+}
+
+body.dark-theme .meal-card p {
+    color: var(--text-secondary) !important;
+}
+
+/* Buttons */
+body.dark-theme .btn-primary {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-light) 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+body.dark-theme .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(74, 158, 255, 0.4) !important;
+}
+
+body.dark-theme .btn-secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-primary) !important;
+}
+
+body.dark-theme .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Loading State */
+body.dark-theme .loading {
+    color: var(--text-secondary) !important;
+}
+
+/* Nutrition Info */
+body.dark-theme .nutrition-info {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+}
+
+body.dark-theme .nutrition-info strong {
+    color: var(--accent-blue) !important;
+}
+
+/* Form Elements */
+body.dark-theme select,
+body.dark-theme input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-md) !important;
+}
+
+body.dark-theme select:focus,
+body.dark-theme input:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--accent-blue) !important;
+    outline: none !important;
+}
+
+/* Override inline styles */
+body.dark-theme [style*="background: linear-gradient"] {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-light) 100%) !important;
+}

@@ -1,0 +1,388 @@
+/**
+ * Dashboard - Dark Theme (Arise Inspired)
+ */
+
+.dashboard-container {
+    min-height: 100vh !important;
+    background: var(--bg-primary) !important;
+    padding: 2rem 0 6rem !important;
+}
+
+/* Welcome Section */
+.welcome-section {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease;
+    background: transparent !important;
+}
+
+.welcome-section h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary) !important;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-section p {
+    color: var(--text-secondary) !important;
+    font-size: 1rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.875rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    text-align: center !important;
+    min-height: 140px !important;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+.stat-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    font-size: 2.5rem !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.stat-content {
+    width: 100% !important;
+}
+
+.stat-content h3 {
+    font-size: 0.75rem !important;
+    color: var(--text-secondary) !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.stat-value {
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    word-break: keep-all !important;
+    white-space: nowrap !important;
+}
+
+/* XP Card */
+.xp-card {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-glow);
+    animation: fadeInUp 0.8s ease;
+}
+
+.xp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.xp-level h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.xp-level p {
+    margin: 0.25rem 0 0 0;
+    opacity: 0.9;
+    font-size: 0.875rem;
+    color: white;
+}
+
+.xp-total {
+    text-align: right;
+}
+
+.xp-total-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.xp-total-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    color: white;
+}
+
+.xp-progress-bar {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    height: 12px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.xp-progress-fill {
+    background: white;
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 10px;
+}
+
+.xp-progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    opacity: 0.9;
+    color: white;
+}
+
+.xp-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.xp-stat {
+    text-align: center;
+}
+
+.xp-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    display: block;
+}
+
+.xp-stat-label {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    color: white;
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin-bottom: 2rem;
+}
+
+.quick-actions h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.action-card {
+    background: rgba(10, 22, 40, 0.6) !important;
+    background-color: rgba(10, 22, 40, 0.6) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease;
+    text-decoration: none;
+}
+
+.action-card:nth-child(1) { animation-delay: 0.2s; }
+.action-card:nth-child(2) { animation-delay: 0.3s; }
+.action-card:nth-child(3) { animation-delay: 0.4s; }
+.action-card:nth-child(4) { animation-delay: 0.5s; }
+
+.action-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(74, 158, 255, 0.3);
+}
+
+.action-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.action-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Today's Activity */
+.activity-section {
+    margin-bottom: 2rem;
+}
+
+.activity-section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.activity-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    animation: fadeInUp 0.6s ease;
+    transition: all 0.3s ease;
+}
+
+.activity-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.activity-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.activity-badge {
+    padding: 4px 12px;
+    background: var(--accent-blue);
+    color: white;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.activity-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.activity-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.activity-btn:hover {
+    background: var(--accent-blue-light);
+    transform: translateY(-2px);
+}
+
+/* Chat Preview */
+.chat-preview {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease;
+}
+
+.chat-preview h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.chat-messages {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.chat-message {
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+}
+
+.chat-message.user {
+    background: rgba(74, 158, 255, 0.2);
+    margin-left: 2rem;
+}
+
+.chat-message.ai {
+    background: rgba(255, 255, 255, 0.05);
+    margin-right: 2rem;
+}
+
+.chat-message p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.chat-message small {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .xp-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+}

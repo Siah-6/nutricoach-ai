@@ -20,23 +20,24 @@ $profile = getUserProfile(getCurrentUserId());
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0A1628">
     <title>Profile - NutriCoach AI</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/dark-theme.css">
+    <link rel="stylesheet" href="../assets/css/profile-dark.css">
 </head>
-<body>
+<body class="dark-theme">
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <div class="container" style="padding: 3rem 0;">
-        <h1 class="mb-4">👤 Your Profile</h1>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>👤 Your Profile</h1>
+            <p>Manage your account and fitness information</p>
+        </div>
 
-        <div class="row">
-            <!-- Account Information -->
-            <div class="col-12 col-md-6">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Account Information</h3>
-                    </div>
-                    <div class="card-body">
+        <!-- Account Information -->
+        <div class="profile-card">
+            <h3>Account Information</h3>
                         <form id="accountForm">
                             <div class="form-group">
                                 <label class="form-label">Name</label>
@@ -48,18 +49,25 @@ $profile = getUserProfile(getCurrentUserId());
                                 <input type="email" name="email" class="form-control" 
                                        value="<?php echo htmlspecialchars($user['email']); ?>" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Update Account</button>
+                            <button type="submit" class="btn-update">Update Account</button>
                         </form>
+                        
+                        <div class="logout-section">
+                            <button onclick="logout()" class="logout-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Logout
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Change Password -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Change Password</h3>
-                    </div>
-                    <div class="card-body">
-                        <form id="passwordForm">
+        <!-- Change Password -->
+        <div class="profile-card">
+            <h3>Change Password</h3>
+            <form id="passwordForm">
                             <div class="form-group">
                                 <label class="form-label">Current Password</label>
                                 <input type="password" name="current_password" class="form-control" required>
@@ -72,85 +80,83 @@ $profile = getUserProfile(getCurrentUserId());
                                 <label class="form-label">Confirm New Password</label>
                                 <input type="password" name="confirm_password" class="form-control" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Change Password</button>
+                            <button type="submit" class="btn-update">Change Password</button>
                         </form>
-                    </div>
+        </div>
+
+        <!-- Fitness Profile -->
+        <?php if ($profile): ?>
+        <div class="profile-card">
+            <h3>Fitness Profile</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Gender</strong>
+                    <span><?php echo ucfirst($profile['gender']); ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>Age</strong>
+                    <span><?php echo $profile['age']; ?> years</span>
+                </div>
+                <div class="info-item">
+                    <strong>Height</strong>
+                    <span><?php echo $profile['height'] . ' ' . $profile['height_unit']; ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>Weight</strong>
+                    <span><?php echo $profile['weight'] . ' ' . $profile['weight_unit']; ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>BMI</strong>
+                    <span><?php echo $profile['bmi']; ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>Fitness Goal</strong>
+                    <span><?php echo ucwords(str_replace('_', ' ', $profile['fitness_goal'])); ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>Fitness Level</strong>
+                    <span><?php echo ucfirst($profile['fitness_level']); ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>Activity Level</strong>
+                    <span><?php echo ucwords(str_replace('_', ' ', $profile['activity_level'])); ?></span>
+                </div>
+                <div class="info-item">
+                    <strong>Workout Frequency</strong>
+                    <span><?php echo $profile['workout_frequency']; ?> days/week</span>
                 </div>
             </div>
+            <a href="onboarding.php" class="btn-update" style="margin-top: 1.5rem; display: block; text-align: center; text-decoration: none;">Update Fitness Profile</a>
+        </div>
 
-            <!-- Fitness Profile -->
-            <div class="col-12 col-md-6">
-                <?php if ($profile): ?>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Fitness Profile</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="profile-info">
-                            <div class="info-item">
-                                <strong>Gender:</strong> <?php echo ucfirst($profile['gender']); ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>Age:</strong> <?php echo $profile['age']; ?> years
-                            </div>
-                            <div class="info-item">
-                                <strong>Height:</strong> <?php echo $profile['height'] . ' ' . $profile['height_unit']; ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>Weight:</strong> <?php echo $profile['weight'] . ' ' . $profile['weight_unit']; ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>BMI:</strong> <?php echo $profile['bmi']; ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>Fitness Goal:</strong> <?php echo ucwords(str_replace('_', ' ', $profile['fitness_goal'])); ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>Fitness Level:</strong> <?php echo ucfirst($profile['fitness_level']); ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>Activity Level:</strong> <?php echo ucwords(str_replace('_', ' ', $profile['activity_level'])); ?>
-                            </div>
-                            <div class="info-item">
-                                <strong>Workout Frequency:</strong> <?php echo $profile['workout_frequency']; ?> days/week
-                            </div>
-                        </div>
-                        <a href="onboarding.php" class="btn btn-outline mt-3">Update Fitness Profile</a>
-                    </div>
+        <!-- Nutrition Goals -->
+        <div class="profile-card">
+            <h3>Nutrition Goals</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-value"><?php echo $profile['daily_calories']; ?></span>
+                    <span class="stat-label">Daily Calories</span>
                 </div>
-
-                <!-- Nutrition Goals -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h3>Nutrition Goals</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="profile-info">
-                            <div class="info-item">
-                                <strong>Daily Calories:</strong> <?php echo $profile['daily_calories']; ?> cal
-                            </div>
-                            <div class="info-item">
-                                <strong>Protein:</strong> <?php echo $profile['protein_grams']; ?>g
-                            </div>
-                            <div class="info-item">
-                                <strong>Carbohydrates:</strong> <?php echo $profile['carbs_grams']; ?>g
-                            </div>
-                            <div class="info-item">
-                                <strong>Fats:</strong> <?php echo $profile['fats_grams']; ?>g
-                            </div>
-                        </div>
-                    </div>
+                <div class="stat-box">
+                    <span class="stat-value"><?php echo $profile['protein_grams']; ?>g</span>
+                    <span class="stat-label">Protein</span>
                 </div>
-                <?php else: ?>
-                <div class="card">
-                    <div class="card-body text-center">
-                        <p>Complete your onboarding to see your fitness profile.</p>
-                        <a href="onboarding.php" class="btn btn-primary">Complete Onboarding</a>
-                    </div>
+                <div class="stat-box">
+                    <span class="stat-value"><?php echo $profile['carbs_grams']; ?>g</span>
+                    <span class="stat-label">Carbs</span>
                 </div>
-                <?php endif; ?>
+                <div class="stat-box">
+                    <span class="stat-value"><?php echo $profile['fats_grams']; ?>g</span>
+                    <span class="stat-label">Fats</span>
+                </div>
             </div>
         </div>
+        <?php else: ?>
+        <div class="profile-card" style="text-align: center;">
+            <p style="margin-bottom: 1.5rem;">Complete your onboarding to see your fitness profile.</p>
+            <a href="onboarding.php" class="btn-update" style="display: inline-block; text-decoration: none;">Complete Onboarding</a>
+        </div>
+        <?php endif; ?>
     </div>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
@@ -256,6 +262,33 @@ $profile = getUserProfile(getCurrentUserId());
 
         .info-item strong {
             color: var(--text-dark);
+        }
+        
+        .logout-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(238, 90, 111, 0.4);
+        }
+        
+        .logout-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(238, 90, 111, 0.3);
         }
     </style>
 </body>
