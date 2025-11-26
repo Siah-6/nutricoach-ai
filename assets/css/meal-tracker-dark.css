@@ -302,6 +302,58 @@
     font-weight: 600;
 }
 
+/* AI Meal Plan Button */
+.ai-meal-plan-section {
+    margin: 1.5rem 0;
+}
+
+.btn-ai-meal-plan {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 15px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-ai-meal-plan:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.ai-icon {
+    font-size: 2rem;
+}
+
+.ai-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+}
+
+.ai-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.ai-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+.btn-ai-meal-plan svg {
+    stroke: #fff;
+    stroke-width: 2;
+}
+
 /* Section Header */
 .section-header {
     margin: 2rem 0 1rem;

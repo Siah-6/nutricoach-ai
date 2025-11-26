@@ -124,6 +124,20 @@ $profile = getUserProfile(getCurrentUserId());
             </div>
         </div>
 
+        <!-- AI Meal Plan Button -->
+        <div class="ai-meal-plan-section">
+            <button class="btn-ai-meal-plan" onclick="window.location.href='meal-plan-ai.php'">
+                <span class="ai-icon">🤖</span>
+                <div class="ai-text">
+                    <span class="ai-title">AI Meal Plan</span>
+                    <span class="ai-subtitle">Get personalized daily meals</span>
+                </div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+        </div>
+
         <!-- Log Your Meals Section -->
         <div class="section-header">
             <h2>Log your meals</h2>

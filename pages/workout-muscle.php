@@ -22,69 +22,70 @@ $muscleIcon = [
     'abs' => '🔥'
 ][$muscle] ?? '💪';
 
-// Exercise library with demonstration images from ExRx.net (static images, clean and professional)
+// Exercise library - Ready for local videos or GIFs
+// TODO: Add 'video' => '../assets/videos/exercises/chest/pushups.mp4' after downloading
 $exerciseLibrary = [
     'chest' => [
-        ['name' => 'Push-ups', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/BWPushup.jpg', 'tips' => 'Keep your body straight, core engaged'],
-        ['name' => 'Bench Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/BBBenchPress.jpg', 'tips' => 'Lower bar to chest, push up explosively'],
-        ['name' => 'Dumbbell Flyes', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/DBFly.jpg', 'tips' => 'Slight bend in elbows, feel the stretch'],
-        ['name' => 'Incline Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://exrx.net/WeightExercises/PectoralClavicular/BBInclineBenchPress.jpg', 'tips' => 'Target upper chest, 30-45 degree angle'],
-        ['name' => 'Decline Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/BBDeclineBenchPress.jpg', 'tips' => 'Target lower chest, control the weight'],
-        ['name' => 'Cable Crossover', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/CBStandingFly.jpg', 'tips' => 'Squeeze at center, control the movement'],
-        ['name' => 'Dumbbell Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/DBBenchPress.jpg', 'tips' => 'Full range of motion, press straight up'],
-        ['name' => 'Chest Dips', 'sets' => '3', 'reps' => '8-12', 'gif' => 'https://exrx.net/WeightExercises/PectoralSternal/BWChestDip.jpg', 'tips' => 'Lean forward, lower until stretch'],
+        ['name' => 'Push-ups', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif', 'tips' => 'Keep your body straight, core engaged'],
+        ['name' => 'Bench Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif', 'tips' => 'Lower bar to chest, push up explosively'],
+        ['name' => 'Dumbbell Flyes', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Fly.gif', 'tips' => 'Slight bend in elbows, feel the stretch'],
+        ['name' => 'Incline Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Barbell-Bench-Press.gif', 'tips' => 'Target upper chest, 30-45 degree angle'],
+        ['name' => 'Decline Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/06/Decline-Dumbbell-Press.gif', 'tips' => 'Target lower chest, control the weight'],
+        ['name' => 'Cable Crossover', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/cable-cross-over.gif', 'tips' => 'Squeeze at center, control the movement'],
+        ['name' => 'Dumbbell Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Bench-Press.gif', 'tips' => 'Full range of motion, press straight up'],
+        ['name' => 'Chest Dips', 'sets' => '3', 'reps' => '8-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Chest-Dips.gif', 'tips' => 'Lean forward, lower until stretch'],
     ],
     'back' => [
         ['name' => 'Pull-ups', 'sets' => '3', 'reps' => '8-10', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif', 'tips' => 'Full range of motion, control the descent'],
-        ['name' => 'Barbell Rows', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bent-Over-Barbell-Row.gif', 'tips' => 'Pull to lower chest, squeeze shoulder blades'],
+        ['name' => 'Barbell Rows', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Row.gif', 'tips' => 'Pull to lower chest, squeeze shoulder blades'],
         ['name' => 'Lat Pulldowns', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lat-Pulldown.gif', 'tips' => 'Pull down to upper chest, control the weight'],
         ['name' => 'Deadlifts', 'sets' => '3', 'reps' => '6-8', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif', 'tips' => 'Keep back straight, drive through heels'],
-        ['name' => 'T-Bar Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/t-bar-row_back.gif', 'tips' => 'Pull to chest, keep core tight'],
-        ['name' => 'Seated Cable Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/seated-cable-row_back.gif', 'tips' => 'Pull to abdomen, squeeze back'],
-        ['name' => 'Dumbbell Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/one-arm-dumbbell-row_back.gif', 'tips' => 'One arm at a time, full stretch'],
-        ['name' => 'Face Pulls', 'sets' => '3', 'reps' => '15-20', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/rope-face-pull_shoulders.gif', 'tips' => 'Pull to face level, external rotation'],
+        ['name' => 'T-Bar Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/T-Bar-Row.gif', 'tips' => 'Pull to chest, keep core tight'],
+        ['name' => 'Seated Cable Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Seated-Row.gif', 'tips' => 'Pull to abdomen, squeeze back'],
+        ['name' => 'Dumbbell Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Row.gif', 'tips' => 'One arm at a time, full stretch'],
+        ['name' => 'Face Pulls', 'sets' => '3', 'reps' => '15-20', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Face-Pull.gif', 'tips' => 'Pull to face level, external rotation'],
     ],
     'legs' => [
-        ['name' => 'Squats', 'sets' => '4', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Back-Squat.gif', 'tips' => 'Depth to parallel, knees track over toes'],
+        ['name' => 'Squats', 'sets' => '4', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/BARBELL-SQUAT.gif', 'tips' => 'Depth to parallel, knees track over toes'],
         ['name' => 'Lunges', 'sets' => '3', 'reps' => '12 each leg', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif', 'tips' => 'Step forward, 90 degree angles'],
         ['name' => 'Leg Press', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2022/02/Leg-Press.gif', 'tips' => 'Full range, don\'t lock knees'],
         ['name' => 'Romanian Deadlifts', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2022/02/Barbell-Romanian-Deadlift.gif', 'tips' => 'Hinge at hips, feel hamstring stretch'],
-        ['name' => 'Leg Curls', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/leg-curl.gif', 'tips' => 'Control the weight, squeeze at top'],
-        ['name' => 'Leg Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/leg-extensions.gif', 'tips' => 'Extend fully, control the descent'],
-        ['name' => 'Bulgarian Split Squats', 'sets' => '3', 'reps' => '10 each leg', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/dumbbell-bulgarian-split-squat_legs.gif', 'tips' => 'Rear foot elevated, front leg works'],
-        ['name' => 'Calf Raises', 'sets' => '4', 'reps' => '15-20', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Raise.gif', 'tips' => 'Full extension, pause at top'],
+        ['name' => 'Leg Curls', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lying-Leg-Curl.gif', 'tips' => 'Control the weight, squeeze at top'],
+        ['name' => 'Leg Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/LEG-EXTENSION.gif', 'tips' => 'Extend fully, control the descent'],
+        ['name' => 'Bulgarian Split Squats', 'sets' => '3', 'reps' => '10 each leg', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Bulgarian-Split-Squat.gif', 'tips' => 'Rear foot elevated, front leg works'],
+        ['name' => 'Calf Raises', 'sets' => '4', 'reps' => '15-20', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Standing-Calf-Raise.gif', 'tips' => 'Full extension, pause at top'],
     ],
     'shoulders' => [
-        ['name' => 'Shoulder Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif', 'tips' => 'Press overhead, control descent'],
-        ['name' => 'Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lateral-Raise.gif', 'tips' => 'Raise to shoulder height, slight bend in elbows'],
-        ['name' => 'Front Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Front-Raise.gif', 'tips' => 'Raise to eye level, control the weight'],
-        ['name' => 'Rear Delt Flyes', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Reverse-Fly.gif', 'tips' => 'Bend forward, raise arms to sides'],
-        ['name' => 'Arnold Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/arnold-press_shoulders.gif', 'tips' => 'Rotate palms as you press up'],
-        ['name' => 'Upright Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/barbell-upright-row_shoulders.gif', 'tips' => 'Pull to chin, elbows high'],
-        ['name' => 'Cable Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/cable-lateral-raise_shoulders.gif', 'tips' => 'Constant tension, control movement'],
-        ['name' => 'Shrugs', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/dumbbell-shrug_shoulders.gif', 'tips' => 'Lift shoulders straight up, squeeze traps'],
+        ['name' => 'Shoulder Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/Dumbbell-Shoulder-Press_shoulder.gif', 'tips' => 'Press overhead, control descent'],
+        ['name' => 'Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/dumbbell-lateral-raise.gif', 'tips' => 'Raise to shoulder height, slight bend in elbows'],
+        ['name' => 'Front Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/dumbbell-front-raise.gif', 'tips' => 'Raise to eye level, control the weight'],
+        ['name' => 'Rear Delt Flyes', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/Dumbbell-Reverse-Fly.gif', 'tips' => 'Bend forward, raise arms to sides'],
+        ['name' => 'Arnold Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/Arnold-Dumbbell-Press.gif', 'tips' => 'Rotate palms as you press up'],
+        ['name' => 'Upright Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/barbell-upright-row.gif', 'tips' => 'Pull to chin, elbows high'],
+        ['name' => 'Cable Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/Cable-Lateral-Raise.gif', 'tips' => 'Constant tension, control movement'],
+        ['name' => 'Shrugs', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/barbell-shrug.gif', 'tips' => 'Lift shoulders straight up, squeeze traps'],
     ],
     'arms' => [
         ['name' => 'Bicep Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Curl.gif', 'tips' => 'Keep elbows stationary, full contraction'],
         ['name' => 'Tricep Dips', 'sets' => '3', 'reps' => '10-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bench-Dips.gif', 'tips' => 'Lower until 90 degrees, push back up'],
         ['name' => 'Hammer Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif', 'tips' => 'Neutral grip, control the movement'],
-        ['name' => 'Tricep Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Overhead-Triceps-Extension.gif', 'tips' => 'Keep upper arms still, extend fully'],
-        ['name' => 'Cable Curls', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/cable-curl_arms.gif', 'tips' => 'Constant tension, squeeze at top'],
-        ['name' => 'Skull Crushers', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/skull-crusher_arms.gif', 'tips' => 'Lower to forehead, extend fully'],
-        ['name' => 'Preacher Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/preacher-curl_arms.gif', 'tips' => 'Isolate biceps, full range'],
-        ['name' => 'Tricep Pushdowns', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/triceps-pushdown_arms.gif', 'tips' => 'Keep elbows tucked, extend fully'],
-        ['name' => 'Concentration Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/concentration-curl_arms.gif', 'tips' => 'Focus on peak contraction'],
+        ['name' => 'Tricep Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Triceps-Extension.gif', 'tips' => 'Keep upper arms still, extend fully'],
+        ['name' => 'Cable Curls', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Standing-Cable-Curl.gif', 'tips' => 'Constant tension, squeeze at top'],
+        ['name' => 'Skull Crushers', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Lying-Triceps-Extension.gif', 'tips' => 'Lower to forehead, extend fully'],
+        ['name' => 'Preacher Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Preacher-Curl.gif', 'tips' => 'Isolate biceps, full range'],
+        ['name' => 'Tricep Pushdowns', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Pushdown.gif', 'tips' => 'Keep elbows tucked, extend fully'],
+        ['name' => 'Concentration Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Concentration-Curl.gif', 'tips' => 'Focus on peak contraction'],
     ],
     'abs' => [
         ['name' => 'Crunches', 'sets' => '3', 'reps' => '15-20', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Crunches.gif', 'tips' => 'Lift shoulder blades, don\'t pull neck'],
         ['name' => 'Plank', 'sets' => '3', 'reps' => '45-60 sec', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Front-Plank.gif', 'tips' => 'Keep body straight, engage core'],
         ['name' => 'Russian Twists', 'sets' => '3', 'reps' => '20-30', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Russian-Twist.gif', 'tips' => 'Rotate torso, touch floor each side'],
         ['name' => 'Leg Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Raises.gif', 'tips' => 'Keep legs straight, lower slowly'],
-        ['name' => 'Bicycle Crunches', 'sets' => '3', 'reps' => '20-30', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/bicycle-crunch_abs.gif', 'tips' => 'Alternate sides, touch elbow to knee'],
-        ['name' => 'Mountain Climbers', 'sets' => '3', 'reps' => '30-40', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/mountain-climber_cardio.gif', 'tips' => 'Fast pace, keep core tight'],
-        ['name' => 'Ab Wheel Rollouts', 'sets' => '3', 'reps' => '8-12', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/ab-wheel_abs.gif', 'tips' => 'Roll out slowly, engage core'],
-        ['name' => 'Side Plank', 'sets' => '3', 'reps' => '30-45 sec each', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/side-plank_abs.gif', 'tips' => 'Keep body straight, hold position'],
-        ['name' => 'V-Ups', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://newlife.com.cy/wp-content/uploads/2019/11/v-ups_abs.gif', 'tips' => 'Touch hands to feet, control descent'],
+        ['name' => 'Bicycle Crunches', 'sets' => '3', 'reps' => '20-30', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Bicycle-Crunches.gif', 'tips' => 'Alternate sides, touch elbow to knee'],
+        ['name' => 'Mountain Climbers', 'sets' => '3', 'reps' => '30-40', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Mountain-Climbers.gif', 'tips' => 'Fast pace, keep core tight'],
+        ['name' => 'Ab Wheel Rollouts', 'sets' => '3', 'reps' => '8-12', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Ab-Rollout.gif', 'tips' => 'Roll out slowly, engage core'],
+        ['name' => 'Side Plank', 'sets' => '3', 'reps' => '30-45 sec each', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Elbow-Side-Plank.gif', 'tips' => 'Keep body straight, hold position'],
+        ['name' => 'V-Ups', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://fitnessprogramer.com/wp-content/uploads/2021/02/V-up.gif', 'tips' => 'Touch hands to feet, control descent'],
     ],
 ];
 
@@ -143,16 +144,32 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
                 </button>
             </div>
 
-            <!-- Exercise List with Professional Cards -->
+            <!-- Exercise List with Video Demonstrations -->
             <div class="exercise-list" id="exerciseList">
                 <?php foreach ($exercises as $index => $exercise): ?>
                 <div class="exercise-card-with-demo" id="exercise-<?php echo $index; ?>">
                     <div class="exercise-demo">
-                        <div class="exercise-placeholder">
-                            <div class="placeholder-icon">🏋️</div>
-                            <div class="placeholder-name"><?php echo $exercise['name']; ?></div>
-                            <div class="placeholder-label">Follow the tips below</div>
-                        </div>
+                        <?php if (isset($exercise['video'])): ?>
+                            <video class="exercise-video" autoplay loop muted playsinline crossorigin="anonymous">
+                                <source src="<?php echo $exercise['video']; ?>" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="video-fallback" style="display: none;">
+                                <div class="exercise-placeholder">
+                                    <div class="placeholder-icon">🏋️</div>
+                                    <div class="placeholder-name"><?php echo $exercise['name']; ?></div>
+                                    <div class="placeholder-label">Follow the tips below</div>
+                                </div>
+                            </div>
+                        <?php elseif (isset($exercise['gif'])): ?>
+                            <img src="<?php echo $exercise['gif']; ?>" alt="<?php echo $exercise['name']; ?>" class="exercise-gif">
+                        <?php else: ?>
+                            <div class="exercise-placeholder">
+                                <div class="placeholder-icon">🏋️</div>
+                                <div class="placeholder-name"><?php echo $exercise['name']; ?></div>
+                                <div class="placeholder-label">Follow the tips below</div>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="exercise-details">
                         <div class="exercise-header">
@@ -194,7 +211,38 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
                 restoreWorkoutState(JSON.parse(savedState));
             }
             
-            // Professional exercise cards with animations are displayed directly
+            // Add error handling for videos and images
+            document.querySelectorAll('.exercise-video').forEach(video => {
+                video.addEventListener('error', function(e) {
+                    console.error('Video failed to load:', this.querySelector('source').src);
+                    console.error('Error details:', e);
+                    this.style.display = 'none';
+                    const fallback = this.nextElementSibling;
+                    if (fallback && fallback.classList.contains('video-fallback')) {
+                        fallback.style.display = 'block';
+                    }
+                });
+                
+                video.addEventListener('loadeddata', function() {
+                    console.log('Video loaded successfully:', this.querySelector('source').src);
+                });
+            });
+            
+            document.querySelectorAll('.exercise-gif').forEach(img => {
+                img.onerror = function() {
+                    console.log('GIF failed to load:', this.src);
+                    this.style.display = 'none';
+                    const exerciseName = this.alt;
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'exercise-placeholder';
+                    placeholder.innerHTML = `
+                        <div class="placeholder-icon">🏋️</div>
+                        <div class="placeholder-name">${exerciseName}</div>
+                        <div class="placeholder-label">Follow the tips below</div>
+                    `;
+                    this.parentElement.appendChild(placeholder);
+                };
+            });
         });
 
         async function checkCompletionStatus() {

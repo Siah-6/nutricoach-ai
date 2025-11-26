@@ -50,6 +50,26 @@ $profile = getUserProfile(getCurrentUserId());
             <p>Generating your personalized workout...</p>
         </div>
 
+        <!-- Completion Screen -->
+        <div class="completion-screen" id="completionScreen" style="display: none;">
+            <div class="completion-content">
+                <div class="completion-icon">🎉</div>
+                <h2>Workout Already Completed!</h2>
+                <p>You've already crushed today's AI workout!</p>
+                <div class="completion-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">✅</span>
+                        <span class="stat-label">Completed Today</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-label">Come back tomorrow!</span>
+                    </div>
+                </div>
+                <button class="btn-back" onclick="window.history.back()">← Back to Workouts</button>
+            </div>
+        </div>
+
         <!-- Workout Content -->
         <div class="workout-content" id="workoutContent" style="display: none;">
             <!-- Workout Info -->
@@ -97,14 +117,16 @@ $profile = getUserProfile(getCurrentUserId());
         // Generate AI workout on page load
         window.addEventListener('DOMContentLoaded', async () => {
             // Check if already completed today
-            await checkCompletionStatus();
+            const isCompleted = await checkCompletionStatus();
             
-            // Try to restore from sessionStorage first
-            const savedState = sessionStorage.getItem('aiWorkoutState');
-            if (savedState) {
-                restoreWorkoutState(JSON.parse(savedState));
-            } else {
-                generateAIWorkout();
+            if (!isCompleted) {
+                // Try to restore from sessionStorage first
+                const savedState = sessionStorage.getItem('aiWorkoutState');
+                if (savedState) {
+                    restoreWorkoutState(JSON.parse(savedState));
+                } else {
+                    generateAIWorkout();
+                }
             }
         });
 
@@ -114,31 +136,20 @@ $profile = getUserProfile(getCurrentUserId());
                 const data = await response.json();
                 
                 if (data.success && data.completed_today) {
-                    // Show completed badge
-                    const badge = document.getElementById('workoutBadge');
-                    badge.textContent = '✅ Completed Today';
-                    badge.style.background = '#10b981';
+                    // Show completion screen and hide everything else
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('workoutContent').style.display = 'none';
+                    document.getElementById('completionScreen').style.display = 'block';
                     
-                    // Show info message
-                    const infoDiv = document.createElement('div');
-                    infoDiv.style.cssText = `
-                        background: rgba(16, 185, 129, 0.1);
-                        border: 1px solid rgba(16, 185, 129, 0.3);
-                        border-radius: 10px;
-                        padding: 1rem;
-                        margin-bottom: 1rem;
-                        color: #10b981;
-                        text-align: center;
-                    `;
-                    infoDiv.innerHTML = '✅ You already completed this workout today! You can still do it again, but no XP will be awarded.';
+                    // Clear any saved workout state
+                    sessionStorage.removeItem('aiWorkoutState');
                     
-                    const workoutContent = document.getElementById('workoutContent');
-                    if (workoutContent) {
-                        workoutContent.insertBefore(infoDiv, workoutContent.firstChild);
-                    }
+                    return true; // Workout already completed
                 }
+                return false; // Not completed yet
             } catch (error) {
                 console.error('Error checking completion:', error);
+                return false;
             }
         }
 

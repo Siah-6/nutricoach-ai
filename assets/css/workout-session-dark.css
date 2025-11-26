@@ -286,9 +286,9 @@
 .exercise-video {
     width: 100%;
     height: 100%;
-    border: none;
+    object-fit: cover;
     border-radius: 12px;
-    pointer-events: auto;
+    background: #000;
 }
 
 /* Professional Exercise Placeholder */
@@ -436,3 +436,82 @@
 .exercise-card-with-demo:nth-child(4) { animation-delay: 0.4s; }
 .exercise-card:nth-child(5),
 .exercise-card-with-demo:nth-child(5) { animation-delay: 0.5s; }
+
+/* Completion Screen */
+.completion-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 2rem;
+}
+
+.completion-content {
+    text-align: center;
+    max-width: 400px;
+    animation: slideUp 0.5s ease;
+}
+
+.completion-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    animation: bounce 1s ease infinite;
+}
+
+.completion-content h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.completion-content p {
+    color: #a0aec0;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.completion-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.completion-stats .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.completion-stats .stat-icon {
+    font-size: 2rem;
+}
+
+.completion-stats .stat-label {
+    color: #10b981;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-back {
+    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+}
