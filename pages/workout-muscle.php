@@ -164,6 +164,20 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
                             </div>
                             <button class="btn-check" onclick="toggleExercise(<?php echo $index; ?>)"></button>
                         </div>
+                        <!-- Rest Timer -->
+                        <div class="rest-timer-container" id="restTimer<?php echo $index; ?>" style="display: none;">
+                            <div class="rest-timer-content">
+                                <div class="rest-timer-label">Rest Time</div>
+                                <div class="rest-timer-display" id="restDisplay<?php echo $index; ?>">01:30</div>
+                                <div class="rest-timer-progress">
+                                    <div class="rest-timer-bar" id="restBar<?php echo $index; ?>"></div>
+                                </div>
+                                <div class="rest-timer-actions">
+                                    <button class="btn-rest-action" onclick="skipRest(<?php echo $index; ?>)">Skip</button>
+                                    <button class="btn-rest-action" onclick="addRestTime(<?php echo $index; ?>, 30)">+30s</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -183,6 +197,9 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
         const muscleType = '<?php echo $muscle; ?>';
         let completedExercises = new Set();
         let currentSession = null;
+        let restTimer = null;
+        let restTimeRemaining = 0;
+        let currentRestExercise = null;
 
         // Restore state on page load
         window.addEventListener('DOMContentLoaded', async () => {
@@ -358,6 +375,11 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
                 } catch (error) {
                     console.error('Error completing exercise:', error);
                 }
+
+                // Start rest timer if not the last exercise
+                if (index < totalExercises - 1) {
+                    startRestTimer(index, exerciseName);
+                }
             }
 
             saveWorkoutState(); // Save after each toggle
@@ -444,6 +466,124 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
             `;
             
             document.body.appendChild(modal);
+        }
+
+        // Rest Timer Functions
+        function getRestTime(exerciseName) {
+            const name = exerciseName.toLowerCase();
+            
+            // Compound exercises: 2-3 minutes
+            if (name.includes('squat') || name.includes('deadlift') || name.includes('bench press') || 
+                name.includes('overhead press') || name.includes('row')) {
+                return 150; // 2.5 minutes
+            }
+            
+            // Bodyweight/cardio: 30-60 seconds
+            if (name.includes('push-up') || name.includes('pull-up') || name.includes('burpee') || 
+                name.includes('mountain climber') || name.includes('plank')) {
+                return 45; // 45 seconds
+            }
+            
+            // Isolation exercises: 60-90 seconds (default)
+            return 75; // 1 minute 15 seconds
+        }
+
+        function startRestTimer(index, exerciseName) {
+            const restTime = getRestTime(exerciseName);
+            restTimeRemaining = restTime;
+            currentRestExercise = index;
+            
+            const timerContainer = document.getElementById(`restTimer${index}`);
+            if (timerContainer) {
+                timerContainer.style.display = 'block';
+                updateRestDisplay(index);
+                
+                restTimer = setInterval(() => {
+                    restTimeRemaining--;
+                    updateRestDisplay(index);
+                    
+                    if (restTimeRemaining <= 0) {
+                        finishRest(index);
+                    }
+                }, 1000);
+            }
+        }
+
+        function updateRestDisplay(index) {
+            const minutes = Math.floor(restTimeRemaining / 60);
+            const seconds = restTimeRemaining % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            const displayEl = document.getElementById(`restDisplay${index}`);
+            const barEl = document.getElementById(`restBar${index}`);
+            
+            if (displayEl) displayEl.textContent = display;
+            if (barEl) {
+                const card = document.getElementById(`exercise-${index}`);
+                const exerciseName = card.querySelector('h3').textContent;
+                const totalTime = getRestTime(exerciseName);
+                const progress = ((totalTime - restTimeRemaining) / totalTime) * 100;
+                barEl.style.width = progress + '%';
+            }
+        }
+
+        function finishRest(index) {
+            clearInterval(restTimer);
+            restTimer = null;
+            
+            const timerContainer = document.getElementById(`restTimer${index}`);
+            if (timerContainer) {
+                timerContainer.style.display = 'none';
+            }
+            
+            // Vibrate and play sound
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]);
+            }
+            
+            // Show notification
+            showNotification('✅ Rest complete! Ready for next exercise?');
+        }
+
+        function skipRest(index) {
+            clearInterval(restTimer);
+            restTimer = null;
+            restTimeRemaining = 0;
+            
+            const timerContainer = document.getElementById(`restTimer${index}`);
+            if (timerContainer) {
+                timerContainer.style.display = 'none';
+            }
+        }
+
+        function addRestTime(index, seconds) {
+            restTimeRemaining += seconds;
+            updateRestDisplay(index);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 10001;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.3s ease';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
     </script>
     <style>

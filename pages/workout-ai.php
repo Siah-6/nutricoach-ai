@@ -113,6 +113,11 @@ $profile = getUserProfile(getCurrentUserId());
         let currentExercises = [];
         let completedExercises = new Set();
         let currentSession = null;
+        let restTimer = null;
+        let restTimeRemaining = 0;
+        let currentRestExercise = null;
+        let exerciseSets = {}; // Track completed sets per exercise
+        let currentRestSet = null; // Track which set is resting
 
         // Generate AI workout on page load
         window.addEventListener('DOMContentLoaded', async () => {
@@ -221,19 +226,60 @@ $profile = getUserProfile(getCurrentUserId());
             exerciseList.innerHTML = '';
 
             currentExercises.forEach((exercise, index) => {
-                const isCompleted = completedExercises.has(index);
+                // Parse sets from details (e.g., "3 sets x 10 reps")
+                const setsMatch = exercise.details.match(/(\d+)\s*sets?/i);
+                const totalSets = setsMatch ? parseInt(setsMatch[1]) : 3;
+                
+                // Initialize sets tracking if not exists
+                if (!exerciseSets[index]) {
+                    exerciseSets[index] = { completed: [], total: totalSets };
+                }
+                
+                const completedSetsCount = exerciseSets[index].completed.length;
+                const isFullyCompleted = completedSetsCount === totalSets;
+                
                 const exerciseCard = document.createElement('div');
-                exerciseCard.className = `exercise-card ${isCompleted ? 'completed' : ''}`;
+                exerciseCard.className = `exercise-card ${isFullyCompleted ? 'completed' : ''}`;
+                
+                // Build sets UI
+                let setsHTML = '<div class="sets-tracker">';
+                for (let setNum = 1; setNum <= totalSets; setNum++) {
+                    const isSetCompleted = exerciseSets[index].completed.includes(setNum);
+                    const isCurrentSet = completedSetsCount + 1 === setNum && !isFullyCompleted;
+                    setsHTML += `
+                        <button class="set-button ${isSetCompleted ? 'completed' : ''} ${isCurrentSet ? 'current' : ''}" 
+                                onclick="completeSet(${index}, ${setNum})">
+                            ${isSetCompleted ? '✓' : setNum}
+                        </button>
+                    `;
+                }
+                setsHTML += '</div>';
+                
                 exerciseCard.innerHTML = `
                     <div class="exercise-header">
                         <div class="exercise-number">${index + 1}</div>
                         <div class="exercise-info">
                             <h3>${exercise.name}</h3>
                             <p>${exercise.details}</p>
+                            <div class="sets-progress">
+                                <span class="sets-label">Sets: ${completedSetsCount}/${totalSets}</span>
+                            </div>
                         </div>
-                        <button class="btn-check ${isCompleted ? 'checked' : ''}" onclick="toggleExercise(${index})">
-                            ${isCompleted ? '✓' : ''}
-                        </button>
+                    </div>
+                    ${setsHTML}
+                    <div class="rest-timer-container" id="restTimer${index}" style="display: none;">
+                        <div class="rest-timer-content">
+                            <div class="rest-timer-label">Rest Time - Set ${completedSetsCount + 1} Complete</div>
+                            <div class="rest-timer-display" id="restDisplay${index}">01:30</div>
+                            <div class="rest-timer-progress">
+                                <div class="rest-timer-bar" id="restBar${index}"></div>
+                            </div>
+                            <div class="rest-timer-next">Next: Set ${Math.min(completedSetsCount + 2, totalSets)}</div>
+                            <div class="rest-timer-actions">
+                                <button class="btn-rest-action" onclick="skipRest(${index})">Skip Rest</button>
+                                <button class="btn-rest-action" onclick="addRestTime(${index}, 30)">+30s</button>
+                            </div>
+                        </div>
                     </div>
                 `;
                 exerciseList.appendChild(exerciseCard);
@@ -299,6 +345,57 @@ $profile = getUserProfile(getCurrentUserId());
             }
         }
 
+        async function completeSet(exerciseIndex, setNumber) {
+            if (!currentSession) {
+                alert('Please start the workout first!');
+                return;
+            }
+
+            // Toggle set completion
+            if (exerciseSets[exerciseIndex].completed.includes(setNumber)) {
+                // Uncheck set
+                exerciseSets[exerciseIndex].completed = exerciseSets[exerciseIndex].completed.filter(s => s !== setNumber);
+            } else {
+                // Complete set
+                exerciseSets[exerciseIndex].completed.push(setNumber);
+                exerciseSets[exerciseIndex].completed.sort((a, b) => a - b);
+
+                // Log to API
+                try {
+                    await fetch('../api/workout/complete-exercise.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            session_id: currentSession,
+                            exercise_name: `${currentExercises[exerciseIndex].name} - Set ${setNumber}`
+                        })
+                    });
+                } catch (error) {
+                    console.error('Error logging set:', error);
+                }
+
+                // Check if all sets completed for this exercise
+                if (exerciseSets[exerciseIndex].completed.length === exerciseSets[exerciseIndex].total) {
+                    completedExercises.add(exerciseIndex);
+                }
+
+                // Start rest timer if not the last set of the exercise
+                if (exerciseSets[exerciseIndex].completed.length < exerciseSets[exerciseIndex].total) {
+                    displayExercises();
+                    startRestTimer(exerciseIndex, setNumber);
+                    return;
+                }
+            }
+
+            displayExercises();
+            saveWorkoutState();
+
+            // Check if all exercises completed
+            if (completedExercises.size === currentExercises.length) {
+                document.getElementById('completeSection').style.display = 'block';
+            }
+        }
+
         async function toggleExercise(index) {
             if (!currentSession) {
                 alert('Please start the workout first!');
@@ -322,16 +419,140 @@ $profile = getUserProfile(getCurrentUserId());
                 } catch (error) {
                     console.error('Error completing exercise:', error);
                 }
+
             }
 
             displayExercises();
             saveWorkoutState(); // Save state after each change
+
+            // Start rest timer AFTER displayExercises() rebuilds DOM
+            if (completedExercises.has(index) && index < currentExercises.length - 1) {
+                startRestTimer(index);
+            }
 
             if (completedExercises.size === currentExercises.length) {
                 document.getElementById('completeSection').style.display = 'block';
             } else {
                 document.getElementById('completeSection').style.display = 'none';
             }
+        }
+
+        function getRestTime(exerciseName) {
+            // Determine rest time based on exercise type
+            const name = exerciseName.toLowerCase();
+            
+            // Compound exercises: 2-3 minutes
+            if (name.includes('squat') || name.includes('deadlift') || name.includes('bench press') || 
+                name.includes('overhead press') || name.includes('row')) {
+                return 150; // 2.5 minutes
+            }
+            
+            // Bodyweight/cardio: 30-60 seconds
+            if (name.includes('push-up') || name.includes('pull-up') || name.includes('burpee') || 
+                name.includes('mountain climber') || name.includes('plank')) {
+                return 45; // 45 seconds
+            }
+            
+            // Isolation exercises: 60-90 seconds (default)
+            return 75; // 1 minute 15 seconds
+        }
+
+        function startRestTimer(index) {
+            const exercise = currentExercises[index];
+            const restTime = getRestTime(exercise.name);
+            restTimeRemaining = restTime;
+            currentRestExercise = index;
+            
+            const timerContainer = document.getElementById(`restTimer${index}`);
+            if (timerContainer) {
+                timerContainer.style.display = 'block';
+                updateRestDisplay(index);
+                
+                restTimer = setInterval(() => {
+                    restTimeRemaining--;
+                    updateRestDisplay(index);
+                    
+                    if (restTimeRemaining <= 0) {
+                        finishRest(index);
+                    }
+                }, 1000);
+            }
+        }
+
+        function updateRestDisplay(index) {
+            const minutes = Math.floor(restTimeRemaining / 60);
+            const seconds = restTimeRemaining % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            const displayEl = document.getElementById(`restDisplay${index}`);
+            const barEl = document.getElementById(`restBar${index}`);
+            
+            if (displayEl) displayEl.textContent = display;
+            if (barEl) {
+                const exercise = currentExercises[index];
+                const totalTime = getRestTime(exercise.name);
+                const progress = ((totalTime - restTimeRemaining) / totalTime) * 100;
+                barEl.style.width = progress + '%';
+            }
+        }
+
+        function finishRest(index) {
+            clearInterval(restTimer);
+            restTimer = null;
+            
+            const timerContainer = document.getElementById(`restTimer${index}`);
+            if (timerContainer) {
+                timerContainer.style.display = 'none';
+            }
+            
+            // Vibrate and play sound
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]);
+            }
+            
+            // Show notification
+            showNotification('✅ Rest complete! Ready for next set?');
+        }
+
+        function skipRest(index) {
+            clearInterval(restTimer);
+            restTimer = null;
+            restTimeRemaining = 0;
+            
+            const timerContainer = document.getElementById(`restTimer${index}`);
+            if (timerContainer) {
+                timerContainer.style.display = 'none';
+            }
+        }
+
+        function addRestTime(index, seconds) {
+            restTimeRemaining += seconds;
+            updateRestDisplay(index);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #4CAF50;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 10001;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.3s ease';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
 
         async function completeWorkout() {

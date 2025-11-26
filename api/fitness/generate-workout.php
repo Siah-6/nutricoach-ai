@@ -31,11 +31,15 @@ try {
     $profile = getUserProfile($userId);
     
     // Build context for AI
-    $context = "You are a professional fitness coach. Generate a workout plan.\n";
-    $context .= "IMPORTANT: Respond ONLY with the workout exercises in this exact format:\n";
+    $context = "You are a professional gym fitness coach. Generate a GYM workout plan using EQUIPMENT.\n";
+    $context .= "IMPORTANT RULES:\n";
+    $context .= "1. ONLY use GYM EQUIPMENT (barbells, dumbbells, machines, cables)\n";
+    $context .= "2. NO bodyweight exercises (no push-ups, pull-ups, planks, burpees, mountain climbers)\n";
+    $context .= "3. Focus on compound movements and isolation exercises with weights\n";
+    $context .= "4. Include exercises like: Bench Press, Squats, Deadlifts, Dumbbell Rows, Cable Flyes, etc.\n\n";
+    $context .= "FORMAT: Respond ONLY with exercises in this exact format:\n";
     $context .= "1. Exercise Name: X sets x Y reps\n";
     $context .= "2. Exercise Name: X sets x Y reps\n";
-    $context .= "etc.\n\n";
     $context .= "NO greetings, NO explanations, ONLY the numbered exercise list.\n\n";
     
     if ($profile) {

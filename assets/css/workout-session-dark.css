@@ -8,6 +8,154 @@
     padding-bottom: 2rem;
 }
 
+/* Set Tracker */
+.sets-tracker {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.set-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.set-button.current {
+    border-color: #4a9eff;
+    background: rgba(74, 158, 255, 0.2);
+    color: #4a9eff;
+    box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.set-button.completed {
+    border-color: #4CAF50;
+    background: #4CAF50;
+    color: white;
+    transform: scale(0.95);
+}
+
+.set-button:hover:not(.completed) {
+    border-color: #4a9eff;
+    background: rgba(74, 158, 255, 0.1);
+    transform: scale(1.05);
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(74, 158, 255, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(74, 158, 255, 0.6); }
+}
+
+.sets-progress {
+    margin-top: 0.5rem;
+}
+
+.sets-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Rest Timer */
+.rest-timer-container {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+    border-radius: 12px;
+    animation: slideDown 0.3s ease;
+}
+
+.rest-timer-next {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rest-timer-content {
+    text-align: center;
+}
+
+.rest-timer-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rest-timer-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0.5rem 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.rest-timer-progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.rest-timer-bar {
+    height: 100%;
+    background: white;
+    border-radius: 4px;
+    transition: width 1s linear;
+}
+
+.rest-timer-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-rest-action {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-rest-action:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
 /* Header */
 .workout-session-header {
     background: var(--bg-secondary);
