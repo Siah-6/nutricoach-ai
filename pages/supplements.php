@@ -264,7 +264,7 @@ $profile = getUserProfile(getCurrentUserId());
             });
         });
 
-        // Generate AI Recommendations
+        // Generate AI Recommendations (No chat history)
         async function generateAIRecommendations() {
             const loadingState = document.getElementById('loadingPlan');
             const recommendationsList = document.getElementById('recommendationsList');
@@ -273,60 +273,40 @@ $profile = getUserProfile(getCurrentUserId());
             loadingState.style.display = 'block';
             recommendationsList.style.display = 'none';
             
-            try {
-                const userGoal = '<?php echo $profile['fitness_goal']; ?>';
-                const prompt = `Based on a user with fitness goal: "${userGoal}", recommend 3-4 supplements. For each supplement, provide: name, why it helps this goal, when to take it, and dosage. Format as: "Supplement Name: Brief explanation (1 sentence). Timing: X. Dosage: Y."`;
-                
-                const response = await fetch('../api/chat/message.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: prompt })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    displayAIRecommendations(data.response, userGoal);
-                    loadingState.style.display = 'none';
-                    recommendationsList.style.display = 'block';
-                    regenerateBtn.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                loadingState.innerHTML = '<p style="color: #ff6b6b;">Failed to generate recommendations. Please try again.</p>';
-            }
+            // Simulate loading (purely client-side, no API calls)
+            setTimeout(() => {
+                const userGoal = '<?php echo strtolower($profile['fitness_goal']); ?>';
+                displayAIRecommendations(userGoal);
+                loadingState.style.display = 'none';
+                recommendationsList.style.display = 'block';
+                regenerateBtn.style.display = 'block';
+            }, 800);
         }
 
-        function displayAIRecommendations(aiResponse, userGoal) {
+        function displayAIRecommendations(userGoal) {
             const container = document.getElementById('recommendationsList');
             container.innerHTML = '';
             
-            // Parse AI response and match with our database
-            const lines = aiResponse.split('\n').filter(line => line.trim());
-            const recommendations = [];
+            let recommendations = [];
             
-            lines.forEach(line => {
-                supplementsDB.forEach(supp => {
-                    if (line.toLowerCase().includes(supp.name.toLowerCase()) && !recommendations.find(r => r.id === supp.id)) {
-                        recommendations.push(supp);
-                    }
-                });
-            });
-            
-            // If AI didn't match well, use goal-based fallback
-            if (recommendations.length < 3) {
-                recommendations.length = 0;
-                supplementsDB.forEach(supp => {
-                    if (supp.bestFor.some(goal => userGoal.toLowerCase().includes(goal.toLowerCase()))) {
-                        recommendations.push(supp);
-                    }
-                });
+            // Goal-based recommendations
+            if (userGoal.includes('muscle') || userGoal.includes('gain') || userGoal.includes('bulk')) {
+                recommendations = [1, 2, 5, 6]; // Whey, Creatine, Beta-Alanine, BCAAs
+            } else if (userGoal.includes('weight') || userGoal.includes('fat') || userGoal.includes('lose')) {
+                recommendations = [1, 4, 3, 7]; // Whey, Caffeine, Omega-3, Vitamin D
+            } else if (userGoal.includes('strength')) {
+                recommendations = [2, 1, 9, 5]; // Creatine, Whey, Pre-Workout, Beta-Alanine
+            } else {
+                recommendations = [1, 2, 3, 8]; // Whey, Creatine, Omega-3, Multivitamin
             }
             
-            // Display recommendations
-            recommendations.slice(0, 4).forEach(supp => {
-                const card = createRecommendationCard(supp);
-                container.appendChild(card);
+            // Get supplements by ID
+            recommendations.forEach(id => {
+                const supp = supplementsDB.find(s => s.id === id);
+                if (supp) {
+                    const card = createRecommendationCard(supp);
+                    container.appendChild(card);
+                }
             });
         }
 

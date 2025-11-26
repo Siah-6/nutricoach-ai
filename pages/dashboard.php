@@ -105,6 +105,116 @@ $profile = getUserProfile(getCurrentUserId());
                 </div>
             </div>
 
+            <!-- Progress Tracker -->
+            <div class="progress-tracker-card">
+                <h2 class="section-title">📊 Your Progress</h2>
+                
+                <!-- Progress Tabs -->
+                <div class="progress-tabs">
+                    <button class="progress-tab active" data-tab="weight">Weight</button>
+                    <button class="progress-tab" data-tab="measurements">Measurements</button>
+                    <button class="progress-tab" data-tab="streak">Streak</button>
+                </div>
+
+                <!-- Weight Tab -->
+                <div class="progress-tab-content active" id="weight-tab">
+                    <div class="weight-tracker">
+                        <div class="weight-current">
+                            <div class="weight-label">Current Weight</div>
+                            <div class="weight-value" id="currentWeight">
+                                <span class="weight-number">--</span>
+                                <span class="weight-unit">kg</span>
+                            </div>
+                        </div>
+                        <div class="weight-goal">
+                            <div class="weight-label">Goal Weight</div>
+                            <div class="weight-value" id="goalWeight">
+                                <span class="weight-number">--</span>
+                                <span class="weight-unit">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="weight-change" id="weightChange">
+                        <span class="change-label">This Week:</span>
+                        <span class="change-value">--</span>
+                    </div>
+
+                    <div class="mini-chart" id="weightChart">
+                        <canvas id="weightCanvas" width="300" height="100"></canvas>
+                    </div>
+
+                    <button class="btn-log-progress" onclick="showWeightModal()">
+                        📝 Log Weight
+                    </button>
+                </div>
+
+                <!-- Measurements Tab -->
+                <div class="progress-tab-content" id="measurements-tab">
+                    <div class="measurements-list">
+                        <div class="measurement-item">
+                            <div class="measurement-icon">💪</div>
+                            <div class="measurement-info">
+                                <div class="measurement-name">Arms</div>
+                                <div class="measurement-value" id="armsValue">-- cm</div>
+                            </div>
+                            <div class="measurement-change" id="armsChange">--</div>
+                        </div>
+                        <div class="measurement-item">
+                            <div class="measurement-icon">🫀</div>
+                            <div class="measurement-info">
+                                <div class="measurement-name">Chest</div>
+                                <div class="measurement-value" id="chestValue">-- cm</div>
+                            </div>
+                            <div class="measurement-change" id="chestChange">--</div>
+                        </div>
+                        <div class="measurement-item">
+                            <div class="measurement-icon">🤸</div>
+                            <div class="measurement-info">
+                                <div class="measurement-name">Waist</div>
+                                <div class="measurement-value" id="waistValue">-- cm</div>
+                            </div>
+                            <div class="measurement-change" id="waistChange">--</div>
+                        </div>
+                        <div class="measurement-item">
+                            <div class="measurement-icon">🦵</div>
+                            <div class="measurement-info">
+                                <div class="measurement-name">Legs</div>
+                                <div class="measurement-value" id="legsValue">-- cm</div>
+                            </div>
+                            <div class="measurement-change" id="legsChange">--</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-log-progress" onclick="showMeasurementsModal()">
+                        📏 Update Measurements
+                    </button>
+                </div>
+
+                <!-- Streak Tab -->
+                <div class="progress-tab-content" id="streak-tab">
+                    <div class="streak-display">
+                        <div class="streak-number" id="streakNumber">0</div>
+                        <div class="streak-label">Day Streak 🔥</div>
+                        <div class="streak-subtitle">Keep it going!</div>
+                    </div>
+
+                    <div class="consistency-bar">
+                        <div class="consistency-label">
+                            <span>This Month</span>
+                            <span id="consistencyPercent">0%</span>
+                        </div>
+                        <div class="consistency-progress">
+                            <div class="consistency-fill" id="consistencyFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="workout-calendar" id="workoutCalendar">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
             <!-- Quick Actions - Removed, moved to Today's Activity -->
 
             <!-- Today's Activity -->
@@ -240,7 +350,163 @@ $profile = getUserProfile(getCurrentUserId());
                 console.log('🔄 Window focused, refreshing XP stats...');
                 loadXPStats();
             });
+
+            // Progress Tracker Tabs
+            document.querySelectorAll('.progress-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    
+                    // Update tabs
+                    document.querySelectorAll('.progress-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Update content
+                    document.querySelectorAll('.progress-tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById(tabName + '-tab').classList.add('active');
+                });
+            });
+
+            // Load Progress Data
+            loadProgressData();
         });
+
+        // Load Progress Data
+        function loadProgressData() {
+            // Load from localStorage (demo data)
+            const weightData = JSON.parse(localStorage.getItem('weightData') || '{"current": 75, "goal": 80, "history": [73, 73.5, 74, 74.5, 75]}');
+            const measurements = JSON.parse(localStorage.getItem('measurements') || '{"arms": 38, "chest": 95, "waist": 82, "legs": 58}');
+            
+            // Update Weight
+            document.querySelector('#currentWeight .weight-number').textContent = weightData.current;
+            document.querySelector('#goalWeight .weight-number').textContent = weightData.goal;
+            
+            const weekChange = weightData.current - weightData.history[weightData.history.length - 2];
+            const changeEl = document.querySelector('#weightChange .change-value');
+            changeEl.textContent = (weekChange >= 0 ? '+' : '') + weekChange.toFixed(1) + ' kg';
+            changeEl.className = 'change-value ' + (weekChange >= 0 ? '' : 'negative');
+            
+            // Draw mini chart
+            drawWeightChart(weightData.history);
+            
+            // Update Measurements
+            document.getElementById('armsValue').textContent = measurements.arms + ' cm';
+            document.getElementById('chestValue').textContent = measurements.chest + ' cm';
+            document.getElementById('waistValue').textContent = measurements.waist + ' cm';
+            document.getElementById('legsValue').textContent = measurements.legs + ' cm';
+            
+            // Update Streak
+            const streak = parseInt(localStorage.getItem('workoutStreak') || '0');
+            document.getElementById('streakNumber').textContent = streak;
+            
+            // Update Consistency
+            const consistency = 75; // Demo: 75%
+            document.getElementById('consistencyPercent').textContent = consistency + '%';
+            document.getElementById('consistencyFill').style.width = consistency + '%';
+            
+            // Generate Calendar
+            generateWorkoutCalendar();
+        }
+
+        function drawWeightChart(data) {
+            const canvas = document.getElementById('weightCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const max = Math.max(...data);
+            const min = Math.min(...data);
+            const range = max - min || 1;
+            const padding = 20;
+            
+            ctx.strokeStyle = '#4a9eff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            data.forEach((value, index) => {
+                const x = padding + (index / (data.length - 1)) * (width - padding * 2);
+                const y = height - padding - ((value - min) / range) * (height - padding * 2);
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Draw points
+            ctx.fillStyle = '#4a9eff';
+            data.forEach((value, index) => {
+                const x = padding + (index / (data.length - 1)) * (width - padding * 2);
+                const y = height - padding - ((value - min) / range) * (height - padding * 2);
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function generateWorkoutCalendar() {
+            const calendar = document.getElementById('workoutCalendar');
+            calendar.innerHTML = '';
+            
+            // Generate last 28 days (4 weeks)
+            const today = new Date();
+            const completedDays = [1, 2, 4, 6, 8, 9, 11, 13, 15, 16, 18, 20, 22, 23, 25, 27]; // Demo data
+            
+            for (let i = 27; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                
+                if (i === 0) {
+                    day.classList.add('today');
+                }
+                
+                if (completedDays.includes(i)) {
+                    day.classList.add('completed');
+                    day.textContent = '✓';
+                } else if (i < 27) {
+                    day.classList.add('missed');
+                }
+                
+                calendar.appendChild(day);
+            }
+        }
+
+        // Modal Functions
+        function showWeightModal() {
+            const weight = prompt('Enter your current weight (kg):');
+            if (weight && !isNaN(weight)) {
+                const weightData = JSON.parse(localStorage.getItem('weightData') || '{"current": 75, "goal": 80, "history": [73, 73.5, 74, 74.5, 75]}');
+                weightData.current = parseFloat(weight);
+                weightData.history.push(parseFloat(weight));
+                if (weightData.history.length > 10) weightData.history.shift();
+                localStorage.setItem('weightData', JSON.stringify(weightData));
+                loadProgressData();
+                alert('Weight logged successfully! 💪');
+            }
+        }
+
+        function showMeasurementsModal() {
+            const arms = prompt('Arms (cm):');
+            const chest = prompt('Chest (cm):');
+            const waist = prompt('Waist (cm):');
+            const legs = prompt('Legs (cm):');
+            
+            if (arms && chest && waist && legs) {
+                const measurements = {
+                    arms: parseFloat(arms),
+                    chest: parseFloat(chest),
+                    waist: parseFloat(waist),
+                    legs: parseFloat(legs)
+                };
+                localStorage.setItem('measurements', JSON.stringify(measurements));
+                loadProgressData();
+                alert('Measurements updated! 📏');
+            }
+        }
     </script>
 </body>
 </html>
