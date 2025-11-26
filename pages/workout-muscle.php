@@ -388,7 +388,7 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
                     sessionStorage.removeItem(`muscleWorkout_${muscleType}`);
                     
                     // Show success modal
-                    showSuccessModal(data.xp_earned || 0, data.already_completed_today);
+                    showSuccessModal(data.total_xp_earned || 0, data.already_completed_today);
                 }
             } catch (error) {
                 console.error('Error completing workout:', error);

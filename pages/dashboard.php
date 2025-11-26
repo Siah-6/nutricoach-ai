@@ -197,9 +197,25 @@ $profile = getUserProfile(getCurrentUserId());
                         // Data is merged directly into response, not nested under 'data'
                         
                         // Update level and XP with fallback to defaults
-                        document.getElementById('userLevel').textContent = data.level || 1;
+                        const level = data.level || 1;
+                        const isMilestone = data.is_milestone || false;
+                        
+                        // Add special styling for milestone levels (every 5 levels)
+                        const xpCard = document.querySelector('.xp-card');
+                        if (isMilestone) {
+                            xpCard.style.background = 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)';
+                            xpCard.style.border = '2px solid #FFD700';
+                            xpCard.style.boxShadow = '0 8px 32px rgba(255, 215, 0, 0.3)';
+                            document.getElementById('userLevel').innerHTML = `${level} 🏆`;
+                        } else {
+                            xpCard.style.background = '';
+                            xpCard.style.border = '';
+                            xpCard.style.boxShadow = '';
+                            document.getElementById('userLevel').textContent = level;
+                        }
+                        
                         document.getElementById('userXP').textContent = data.xp || 0;
-                        document.getElementById('nextLevel').textContent = (data.level || 1) + 1;
+                        document.getElementById('nextLevel').textContent = level + 1;
                         
                         // Update progress bar
                         document.getElementById('xpProgress').textContent = data.xp_progress || 0;

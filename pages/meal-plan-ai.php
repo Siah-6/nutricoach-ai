@@ -373,20 +373,19 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
                     sessionStorage.removeItem('aiMealPlanState');
                     
                     // Show success message with EXP gained
-                    let message = '🎉 Meal Plan Completed!\n\nGreat job staying on track!';
+                    let message = '🎉 Meal Plan Completed! Great job!';
                     if (data.exp_gained) {
-                        message += `\n\n✨ +${data.exp_gained} XP earned!`;
+                        message += ` (+${data.exp_gained} XP)`;
                     }
-                    if (data.meals_logged) {
-                        message += `\n📝 ${data.meals_logged} meal${data.meals_logged > 1 ? 's' : ''} logged to tracker`;
-                    }
-                    alert(message);
+                    showNotification(message, 'success');
                     
-                    // Redirect to completion screen
-                    location.reload();
+                    // Wait a moment before reloading to show notification
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
                 } else {
                     // Show actual error message from API
-                    alert('Failed to complete meal plan: ' + (data.message || 'Unknown error'));
+                    showNotification('Failed to complete meal plan: ' + (data.message || 'Unknown error'), 'error');
                     console.error('API Error:', data);
                 }
             } catch (error) {
@@ -414,6 +413,34 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
             document.getElementById('mealPlanContent').style.display = 'block';
 
             displayMeals();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? '#4CAF50' : '#f44336';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${bgColor};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 10001;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                font-weight: 500;
+                max-width: 90%;
+                text-align: center;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transition = 'opacity 0.3s ease';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
     </script>
 </body>

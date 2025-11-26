@@ -353,7 +353,7 @@ $profile = getUserProfile(getCurrentUserId());
                     sessionStorage.removeItem('aiWorkoutState');
                     
                     // Show success modal
-                    showSuccessModal(data.xp_earned || 0, data.already_completed_today);
+                    showSuccessModal(data.total_xp_earned || 0, data.already_completed_today);
                 }
             } catch (error) {
                 console.error('Error completing workout:', error);

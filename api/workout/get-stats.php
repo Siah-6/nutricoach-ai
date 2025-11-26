@@ -40,12 +40,26 @@ try {
     $currentXp = intval($user['xp'] ?? 0);
     $currentLevel = intval($user['level'] ?? 1);
     
+    // Auto-calculate correct level based on XP (100 XP per level)
+    $calculatedLevel = floor($currentXp / 100) + 1;
+    
+    // Update level in database if it's wrong
+    if ($calculatedLevel != $currentLevel) {
+        $stmt = $db->prepare("UPDATE users SET level = ? WHERE id = ?");
+        $stmt->execute([$calculatedLevel, $userId]);
+        $currentLevel = $calculatedLevel;
+    }
+    
     // Calculate progress to next level
     $xpForCurrentLevel = ($currentLevel - 1) * 100;
     $xpForNextLevel = $currentLevel * 100;
     $xpProgress = $currentXp - $xpForCurrentLevel;
     $xpNeeded = $xpForNextLevel - $xpForCurrentLevel;
     $progressPercent = ($xpProgress / $xpNeeded) * 100;
+    
+    // Check if user reached a milestone (every 5 levels)
+    $isMilestone = ($currentLevel % 5 == 0);
+    $nextMilestone = ceil($currentLevel / 5) * 5;
     
     // Get workout stats
     $stmt = $db->prepare("SELECT COUNT(*) as total FROM workout_sessions WHERE user_id = ? AND status = 'completed'");
@@ -68,7 +82,9 @@ try {
         'progress_percent' => round($progressPercent, 1),
         'total_workouts' => $totalWorkouts,
         'total_exercises' => $totalExercises,
-        'total_achievements' => $totalAchievements
+        'total_achievements' => $totalAchievements,
+        'is_milestone' => $isMilestone,
+        'next_milestone' => $nextMilestone
     ]);
     
 } catch (Exception $e) {
