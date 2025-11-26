@@ -76,15 +76,20 @@ try {
         ]);
         $mealId = $db->lastInsertId();
         
-        // Add experience column if it doesn't exist
+        // Add xp and level columns if they don't exist
         try {
-            $db->exec("ALTER TABLE users ADD COLUMN experience INT DEFAULT 0");
+            $db->exec("ALTER TABLE users ADD COLUMN xp INT DEFAULT 0");
+        } catch (PDOException $e) {
+            // Column already exists, continue
+        }
+        try {
+            $db->exec("ALTER TABLE users ADD COLUMN level INT DEFAULT 1");
         } catch (PDOException $e) {
             // Column already exists, continue
         }
         
         // Award EXP for logging a meal (5 EXP per meal)
-        $updateExp = $db->prepare("UPDATE users SET experience = experience + 5 WHERE id = ?");
+        $updateExp = $db->prepare("UPDATE users SET xp = xp + 5 WHERE id = ?");
         $updateExp->execute([$userId]);
     }
     

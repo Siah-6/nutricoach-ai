@@ -143,17 +143,35 @@ try {
         }
     }
     
-    // Add experience column if it doesn't exist
+    // Add xp and level columns if they don't exist
     try {
-        $db->exec("ALTER TABLE users ADD COLUMN experience INT DEFAULT 0");
+        $db->exec("ALTER TABLE users ADD COLUMN xp INT DEFAULT 0");
+    } catch (PDOException $e) {
+        // Column already exists, continue
+    }
+    try {
+        $db->exec("ALTER TABLE users ADD COLUMN level INT DEFAULT 1");
     } catch (PDOException $e) {
         // Column already exists, continue
     }
     
     // Award EXP for completing meal plan (50 EXP + 10 per meal logged)
     $expGained = 50 + ($mealsLogged * 10);
-    $updateExp = $db->prepare("UPDATE users SET experience = experience + ? WHERE id = ?");
+    $updateExp = $db->prepare("UPDATE users SET xp = xp + ? WHERE id = ?");
     $updateExp->execute([$expGained, $userId]);
+    
+    // Check if user leveled up
+    $stmt = $db->prepare("SELECT xp, level FROM users WHERE id = ?");
+    $stmt->execute([$userId]);
+    $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+    $newXp = $userData['xp'];
+    $currentLevel = $userData['level'];
+    $xpForNextLevel = $currentLevel * 100;
+    
+    if ($newXp >= $xpForNextLevel) {
+        $newLevel = $currentLevel + 1;
+        $db->prepare("UPDATE users SET level = ? WHERE id = ?")->execute([$newLevel, $userId]);
+    }
     
     echo json_encode([
         'success' => true,

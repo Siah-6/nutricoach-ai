@@ -373,9 +373,14 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
                     sessionStorage.removeItem('aiMealPlanState');
                     
                     // Show success message with EXP gained
-                    const expMsg = data.exp_gained ? `\n+${data.exp_gained} EXP gained!` : '';
-                    const mealsMsg = data.meals_logged ? `\n${data.meals_logged} meals logged to tracker!` : '';
-                    alert(`🎉 Meal plan completed! Great job staying on track!${expMsg}${mealsMsg}`);
+                    let message = '🎉 Meal Plan Completed!\n\nGreat job staying on track!';
+                    if (data.exp_gained) {
+                        message += `\n\n✨ +${data.exp_gained} XP earned!`;
+                    }
+                    if (data.meals_logged) {
+                        message += `\n📝 ${data.meals_logged} meal${data.meals_logged > 1 ? 's' : ''} logged to tracker`;
+                    }
+                    alert(message);
                     
                     // Redirect to completion screen
                     location.reload();

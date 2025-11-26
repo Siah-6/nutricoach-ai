@@ -376,7 +376,8 @@ async function logMeal() {
         if (data.success) {
             closeMealLogger();
             loadMealsForDate(formatDate(selectedDate));
-            showNotification('✅ Meal logged successfully!');
+            const expMsg = data.exp_gained ? ` (+${data.exp_gained} XP)` : '';
+            showNotification(`🍽️ Meal logged successfully!${expMsg}`);
         } else {
             alert('Failed to log meal: ' + (data.message || 'Unknown error'));
         }
