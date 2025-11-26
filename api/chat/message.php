@@ -64,16 +64,25 @@ try {
         $userLevel = 1;
     }
     
-    // Get last workout
+    // Get last workout and check if it was recent (within last 10 minutes)
     try {
-        $stmt = $db->prepare("SELECT muscle_group, created_at FROM workout_sessions WHERE user_id = ? AND status = 'completed' ORDER BY created_at DESC LIMIT 1");
+        $stmt = $db->prepare("SELECT muscle_group, workout_type, created_at, completed_at FROM workout_sessions WHERE user_id = ? AND status = 'completed' ORDER BY completed_at DESC LIMIT 1");
         $stmt->execute([$userId]);
         $lastWorkout = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Check if workout was just completed (within last 10 minutes)
+        $justFinishedWorkout = false;
+        if ($lastWorkout && $lastWorkout['completed_at']) {
+            $completedTime = strtotime($lastWorkout['completed_at']);
+            $timeDiff = time() - $completedTime;
+            $justFinishedWorkout = ($timeDiff < 600); // 10 minutes
+        }
     } catch (Exception $e) {
         $lastWorkout = false;
+        $justFinishedWorkout = false;
     }
     
-    // Build context for AI - CONCISE VERSION
+    // Build context for AI - CONTEXT-AWARE VERSION
     $context = "You are NutriCoach AI, {$user['name']}'s personal fitness coach. Be supportive, energetic, and brief (2-4 sentences max). Use emojis naturally 💪🔥\n\n";
     
     $context .= "USER: {$user['name']}\n";
@@ -83,11 +92,16 @@ try {
     }
     
     $context .= "This week: {$recentWorkouts} workouts | Today: {$todayMeals} meals logged\n";
-    if ($lastWorkout) {
-        $context .= "Last workout: {$lastWorkout['muscle_group']}\n";
+    
+    if ($justFinishedWorkout) {
+        $context .= "⚡ JUST COMPLETED: {$lastWorkout['workout_type']} workout (literally just now!)\n";
+        $context .= "IMPORTANT: Congratulate them! They just finished! Don't ask if they're planning to workout.\n";
+    } elseif ($lastWorkout) {
+        $lastDate = date('M j', strtotime($lastWorkout['completed_at']));
+        $context .= "Last workout: {$lastWorkout['workout_type']} on {$lastDate}\n";
     }
     
-    $context .= "\nCall them by name. Reference their stats. Keep it short and actionable!";
+    $context .= "\nCall them by name. Reference their actual activity. Be context-aware!";
     
     // Prepare AI API request (supports both Gemini and Groq)
     $useGroq = defined('USE_GROQ_API') && USE_GROQ_API === true;

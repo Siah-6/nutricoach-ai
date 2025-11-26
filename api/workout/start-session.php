@@ -25,21 +25,6 @@ $userId = getCurrentUserId();
 $db = getDB();
 
 try {
-    // Check if user already completed a workout today
-    $stmt = $db->prepare("
-        SELECT COUNT(*) as count 
-        FROM workout_sessions 
-        WHERE user_id = ? 
-        AND status = 'completed'
-        AND DATE(completed_at) = CURDATE()
-    ");
-    $stmt->execute([$userId]);
-    $todayWorkouts = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
-    
-    if ($todayWorkouts > 0) {
-        errorResponse('You already completed a workout today! Come back tomorrow for more XP. 💪', 400);
-    }
-    
     // Check if user has an in-progress session from today
     $stmt = $db->prepare("
         SELECT id FROM workout_sessions 
