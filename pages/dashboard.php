@@ -142,6 +142,18 @@ $profile = getUserProfile(getCurrentUserId());
                         <path d="M9 18l6-6-6-6"/>
                     </svg>
                 </a>
+
+                <!-- Supplements -->
+                <a href="supplements.php" class="activity-card-modern">
+                    <div class="activity-icon">💊</div>
+                    <div class="activity-info">
+                        <div class="activity-title">Supplement Guide</div>
+                        <div class="activity-desc">AI recommendations & complete supplement library</div>
+                    </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="activity-arrow">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
