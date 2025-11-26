@@ -31,6 +31,7 @@ $profile = getUserProfile(getCurrentUserId());
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/dark-theme.css">
     <link rel="stylesheet" href="../assets/css/dashboard-dark.css">
+    <link rel="stylesheet" href="../assets/css/dashboard-modern.css">
 </head>
 <body class="dark-theme">
     <?php include __DIR__ . '/../includes/header.php'; ?>
@@ -39,141 +40,108 @@ $profile = getUserProfile(getCurrentUserId());
         <div class="container">
             <!-- Welcome Section -->
             <div class="welcome-section">
-                <h1>Welcome back, <?php echo htmlspecialchars($user['name']); ?>! 💪</h1>
-                <p>Ready to crush your fitness goals today?</p>
+                <h1><?php echo htmlspecialchars($user['name']); ?></h1>
+                <p class="welcome-subtitle">Ready to crush your fitness goals today?</p>
             </div>
 
             <!-- Stats Overview -->
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-content">
-                        <h3>Daily Calories</h3>
-                        <p class="stat-value"><?php echo $profile['daily_calories']; ?> cal</p>
-                    </div>
+                <div class="stat-card modern">
+                    <div class="stat-icon-modern">🎯</div>
+                    <div class="stat-label">DAILY CALORIES</div>
+                    <div class="stat-value-large"><?php echo $profile['daily_calories']; ?> <span class="stat-unit">cal</span></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💪</div>
-                    <div class="stat-content">
-                        <h3>Protein Goal</h3>
-                        <p class="stat-value"><?php echo $profile['protein_grams']; ?>g</p>
-                    </div>
+                <div class="stat-card modern">
+                    <div class="stat-icon-modern">💪</div>
+                    <div class="stat-label">PROTEIN GOAL</div>
+                    <div class="stat-value-large"><?php echo $profile['protein_grams']; ?><span class="stat-unit">g</span></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">⚖️</div>
-                    <div class="stat-content">
-                        <h3>Current BMI</h3>
-                        <p class="stat-value"><?php echo $profile['bmi']; ?></p>
-                    </div>
+                <div class="stat-card modern">
+                    <div class="stat-icon-modern">⚖️</div>
+                    <div class="stat-label">CURRENT BMI</div>
+                    <div class="stat-value-large"><?php echo $profile['bmi']; ?></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🔥</div>
-                    <div class="stat-content">
-                        <h3>Workout Days</h3>
-                        <p class="stat-value"><?php echo $profile['workout_frequency']; ?>/week</p>
-                    </div>
+                <div class="stat-card modern">
+                    <div class="stat-icon-modern">🔥</div>
+                    <div class="stat-label">WORKOUT DAYS</div>
+                    <div class="stat-value-large"><?php echo $profile['workout_frequency']; ?><span class="stat-unit">/week</span></div>
                 </div>
             </div>
 
-            <!-- XP and Level Widget -->
-            <div class="xp-card">
-                <div class="xp-header">
-                    <div class="xp-level">
-                        <h2>Level <span id="userLevel">1</span> 💪</h2>
-                        <p>Keep crushing your workouts!</p>
-                    </div>
-                    <div class="xp-total">
-                        <div class="xp-total-value" id="userXP">0</div>
-                        <div class="xp-total-label">Total XP</div>
-                    </div>
+            <!-- XP and Level Widget - Compact -->
+            <div class="xp-card-modern">
+                <div class="xp-left">
+                    <div class="xp-level-badge">Level <span id="userLevel">1</span> 💪</div>
+                    <div class="xp-subtitle">Keep crushing your workouts!</div>
                 </div>
-                
-                <div class="xp-progress-bar">
-                    <div id="xpProgressBar" class="xp-progress-fill"></div>
+                <div class="xp-right">
+                    <div class="xp-total-modern" id="userXP">0</div>
+                    <div class="xp-label-modern">Total XP</div>
                 </div>
-                
-                <div class="xp-progress-text">
+            </div>
+            
+            <div class="xp-progress-card">
+                <div class="xp-progress-bar-modern">
+                    <div id="xpProgressBar" class="xp-progress-fill-modern"></div>
+                </div>
+                <div class="xp-progress-info">
                     <span><span id="xpProgress">0</span> XP</span>
                     <span><span id="xpNeeded">100</span> XP to Level <span id="nextLevel">2</span></span>
                 </div>
-                
-                <div class="xp-stats">
-                    <div class="xp-stat">
-                        <span class="xp-stat-value" id="totalWorkouts">0</span>
-                        <span class="xp-stat-label">Workouts</span>
-                    </div>
-                    <div class="xp-stat">
-                        <span class="xp-stat-value" id="totalExercises">0</span>
-                        <span class="xp-stat-label">Exercises</span>
-                    </div>
-                    <div class="xp-stat">
-                        <span class="xp-stat-value" id="totalAchievements">0</span>
-                        <span class="xp-stat-label">Achievements</span>
-                    </div>
+            </div>
+            
+            <div class="mini-stats">
+                <div class="mini-stat">
+                    <div class="mini-stat-value" id="totalWorkouts">0</div>
+                    <div class="mini-stat-label">Workouts</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-value" id="totalExercises">0</div>
+                    <div class="mini-stat-label">Exercises</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-value" id="totalAchievements">0</div>
+                    <div class="mini-stat-label">Achievements</div>
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <h2>Quick Actions</h2>
-                <div class="action-grid">
-                    <a href="workout-plan-improved.php" class="action-card">
-                        <span class="action-icon">💪</span>
-                        <h3>Workout Plan</h3>
-                    </a>
-                    <a href="meal-plan-new.php" class="action-card">
-                        <span class="action-icon">🥗</span>
-                        <h3>Meal Plan</h3>
-                    </a>
-                    <a href="chat.php" class="action-card">
-                        <span class="action-icon">🤖</span>
-                        <h3>AI Coach</h3>
-                    </a>
-                    <a href="profile.php" class="action-card">
-                        <span class="action-icon">👤</span>
-                        <h3>Profile</h3>
-                    </a>
-                </div>
-            </div>
+            <!-- Quick Actions - Removed, moved to Today's Activity -->
 
             <!-- Today's Activity -->
             <div class="activity-section">
-                <h2>Today's Activity</h2>
+                <h2 class="section-title">Today's Activity</h2>
                 
                 <!-- Today's Workout -->
-                <div class="activity-card">
-                    <div class="activity-header">
-                        <h3>💪 Today's Workout</h3>
-                        <span class="activity-badge">Ready</span>
+                <a href="workout-plan-improved.php" class="activity-card-modern">
+                    <div class="activity-icon">�</div>
+                    <div class="activity-info">
+                        <div class="activity-title">Today's Workout</div>
+                        <div class="activity-desc">Your personalized workout plan is ready. Start training to earn XP and level up!</div>
                     </div>
-                    <div class="activity-content" id="todayWorkout">
-                        <p>Your personalized workout plan is ready. Start training to earn XP and level up!</p>
-                        <a href="workout-plan-improved.php" class="activity-btn">Start Workout</a>
-                    </div>
-                </div>
+                    <div class="activity-badge-modern ready">Ready</div>
+                </a>
 
                 <!-- Today's Nutrition -->
-                <div class="activity-card">
-                    <div class="activity-header">
-                        <h3>🥗 Today's Nutrition</h3>
-                        <span class="activity-badge">Pending</span>
+                <a href="meal-plan-new.php" class="activity-card-modern">
+                    <div class="activity-icon">🥗</div>
+                    <div class="activity-info">
+                        <div class="activity-title">Today's Nutrition</div>
+                        <div class="activity-desc">Track your meals and stay on top of your nutrition goals.</div>
                     </div>
-                    <div class="activity-content" id="todayMeals">
-                        <p>Track your meals and stay on top of your nutrition goals.</p>
-                        <a href="meal-plan-new.php" class="activity-btn">View Meal Plan</a>
-                    </div>
-                </div>
+                    <div class="activity-badge-modern pending">Pending</div>
+                </a>
 
-                <!-- AI Coach Chat Preview -->
-                <div class="chat-preview">
-                    <h3>🤖 Ask Your AI Coach</h3>
-                    <div class="chat-messages" id="chatMessages">
-                        <p style="color: var(--text-secondary); text-align: center; padding: 1rem;">
-                            Start a conversation with your AI fitness coach
-                        </p>
+                <!-- AI Coach -->
+                <a href="chat.php" class="activity-card-modern">
+                    <div class="activity-icon">🤖</div>
+                    <div class="activity-info">
+                        <div class="activity-title">Ask Your AI Coach</div>
+                        <div class="activity-desc">Start a conversation with your AI fitness coach</div>
                     </div>
-                    <a href="chat.php" class="activity-btn">Open Chat</a>
-                </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="activity-arrow">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
