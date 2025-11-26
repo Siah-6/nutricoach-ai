@@ -177,15 +177,15 @@ function updateMealSummary(meals) {
     
     // Calculate totals
     meals.forEach(meal => {
-        totalCalories += meal.calories;
-        totalCarbs += meal.carbs;
-        totalProtein += meal.protein;
-        totalFats += meal.fats;
+        totalCalories += parseInt(meal.calories) || 0;
+        totalCarbs += parseInt(meal.carbs) || 0;
+        totalProtein += parseInt(meal.protein) || 0;
+        totalFats += parseInt(meal.fats) || 0;
         
         // Update meal card
         const mealCard = document.getElementById(`${meal.meal_type}Calories`);
         if (mealCard) {
-            mealCard.textContent = `${meal.calories} Kcal`;
+            mealCard.textContent = `${meal.calories || 0} Kcal`;
         }
     });
     
@@ -207,10 +207,17 @@ function updateMealSummary(meals) {
 }
 
 function updateMacro(type, current, target) {
+    // Ensure values are numbers
+    current = parseFloat(current) || 0;
+    target = parseFloat(target) || 1; // Avoid division by zero
+    
     const percent = Math.min((current / target) * 100, 100);
-    document.getElementById(`${type}Percent`).textContent = `${Math.round(percent)}%`;
+    const percentRounded = Math.round(percent);
+    const currentRounded = Math.round(current);
+    
+    document.getElementById(`${type}Percent`).textContent = `${percentRounded}%`;
     document.getElementById(`${type}Bar`).style.width = `${percent}%`;
-    document.getElementById(`${type}Value`).textContent = Math.round(current);
+    document.getElementById(`${type}Value`).textContent = currentRounded;
 }
 
 function openMealLogger(mealType) {

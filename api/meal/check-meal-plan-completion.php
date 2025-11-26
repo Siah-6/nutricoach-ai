@@ -18,7 +18,23 @@ $userId = getCurrentUserId();
 $today = date('Y-m-d');
 
 try {
-    $db = getDBConnection();
+    $db = getDB();
+    
+    // Create table if it doesn't exist
+    $db->exec("
+        CREATE TABLE IF NOT EXISTS meal_plan_completions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            meals_data TEXT NOT NULL,
+            total_calories INT DEFAULT 0,
+            total_protein INT DEFAULT 0,
+            total_carbs INT DEFAULT 0,
+            total_fats INT DEFAULT 0,
+            completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_user_date (user_id, completed_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    ");
     
     // Check if meal plan was completed today
     $stmt = $db->prepare("

@@ -110,7 +110,7 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
                     </div>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
                 </div>
                 <p class="progress-text" id="progressText">0% of daily goal</p>
             </div>
@@ -134,6 +134,9 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
 
         // Generate AI meal plan on page load
         window.addEventListener('DOMContentLoaded', async () => {
+            // Initialize nutrition summary to 0
+            updateNutritionSummary();
+            
             const isCompleted = await checkCompletionStatus();
             
             if (!isCompleted) {
@@ -329,10 +332,12 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
             
             completedMeals.forEach(index => {
                 const meal = currentMeals[index];
-                totalCal += meal.calories;
-                totalPro += meal.protein;
-                totalCarb += meal.carbs;
-                totalFat += meal.fats;
+                if (meal) {
+                    totalCal += parseInt(meal.calories) || 0;
+                    totalPro += parseInt(meal.protein) || 0;
+                    totalCarb += parseInt(meal.carbs) || 0;
+                    totalFat += parseInt(meal.fats) || 0;
+                }
             });
             
             document.getElementById('totalCalories').textContent = totalCal;
@@ -340,13 +345,18 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
             document.getElementById('totalCarbs').textContent = totalCarb + 'g';
             document.getElementById('totalFats').textContent = totalFat + 'g';
             
-            const progress = Math.min((totalCal / calorieGoal) * 100, 100);
+            const progress = calorieGoal > 0 ? Math.min((totalCal / calorieGoal) * 100, 100) : 0;
             document.getElementById('progressFill').style.width = progress + '%';
             document.getElementById('progressText').textContent = Math.round(progress) + '% of daily goal';
         }
 
         async function completeMealPlan() {
             try {
+                console.log('Completing meal plan with:', {
+                    meals: currentMeals,
+                    completed_meals: Array.from(completedMeals)
+                });
+                
                 const response = await fetch('../api/meal/complete-meal-plan.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -357,18 +367,26 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
                 });
 
                 const data = await response.json();
+                console.log('API Response:', data);
+                
                 if (data.success) {
                     sessionStorage.removeItem('aiMealPlanState');
                     
-                    // Show success message
-                    alert('🎉 Meal plan completed! Great job staying on track!');
+                    // Show success message with EXP gained
+                    const expMsg = data.exp_gained ? `\n+${data.exp_gained} EXP gained!` : '';
+                    const mealsMsg = data.meals_logged ? `\n${data.meals_logged} meals logged to tracker!` : '';
+                    alert(`🎉 Meal plan completed! Great job staying on track!${expMsg}${mealsMsg}`);
                     
                     // Redirect to completion screen
                     location.reload();
+                } else {
+                    // Show actual error message from API
+                    alert('Failed to complete meal plan: ' + (data.message || 'Unknown error'));
+                    console.error('API Error:', data);
                 }
             } catch (error) {
                 console.error('Error completing meal plan:', error);
-                alert('Failed to complete meal plan. Please try again.');
+                alert('Failed to complete meal plan. Error: ' + error.message);
             }
         }
 
@@ -383,6 +401,9 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
         function restoreMealPlanState(state) {
             currentMeals = state.meals;
             completedMeals = new Set(state.completed);
+            
+            console.log('Restoring state:', state);
+            console.log('Completed meals:', completedMeals);
 
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('mealPlanContent').style.display = 'block';

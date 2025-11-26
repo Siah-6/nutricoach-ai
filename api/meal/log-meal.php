@@ -75,11 +75,23 @@ try {
             $date . ' ' . date('H:i:s')
         ]);
         $mealId = $db->lastInsertId();
+        
+        // Add experience column if it doesn't exist
+        try {
+            $db->exec("ALTER TABLE users ADD COLUMN experience INT DEFAULT 0");
+        } catch (PDOException $e) {
+            // Column already exists, continue
+        }
+        
+        // Award EXP for logging a meal (5 EXP per meal)
+        $updateExp = $db->prepare("UPDATE users SET experience = experience + 5 WHERE id = ?");
+        $updateExp->execute([$userId]);
     }
     
     successResponse([
+        'message' => 'Meal logged successfully',
         'meal_id' => $mealId,
-        'message' => 'Meal logged successfully'
+        'exp_gained' => 5
     ]);
     
 } catch (Exception $e) {

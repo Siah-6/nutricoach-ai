@@ -44,11 +44,13 @@ $exerciseLibrary = [
         ['name' => 'Leg Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/legs/leg-extensions.gif', 'tips' => 'Extend fully, control the descent'],
     ],
     'shoulders' => [
-        ['name' => 'Shoulder Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-dumbbell-shoulder-press.gif', 'tips' => 'Press overhead, control descent'],
-        ['name' => 'Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-dumbbell-lateral-raise.gif', 'tips' => 'Raise to shoulder height, slight bend in elbows'],
-        ['name' => 'Front Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-dumbbell-front-raise.gif', 'tips' => 'Raise to eye level, control the weight'],
-        ['name' => 'Rear Delt Flyes', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-reverse-fly.gif', 'tips' => 'Bend forward, raise arms to sides'],
-        ['name' => 'Arnold Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-arnold-press.gif', 'tips' => 'Rotate palms as you press up'],
+        ['name' => 'Shoulder Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-shoulder-press.gif', 'tips' => 'Press overhead, control descent'],
+        ['name' => 'Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-lateral-raise.gif', 'tips' => 'Raise to shoulder height, slight bend in elbows'],
+        ['name' => 'Front Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-front-raise.gif', 'tips' => 'Raise to eye level, control the weight'],
+        ['name' => 'Rear Delt Flyes', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/10/reverse-dumbbell-flys.gif', 'tips' => 'Bend forward, raise arms to sides'],
+        ['name' => 'Arnold Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/01/arnold-press.gif', 'tips' => 'Rotate palms as you press up'],
+        ['name' => 'Upright Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/barbell-upright-row.gif', 'tips' => 'Pull to chin, elbows high'],
+        ['name' => 'Shrugs', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-shrug.gif', 'tips' => 'Lift shoulders straight up, squeeze traps'],
     ],
     'arms' => [
         ['name' => 'Bicep Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/arms/bicep-curls.gif', 'tips' => 'Keep elbows stationary, full contraction'],
@@ -60,11 +62,13 @@ $exerciseLibrary = [
     ],
     'abs' => [
         ['name' => 'Russian Twists', 'sets' => '3', 'reps' => '20-30', 'gif' => '../assets/videos/exercises/abs/russian-twists.gif', 'tips' => 'Rotate torso, touch floor each side'],
-        ['name' => 'Crunches', 'sets' => '3', 'reps' => '15-20', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-crunches.gif', 'tips' => 'Lift shoulder blades, don\'t pull neck'],
-        ['name' => 'Plank', 'sets' => '3', 'reps' => '45-60 sec', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-plank.gif', 'tips' => 'Keep body straight, engage core'],
-        ['name' => 'Leg Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-leg-raises.gif', 'tips' => 'Keep legs straight, lower slowly'],
-        ['name' => 'Bicycle Crunches', 'sets' => '3', 'reps' => '20-30', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-bicycle-crunches.gif', 'tips' => 'Alternate sides, touch elbow to knee'],
-        ['name' => 'Mountain Climbers', 'sets' => '3', 'reps' => '30-40', 'gif' => 'https://homeworkouts.org/wp-content/uploads/anim-mountain-climber.gif', 'tips' => 'Fast pace, keep core tight'],
+        ['name' => 'Crunches', 'sets' => '3', 'reps' => '15-20', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/03/crunch.gif', 'tips' => 'Lift shoulder blades, don\'t pull neck'],
+        ['name' => 'Plank', 'sets' => '3', 'reps' => '45-60 sec', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/09/forearm-plank.gif', 'tips' => 'Keep body straight, engage core'],
+        ['name' => 'Leg Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/03/lying-leg-raise.gif', 'tips' => 'Keep legs straight, lower slowly'],
+        ['name' => 'Bicycle Crunches', 'sets' => '3', 'reps' => '20-30', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/03/bicycle-crunch.gif', 'tips' => 'Alternate sides, touch elbow to knee'],
+        ['name' => 'Mountain Climbers', 'sets' => '3', 'reps' => '30-40', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/10/mountain-climber.gif', 'tips' => 'Fast pace, keep core tight'],
+        ['name' => 'Side Plank', 'sets' => '3', 'reps' => '30-45 sec each', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/09/side-plank.gif', 'tips' => 'Keep body straight, hold position'],
+        ['name' => 'V-Ups', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2023/06/v-up.gif', 'tips' => 'Touch hands to feet, control descent'],
     ],
 ];
 
