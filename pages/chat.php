@@ -50,17 +50,21 @@ $currentUser = getCurrentUser();
                 <p>Ask me anything about fitness, nutrition, or your workout plan</p>
                 
                 <div class="suggested-questions">
-                    <div class="suggested-question" onclick="sendSuggestedQuestion('What workout should I do today?')">
+                    <div class="suggested-question" onclick="sendSuggestedQuestion('How am I doing this week?')">
+                        <span class="icon">📊</span>
+                        <span class="text">How am I doing this week?</span>
+                    </div>
+                    <div class="suggested-question" onclick="sendSuggestedQuestion('What should I work on today?')">
                         <span class="icon">💪</span>
-                        <span class="text">What workout should I do today?</span>
+                        <span class="text">What should I work on today?</span>
                     </div>
-                    <div class="suggested-question" onclick="sendSuggestedQuestion('How many calories should I eat?')">
-                        <span class="icon">🥗</span>
-                        <span class="text">How many calories should I eat?</span>
+                    <div class="suggested-question" onclick="sendSuggestedQuestion('Give me motivation!')">
+                        <span class="icon">🔥</span>
+                        <span class="text">Give me motivation!</span>
                     </div>
-                    <div class="suggested-question" onclick="sendSuggestedQuestion('Tips for building muscle?')">
-                        <span class="icon">🏋️</span>
-                        <span class="text">Tips for building muscle?</span>
+                    <div class="suggested-question" onclick="sendSuggestedQuestion('Tips for my goal?')">
+                        <span class="icon">🎯</span>
+                        <span class="text">Tips for my goal?</span>
                     </div>
                 </div>
             </div>

@@ -36,29 +36,58 @@ try {
     $user = getCurrentUser();
     $profile = getUserProfile($userId);
     
-    // Build context for AI - IMPROVED FOR BETTER RESPONSES
-    $context = "You are NutriCoach AI, a friendly and supportive fitness coach. ";
-    $context .= "IMPORTANT RULES:\n";
-    $context .= "1. Keep responses SHORT (3-5 sentences max)\n";
-    $context .= "2. Be conversational and friendly (like texting a friend)\n";
-    $context .= "3. Use emojis occasionally (💪 🔥 ✅ 🎯)\n";
-    $context .= "4. Use bullet points for lists\n";
-    $context .= "5. Ask follow-up questions to keep conversation going\n";
-    $context .= "6. NO long paragraphs or walls of text\n";
-    $context .= "7. Focus on ONE topic at a time\n\n";
-    
-    if ($profile) {
-        $context .= "User Info:\n";
-        $context .= "- Name: {$user['name']}\n";
-        $context .= "- Age: {$profile['age']}, {$profile['gender']}\n";
-        $context .= "- Goal: {$profile['fitness_goal']}\n";
-        $context .= "- Level: {$profile['fitness_level']}\n";
-        $context .= "- Daily calories: {$profile['daily_calories']}\n";
-        $context .= "- Macros: {$profile['protein_grams']}g protein, {$profile['carbs_grams']}g carbs, {$profile['fats_grams']}g fats\n";
-        $context .= "- Workouts: {$profile['workout_frequency']}x/week\n\n";
+    // Get user's recent activity for better context (with error handling)
+    try {
+        $stmt = $db->prepare("SELECT COUNT(*) as total FROM workout_sessions WHERE user_id = ? AND status = 'completed' AND DATE(created_at) >= DATE_SUB(NOW(), INTERVAL 7 DAY)");
+        $stmt->execute([$userId]);
+        $recentWorkouts = $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
+    } catch (Exception $e) {
+        $recentWorkouts = 0;
     }
     
-    $context .= "Respond in a casual, supportive tone. Keep it brief and actionable!";
+    try {
+        $stmt = $db->prepare("SELECT COUNT(*) as total FROM meal_logs WHERE user_id = ? AND DATE(logged_at) = CURDATE()");
+        $stmt->execute([$userId]);
+        $todayMeals = $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
+    } catch (Exception $e) {
+        $todayMeals = 0;
+    }
+    
+    try {
+        $stmt = $db->prepare("SELECT xp, level FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $userStats = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userXP = $userStats['xp'] ?? 0;
+        $userLevel = $userStats['level'] ?? 1;
+    } catch (Exception $e) {
+        $userXP = 0;
+        $userLevel = 1;
+    }
+    
+    // Get last workout
+    try {
+        $stmt = $db->prepare("SELECT muscle_group, created_at FROM workout_sessions WHERE user_id = ? AND status = 'completed' ORDER BY created_at DESC LIMIT 1");
+        $stmt->execute([$userId]);
+        $lastWorkout = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $lastWorkout = false;
+    }
+    
+    // Build context for AI - CONCISE VERSION
+    $context = "You are NutriCoach AI, {$user['name']}'s personal fitness coach. Be supportive, energetic, and brief (2-4 sentences max). Use emojis naturally 💪🔥\n\n";
+    
+    $context .= "USER: {$user['name']}\n";
+    if ($profile) {
+        $context .= "Goal: {$profile['fitness_goal']} | Level: {$userLevel} ({$userXP} XP)\n";
+        $context .= "Target: {$profile['daily_calories']} cal, {$profile['protein_grams']}g protein\n";
+    }
+    
+    $context .= "This week: {$recentWorkouts} workouts | Today: {$todayMeals} meals logged\n";
+    if ($lastWorkout) {
+        $context .= "Last workout: {$lastWorkout['muscle_group']}\n";
+    }
+    
+    $context .= "\nCall them by name. Reference their stats. Keep it short and actionable!";
     
     // Prepare AI API request (supports both Gemini and Groq)
     $useGroq = defined('USE_GROQ_API') && USE_GROQ_API === true;
