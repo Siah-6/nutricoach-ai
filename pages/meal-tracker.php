@@ -3,6 +3,8 @@
  * Modern Meal Tracker Page - Daily Calorie & Macro Tracking
  */
 
+header('Content-Type: text/html; charset=UTF-8');
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/functions.php';
 

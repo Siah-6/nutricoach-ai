@@ -3,6 +3,8 @@
  * AI Suggested Workout Page
  */
 
+header('Content-Type: text/html; charset=UTF-8');
+
 require_once __DIR__ . '/../includes/functions.php';
 
 initSession();
@@ -458,6 +460,12 @@ $profile = getUserProfile(getCurrentUserId());
         }
 
         function startRestTimer(index) {
+            // CRITICAL: Clear any existing timer first to prevent multiple timers running
+            if (restTimer) {
+                clearInterval(restTimer);
+                restTimer = null;
+            }
+            
             const exercise = currentExercises[index];
             const restTime = getRestTime(exercise.name);
             restTimeRemaining = restTime;
@@ -633,6 +641,126 @@ $profile = getUserProfile(getCurrentUserId());
         }
     </script>
     <style>
+        /* Fallback CSS for set buttons and rest timer */
+        .sets-tracker {
+            display: flex !important;
+            gap: 0.5rem !important;
+            padding: 1rem !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+        }
+        
+        .set-button {
+            width: 50px !important;
+            height: 50px !important;
+            border-radius: 50% !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #C5D2E0 !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .set-button.current {
+            border-color: #4a9eff !important;
+            background: rgba(74, 158, 255, 0.2) !important;
+            color: #4a9eff !important;
+            box-shadow: 0 0 20px rgba(74, 158, 255, 0.3) !important;
+        }
+
+        .set-button.completed {
+            border-color: #4CAF50 !important;
+            background: #4CAF50 !important;
+            color: white !important;
+            transform: scale(0.95) !important;
+        }
+
+        .set-button:hover:not(.completed) {
+            border-color: #4a9eff !important;
+            background: rgba(74, 158, 255, 0.1) !important;
+            transform: scale(1.05) !important;
+        }
+
+        /* Rest Timer Styling */
+        .rest-timer-container {
+            margin-top: 1rem !important;
+            padding: 1.5rem !important;
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%) !important;
+            border-radius: 12px !important;
+        }
+
+        .rest-timer-content {
+            text-align: center !important;
+        }
+
+        .rest-timer-label {
+            font-size: 0.875rem !important;
+            font-weight: 600 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin-bottom: 0.5rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+        }
+
+        .rest-timer-display {
+            font-size: 2.5rem !important;
+            font-weight: 700 !important;
+            color: white !important;
+            margin: 0.5rem 0 !important;
+            font-variant-numeric: tabular-nums !important;
+        }
+
+        .rest-timer-progress {
+            width: 100% !important;
+            height: 8px !important;
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 4px !important;
+            overflow: hidden !important;
+            margin: 1rem 0 !important;
+        }
+
+        .rest-timer-bar {
+            height: 100% !important;
+            background: white !important;
+            border-radius: 4px !important;
+            transition: width 1s linear !important;
+        }
+
+        .rest-timer-next {
+            font-size: 0.875rem !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            margin: 0.5rem 0 !important;
+            font-weight: 500 !important;
+        }
+
+        .rest-timer-actions {
+            display: flex !important;
+            gap: 0.5rem !important;
+            justify-content: center !important;
+            margin-top: 1rem !important;
+        }
+
+        .btn-rest-action {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: white !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .btn-rest-action:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: scale(1.05) !important;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }

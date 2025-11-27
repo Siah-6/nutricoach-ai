@@ -1,3 +1,7 @@
+# Set UTF-8 encoding for all files
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .php .html .css .js
+
 # Enable URL rewriting
 RewriteEngine On
 
@@ -13,6 +17,8 @@ RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Fallback to index.php for PHP frameworks (Laravel, CodeIgniter, custom apps)
+# But exclude actual files, directories, and static assets
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot)$ [NC]
 RewriteRule ^ index.php [L]
