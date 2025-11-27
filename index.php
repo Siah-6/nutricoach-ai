@@ -8,6 +8,10 @@ require_once __DIR__ . '/includes/functions.php';
 
 initSession();
 
+// TEMPORARY: Force logout to clear session
+session_destroy();
+session_start();
+
 // Redirect to dashboard if already logged in and onboarding completed
 if (isLoggedIn()) {
     if (isOnboardingCompleted(getCurrentUserId())) {

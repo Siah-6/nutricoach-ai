@@ -7,14 +7,20 @@ console.log('onboarding-clean.js loading...');
 let currentStep = 1;
 const totalSteps = 8;
 
-// Update progress bar
+// Update progress bar and back button
 function updateProgress() {
     const progress = (currentStep / totalSteps) * 100;
     const progressBar = document.getElementById('progressBar');
     const currentStepEl = document.getElementById('currentStep');
+    const backBtn = document.getElementById('backBtn');
     
     if (progressBar) progressBar.style.width = progress + '%';
     if (currentStepEl) currentStepEl.textContent = currentStep;
+    
+    // Show/hide back button
+    if (backBtn) {
+        backBtn.style.display = currentStep > 1 ? 'flex' : 'none';
+    }
 }
 
 // Next step function - globally accessible
@@ -208,22 +214,23 @@ document.addEventListener('DOMContentLoaded', function() {
 // Show summary
 function showSummary(data) {
     const summaryHTML = `
-        <div style="text-align: center; padding: 2rem;">
-            <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">🎉 Your Fitness Profile is Ready!</h2>
-            <div style="background-color: var(--bg-light); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+        <div style="text-align: center; padding: 2rem; max-width: 480px; margin: 0 auto;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+            <h2 style="color: #4a9eff; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 700;">Your Fitness Profile is Ready!</h2>
+            <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 16px; margin-bottom: 2rem;">
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; text-align: left;">
-                    <div><strong>BMI:</strong> ${data.bmi}</div>
-                    <div><strong>BMR:</strong> ${data.bmr} cal</div>
-                    <div><strong>Daily Calories:</strong> ${data.daily_calories} cal</div>
-                    <div><strong>Protein:</strong> ${data.macros.protein}g</div>
-                    <div><strong>Carbs:</strong> ${data.macros.carbs}g</div>
-                    <div><strong>Fats:</strong> ${data.macros.fats}g</div>
+                    <div style="color: white;"><strong style="color: rgba(255, 255, 255, 0.6);">BMI:</strong> ${data.bmi}</div>
+                    <div style="color: white;"><strong style="color: rgba(255, 255, 255, 0.6);">BMR:</strong> ${data.bmr} cal</div>
+                    <div style="color: white;"><strong style="color: rgba(255, 255, 255, 0.6);">Daily Calories:</strong> ${data.daily_calories} cal</div>
+                    <div style="color: white;"><strong style="color: rgba(255, 255, 255, 0.6);">Protein:</strong> ${data.macros.protein}g</div>
+                    <div style="color: white;"><strong style="color: rgba(255, 255, 255, 0.6);">Carbs:</strong> ${data.macros.carbs}g</div>
+                    <div style="color: white;"><strong style="color: rgba(255, 255, 255, 0.6);">Fats:</strong> ${data.macros.fats}g</div>
                 </div>
             </div>
-            <p style="color: var(--text-light); margin-bottom: 2rem;">
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 2rem; font-size: 0.9375rem;">
                 We've created a personalized fitness plan just for you!
             </p>
-            <button onclick="goToDashboard()" class="btn btn-primary btn-lg">
+            <button onclick="goToDashboard()" style="width: 100%; padding: 1rem; border-radius: 16px; font-size: 1.0625rem; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #0A1628; border: none; cursor: pointer;">
                 Go to Dashboard
             </button>
         </div>
