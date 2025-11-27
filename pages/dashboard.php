@@ -418,15 +418,17 @@ $profile = getUserProfile(getCurrentUserId());
             const max = Math.max(...data);
             const min = Math.min(...data);
             const range = max - min || 1;
-            const padding = 20;
+            const paddingTop = 15;
+            const paddingBottom = 25;
+            const paddingSide = 20;
             
             ctx.strokeStyle = '#4a9eff';
             ctx.lineWidth = 2;
             ctx.beginPath();
             
             data.forEach((value, index) => {
-                const x = padding + (index / (data.length - 1)) * (width - padding * 2);
-                const y = height - padding - ((value - min) / range) * (height - padding * 2);
+                const x = paddingSide + (index / (data.length - 1)) * (width - paddingSide * 2);
+                const y = height - paddingBottom - ((value - min) / range) * (height - paddingTop - paddingBottom);
                 
                 if (index === 0) {
                     ctx.moveTo(x, y);
@@ -440,8 +442,8 @@ $profile = getUserProfile(getCurrentUserId());
             // Draw points
             ctx.fillStyle = '#4a9eff';
             data.forEach((value, index) => {
-                const x = padding + (index / (data.length - 1)) * (width - padding * 2);
-                const y = height - padding - ((value - min) / range) * (height - padding * 2);
+                const x = paddingSide + (index / (data.length - 1)) * (width - paddingSide * 2);
+                const y = height - paddingBottom - ((value - min) / range) * (height - paddingTop - paddingBottom);
                 ctx.beginPath();
                 ctx.arc(x, y, 4, 0, Math.PI * 2);
                 ctx.fill();

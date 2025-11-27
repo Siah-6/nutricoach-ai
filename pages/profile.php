@@ -128,29 +128,6 @@ $profile = getUserProfile(getCurrentUserId());
             </div>
             <a href="onboarding.php" class="btn-update" style="margin-top: 1.5rem; display: block; text-align: center; text-decoration: none;">Update Fitness Profile</a>
         </div>
-
-        <!-- Nutrition Goals -->
-        <div class="profile-card">
-            <h3>Nutrition Goals</h3>
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <span class="stat-value"><?php echo $profile['daily_calories']; ?></span>
-                    <span class="stat-label">Daily Calories</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value"><?php echo $profile['protein_grams']; ?>g</span>
-                    <span class="stat-label">Protein</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value"><?php echo $profile['carbs_grams']; ?>g</span>
-                    <span class="stat-label">Carbs</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value"><?php echo $profile['fats_grams']; ?>g</span>
-                    <span class="stat-label">Fats</span>
-                </div>
-            </div>
-        </div>
         <?php else: ?>
         <div class="profile-card" style="text-align: center;">
             <p style="margin-bottom: 1.5rem;">Complete your onboarding to see your fitness profile.</p>
