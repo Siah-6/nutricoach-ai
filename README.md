@@ -17,6 +17,7 @@ An AI-powered fitness coaching web application that provides personalized workou
 - **Frontend**: Vanilla JavaScript, CSS3
 - **AI**: Google Gemini API / Groq API
 - **Server**: Apache (XAMPP)
+- **Live Server**: Hostinger
 
 ## Installation 📦
 
