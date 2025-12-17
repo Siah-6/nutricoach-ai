@@ -55,7 +55,7 @@ $profile = getUserProfile(getCurrentUserId());
             <div class="ai-plan-section">
                 <div class="plan-header">
                     <h2>🤖 AI Recommended For You</h2>
-                    <p>Based on your goal: <strong><?php echo htmlspecialchars($profile['fitness_goal']); ?></strong></p>
+                    <p>Based on your goal: <strong><?php echo ucwords(str_replace('_', ' ', htmlspecialchars($profile['fitness_goal']))); ?></strong></p>
                 </div>
 
                 <!-- Loading State -->

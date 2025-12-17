@@ -43,7 +43,7 @@ $user = getCurrentUser();
             </div>
             <h1>Welcome, <?php echo htmlspecialchars($user['name']); ?>!</h1>
             <p>Let's personalize your fitness journey</p>
-            <p class="progress-text"><span id="currentStep">1</span> of <span id="totalSteps">8</span></p>
+            <p class="progress-text"><span id="currentStep">1</span> of <span id="totalSteps">6</span></p>
         </div>
 
         <form id="onboardingForm">
@@ -251,56 +251,6 @@ $user = getCurrentUser();
                             <option value="lbs">lbs</option>
                         </select>
                     </div>
-                </div>
-                <div class="button-group">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="nextStep()">Continue</button>
-                </div>
-            </div>
-
-            <!-- Step 7: Workout Frequency -->
-            <div class="onboarding-step" data-step="7">
-                <h2>How many days per week can you workout?</h2>
-                <div class="form-group">
-                    <input type="range" name="workout_frequency" min="1" max="7" value="3" class="range-slider" oninput="updateFrequency(this.value)">
-                    <div class="range-value" id="frequencyValue">3 days per week</div>
-                </div>
-                <div class="button-group">
-                    <button type="button" class="btn btn-primary btn-lg" onclick="nextStep()">Continue</button>
-                </div>
-            </div>
-
-            <!-- Step 8: Workout Days -->
-            <div class="onboarding-step" data-step="8">
-                <h2>Which days do you prefer to workout?</h2>
-                <div class="days-grid">
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Monday">
-                        <span>Mon</span>
-                    </label>
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Tuesday">
-                        <span>Tue</span>
-                    </label>
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Wednesday">
-                        <span>Wed</span>
-                    </label>
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Thursday">
-                        <span>Thu</span>
-                    </label>
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Friday">
-                        <span>Fri</span>
-                    </label>
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Saturday">
-                        <span>Sat</span>
-                    </label>
-                    <label class="day-card">
-                        <input type="checkbox" name="workout_days[]" value="Sunday">
-                        <span>Sun</span>
-                    </label>
                 </div>
                 <div class="button-group">
                     <button type="submit" class="btn btn-primary btn-lg">Complete Setup</button>

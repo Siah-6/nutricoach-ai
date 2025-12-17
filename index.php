@@ -151,6 +151,7 @@ if (isLoggedIn()) {
                 <h3>Login to Your Account</h3>
                 <button class="modal-close" onclick="closeLoginModal()">&times;</button>
             </div>
+            <div id="loginError" class="alert alert-error" style="display: none;"></div>
             <form id="loginForm">
                 <div class="form-group">
                     <label class="form-label">Email</label>
@@ -178,22 +179,26 @@ if (isLoggedIn()) {
                 <h3>Create Your Account</h3>
                 <button class="modal-close" onclick="closeSignupModal()">&times;</button>
             </div>
+            <div id="signupError" class="alert alert-error" style="display: none;"></div>
             <form id="signupForm">
                 <div class="form-group">
-                    <label class="form-label">Full Name</label>
+                    <label class="form-label">Name</label>
                     <input type="text" name="name" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Email</label>
                     <input type="email" name="email" class="form-control" required>
+                    <small id="emailError" class="error-text" style="display: none; color: #ff6b6b; font-size: 0.875rem; margin-top: 0.25rem;"></small>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <input type="password" name="password" id="signupPassword" class="form-control" required>
+                    <small class="form-hint">Minimum 8 characters</small>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Confirm Password</label>
-                    <input type="password" name="confirm_password" class="form-control" required>
+                    <input type="password" name="confirm_password" id="confirmPassword" class="form-control" required>
+                    <small id="passwordMatchError" class="error-text" style="display: none; color: #ff6b6b; font-size: 0.875rem; margin-top: 0.25rem;"></small>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                 <p class="text-center mt-3">

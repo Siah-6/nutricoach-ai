@@ -109,7 +109,8 @@
 }
 
 .plan-header strong {
-    color: #4a9eff;
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
 /* Loading State */

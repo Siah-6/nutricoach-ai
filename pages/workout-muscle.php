@@ -26,49 +26,45 @@ $muscleIcon = [
 // TODO: Add 'video' => '../assets/videos/exercises/chest/pushups.mp4' after downloading
 $exerciseLibrary = [
     'chest' => [
-        ['name' => 'Push-ups', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/chest/push-ups.gif', 'tips' => 'Keep your body straight, core engaged'],
         ['name' => 'Bench Press', 'sets' => '4', 'reps' => '8-10', 'gif' => '../assets/videos/exercises/chest/bench-press.gif', 'tips' => 'Lower bar to chest, push up explosively'],
-        ['name' => 'Dumbbell Flyes', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/chest/dumbbell-flyes.gif', 'tips' => 'Slight bend in elbows, feel the stretch'],
         ['name' => 'Incline Press', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/chest/incline-press.gif', 'tips' => 'Target upper chest, 30-45 degree angle'],
+        ['name' => 'Incline Dumbbell Press', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/chest/incline-dumbbell-press.gif', 'tips' => 'Press upward at a 30–45° angle'],
+        ['name' => 'Machine Chest Press', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/chest/chest-press-machine.gif', 'tips' => 'Adjust seat height to chest level'],
+        ['name' => 'Pec Deck Fly', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/chest/pec-deck-fly.gif', 'tips' => 'Keep elbows slightly bent, squeeze in the middle'],
+        ['name' => 'Chest Fly (Cable)', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/chest/cable-fly.gif', 'tips' => 'Slight bend in elbows, squeeze chest'],
     ],
     'back' => [
-        ['name' => 'Pull-ups', 'sets' => '3', 'reps' => '8-10', 'gif' => '../assets/videos/exercises/back/pull-ups.gif', 'tips' => 'Full range of motion, control the descent'],
         ['name' => 'Lat Pulldowns', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/back/lat-pulldowns.gif', 'tips' => 'Pull down to upper chest, control the weight'],
+        ['name' => 'Seated Cable Row', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/back/seated-row.gif', 'tips' => 'Pull to waist, squeeze shoulder blades'],
         ['name' => 'Deadlifts', 'sets' => '3', 'reps' => '6-8', 'gif' => '../assets/videos/exercises/back/deadlifts.gif', 'tips' => 'Keep back straight, drive through heels'],
         ['name' => 'Dumbbell Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/back/dumbbell-rows.gif', 'tips' => 'One arm at a time, full stretch'],
         ['name' => 'Face Pulls', 'sets' => '3', 'reps' => '15-20', 'gif' => '../assets/videos/exercises/back/face-pulls.gif', 'tips' => 'Pull to face level, external rotation'],
     ],
     'legs' => [
         ['name' => 'Squats', 'sets' => '4', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/legs/squats.gif', 'tips' => 'Depth to parallel, knees track over toes'],
+        ['name' => 'Leg Press', 'sets' => '3', 'reps' => '10-15', 'gif' => '../assets/videos/exercises/legs/leg-press.gif', 'tips' => 'Push through heels, do not lock knees'],
         ['name' => 'Lunges', 'sets' => '3', 'reps' => '12 each leg', 'gif' => '../assets/videos/exercises/legs/lunges.gif', 'tips' => 'Step forward, 90 degree angles'],
         ['name' => 'Leg Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/legs/leg-extensions.gif', 'tips' => 'Extend fully, control the descent'],
     ],
     'shoulders' => [
-        ['name' => 'Shoulder Press', 'sets' => '4', 'reps' => '8-10', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-shoulder-press.gif', 'tips' => 'Press overhead, control descent'],
-        ['name' => 'Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-lateral-raise.gif', 'tips' => 'Raise to shoulder height, slight bend in elbows'],
-        ['name' => 'Front Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-front-raise.gif', 'tips' => 'Raise to eye level, control the weight'],
-        ['name' => 'Rear Delt Flyes', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/10/reverse-dumbbell-flys.gif', 'tips' => 'Bend forward, raise arms to sides'],
-        ['name' => 'Arnold Press', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/01/arnold-press.gif', 'tips' => 'Rotate palms as you press up'],
-        ['name' => 'Upright Rows', 'sets' => '3', 'reps' => '10-12', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/barbell-upright-row.gif', 'tips' => 'Pull to chin, elbows high'],
-        ['name' => 'Shrugs', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/02/dumbbell-shrug.gif', 'tips' => 'Lift shoulders straight up, squeeze traps'],
+        ['name' => 'Dumbbell Shoulder Press', 'sets' => '3', 'reps' => '8-12', 'gif' => '../assets/videos/exercises/shoulders/dumbbell-shoulder-press.gif', 'tips' => 'Keep wrists neutral and press upward smoothly'],
+        ['name' => 'Lateral Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/shoulders/lateral-raise.gif', 'tips' => 'Raise to shoulder height, slight elbow bend'],
+        ['name' => 'Rear Delt Fly (Cable)', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/shoulders/rear-delt-cable.gif', 'tips' => 'Pull outward, squeeze rear delts'],
+        ['name' => 'Front Raises', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/shoulders/front-raise.gif', 'tips' => 'Lift to eye level only'],
     ],
     'arms' => [
         ['name' => 'Bicep Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/arms/bicep-curls.gif', 'tips' => 'Keep elbows stationary, full contraction'],
-        ['name' => 'Tricep Dips', 'sets' => '3', 'reps' => '10-15', 'gif' => '../assets/videos/exercises/arms/tricep-dips.gif', 'tips' => 'Lower until 90 degrees, push back up'],
+        ['name' => 'Tricep Pushdown', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/arms/tricep-pushdown.gif', 'tips' => 'Keep elbows tucked, push down fully'],
         ['name' => 'Hammer Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/arms/hammer-curls.gif', 'tips' => 'Neutral grip, control the movement'],
         ['name' => 'Tricep Extensions', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/arms/tricep-extensions.gif', 'tips' => 'Keep upper arms still, extend fully'],
         ['name' => 'Preacher Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/arms/preacher-curls.gif', 'tips' => 'Isolate biceps, full range'],
         ['name' => 'Concentration Curls', 'sets' => '3', 'reps' => '10-12', 'gif' => '../assets/videos/exercises/arms/concentration-curls.gif', 'tips' => 'Focus on peak contraction'],
     ],
     'abs' => [
-        ['name' => 'Russian Twists', 'sets' => '3', 'reps' => '20-30', 'gif' => '../assets/videos/exercises/abs/russian-twists.gif', 'tips' => 'Rotate torso, touch floor each side'],
-        ['name' => 'Crunches', 'sets' => '3', 'reps' => '15-20', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/03/crunch.gif', 'tips' => 'Lift shoulder blades, don\'t pull neck'],
-        ['name' => 'Plank', 'sets' => '3', 'reps' => '45-60 sec', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/09/forearm-plank.gif', 'tips' => 'Keep body straight, engage core'],
-        ['name' => 'Leg Raises', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/03/lying-leg-raise.gif', 'tips' => 'Keep legs straight, lower slowly'],
-        ['name' => 'Bicycle Crunches', 'sets' => '3', 'reps' => '20-30', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/03/bicycle-crunch.gif', 'tips' => 'Alternate sides, touch elbow to knee'],
-        ['name' => 'Mountain Climbers', 'sets' => '3', 'reps' => '30-40', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/10/mountain-climber.gif', 'tips' => 'Fast pace, keep core tight'],
-        ['name' => 'Side Plank', 'sets' => '3', 'reps' => '30-45 sec each', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2022/09/side-plank.gif', 'tips' => 'Keep body straight, hold position'],
-        ['name' => 'V-Ups', 'sets' => '3', 'reps' => '12-15', 'gif' => 'https://www.inspireusafoundation.org/wp-content/uploads/2023/06/v-up.gif', 'tips' => 'Touch hands to feet, control descent'],
+        ['name' => 'Leg Raise (Captain\'s Chair Machine)', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/abs/captains-chair-leg-raise.gif', 'tips' => 'Lift legs smoothly, avoid swinging'],
+        ['name' => 'Cable Crunch', 'sets' => '3', 'reps' => '10-15', 'gif' => '../assets/videos/exercises/abs/cable-crunch.gif', 'tips' => 'Crunch down fully, keep hips stable'],
+        ['name' => 'Hanging Knee Raise (Captain\'s Chair Machine)', 'sets' => '3', 'reps' => '12-15', 'gif' => '../assets/videos/exercises/abs/hanging-knee-raise.gif', 'tips' => 'Raise knees with control, avoid swinging'],
+        ['name' => 'Ab Coaster', 'sets' => '3', 'reps' => '15-20', 'gif' => '../assets/videos/exercises/abs/ab-coaster.gif', 'tips' => 'Bring knees up smoothly, squeeze core at the top'],
     ],
 ];
 
@@ -84,6 +80,8 @@ $exercises = $exerciseLibrary[$muscle] ?? $exerciseLibrary['chest'];
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/dark-theme.css">
     <link rel="stylesheet" href="../assets/css/workout-session-dark.css">
+    <script src="../assets/js/register-sw.js"></script>
+    <script src="../assets/js/background-timer.js"></script>
 </head>
 <body class="dark-theme">
     <div class="workout-session-container">

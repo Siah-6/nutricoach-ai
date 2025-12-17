@@ -193,8 +193,9 @@ const User = {
     
     // Update profile
     async updateProfile(data) {
+        // Use POST for broader hosting compatibility (some servers block PUT)
         return await Utils.request(`${API_BASE}/api/user/profile.php`, {
-            method: 'PUT',
+            method: 'POST',
             body: JSON.stringify(data)
         });
     },

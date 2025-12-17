@@ -38,50 +38,46 @@ $profile = getUserProfile(getCurrentUserId());
         <!-- Account Information -->
         <div class="profile-card">
             <h3>Account Information</h3>
-                        <form id="accountForm">
-                            <div class="form-group">
-                                <label class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" 
-                                       value="<?php echo htmlspecialchars($user['name']); ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" 
-                                       value="<?php echo htmlspecialchars($user['email']); ?>" required>
-                            </div>
-                            <button type="submit" class="btn-update">Update Account</button>
-                        </form>
-                        
-                        <div class="logout-section">
-                            <button onclick="logout()" class="logout-btn">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg>
-                                Logout
-                            </button>
-                        </div>
-                    </div>
+            <form id="accountForm">
+                <div class="form-group">
+                    <label class="form-label">NAME</label>
+                    <input type="text" name="name" class="form-control" 
+                           value="<?php echo htmlspecialchars($user['name']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">EMAIL</label>
+                    <input type="email" name="email" class="form-control" 
+                           value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Update Account</button>
+                    <a href="/logout" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </a>
+                </div>
+            </form>
+        </div>
 
         <!-- Change Password -->
         <div class="profile-card">
             <h3>Change Password</h3>
             <form id="passwordForm">
-                            <div class="form-group">
-                                <label class="form-label">Current Password</label>
-                                <input type="password" name="current_password" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">New Password</label>
-                                <input type="password" name="new_password" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Confirm New Password</label>
-                                <input type="password" name="confirm_password" class="form-control" required>
-                            </div>
-                            <button type="submit" class="btn-update">Change Password</button>
-                        </form>
+                <div class="form-group">
+                    <label class="form-label">CURRENT PASSWORD</label>
+                    <input type="password" name="current_password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">NEW PASSWORD</label>
+                    <input type="password" name="new_password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm New Password</label>
+                    <input type="password" name="confirm_password" class="form-control" required>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </div>
+            </form>
         </div>
 
         <!-- Fitness Profile -->
@@ -91,42 +87,89 @@ $profile = getUserProfile(getCurrentUserId());
             <div class="info-grid">
                 <div class="info-item">
                     <strong>Gender</strong>
-                    <span><?php echo ucfirst($profile['gender']); ?></span>
+                    <span><?php echo !empty($profile['gender']) ? htmlspecialchars(ucfirst($profile['gender'])) : 'Not set'; ?></span>
                 </div>
                 <div class="info-item">
                     <strong>Age</strong>
-                    <span><?php echo $profile['age']; ?> years</span>
+                    <span><?php echo !empty($profile['age']) ? htmlspecialchars($profile['age']) : 'Not set'; ?></span>
                 </div>
                 <div class="info-item">
                     <strong>Height</strong>
-                    <span><?php echo $profile['height'] . ' ' . $profile['height_unit']; ?></span>
+                    <span>
+                        <?php 
+                        if (!empty($profile['height'])) {
+                            echo htmlspecialchars($profile['height']);
+                            echo isset($profile['height_unit']) ? ' ' . htmlspecialchars($profile['height_unit']) : '';
+                        } else {
+                            echo 'Not set';
+                        }
+                        ?>
+                    </span>
                 </div>
                 <div class="info-item">
                     <strong>Weight</strong>
-                    <span><?php echo $profile['weight'] . ' ' . $profile['weight_unit']; ?></span>
+                    <span><?php echo !empty($profile['weight']) ? htmlspecialchars($profile['weight'] . ' kg') : 'Not set'; ?></span>
                 </div>
                 <div class="info-item">
                     <strong>BMI</strong>
-                    <span><?php echo $profile['bmi']; ?></span>
-                </div>
-                <div class="info-item">
-                    <strong>Fitness Goal</strong>
-                    <span><?php echo ucwords(str_replace('_', ' ', $profile['fitness_goal'])); ?></span>
-                </div>
-                <div class="info-item">
-                    <strong>Fitness Level</strong>
-                    <span><?php echo ucfirst($profile['fitness_level']); ?></span>
-                </div>
-                <div class="info-item">
-                    <strong>Activity Level</strong>
-                    <span><?php echo ucwords(str_replace('_', ' ', $profile['activity_level'])); ?></span>
-                </div>
-                <div class="info-item">
-                    <strong>Workout Frequency</strong>
-                    <span><?php echo $profile['workout_frequency']; ?> days/week</span>
-                </div>
+                    <span><?php echo !empty($profile['bmi']) ? number_format($profile['bmi'], 1) : 'Not calculated'; ?></span>
+                </div>  
             </div>
-            <a href="onboarding.php" class="btn-update" style="margin-top: 1.5rem; display: block; text-align: center; text-decoration: none;">Update Fitness Profile</a>
+            <form id="fitnessForm" class="profile-form">
+                <div class="form-group">
+                    <label class="form-label">Fitness Goal</label>
+                    <select name="fitness_goal" class="form-control" required>
+                        <?php
+                            $goals = [
+                                'build_muscle' => 'Build Muscle',
+                                'lose_weight' => 'Lose Weight',
+                                'look_better' => 'Look Better',
+                                'stay_in_shape' => 'Stay in Shape'
+                            ];
+                            foreach ($goals as $value => $label):
+                        ?>
+                        <option value="<?php echo $value; ?>" <?php echo $profile['fitness_goal'] === $value ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Fitness Level</label>
+                    <select name="fitness_level" class="form-control" required>
+                        <?php
+                            $levels = [
+                                'beginner' => 'Beginner',
+                                'intermediate' => 'Intermediate',
+                                'advanced' => 'Advanced'
+                            ];
+                            foreach ($levels as $value => $label):
+                        ?>
+                        <option value="<?php echo $value; ?>" <?php echo $profile['fitness_level'] === $value ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Activity Level</label>
+                    <select name="activity_level" class="form-control" required>
+                        <?php
+                            $activities = [
+                                'sedentary' => 'Sedentary',
+                                'lightly_active' => 'Lightly Active',
+                                'moderately_active' => 'Moderately Active',
+                                'very_active' => 'Very Active'
+                            ];
+                            foreach ($activities as $value => $label):
+                        ?>
+                        <option value="<?php echo $value; ?>" <?php echo $profile['activity_level'] === $value ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-update">Update Fitness Profile</button>
+                </div>
+            </form>
         </div>
         <?php else: ?>
         <div class="profile-card" style="text-align: center;">
@@ -140,35 +183,65 @@ $profile = getUserProfile(getCurrentUserId());
 
     <script src="../assets/js/main.js"></script>
     <script>
-        const { Utils, User, FormValidator } = window.NutriCoach;
-
+        // Global Utils, User, and FormValidator are already available from main.js
+        
         // Account form
-        document.getElementById('accountForm').addEventListener('submit', async (e) => {
+        document.getElementById('accountForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const validator = new FormValidator(e.target);
-            const isValid = validator.validate({
-                name: { required: true, minLength: 2 },
-                email: { required: true, email: true }
-            });
-
-            if (!isValid) return;
-
-            const formData = new FormData(e.target);
-            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const form = this;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Simple client-side validation
+            const name = formData.get('name');
+            const email = formData.get('email');
+            
+            if (!name || name.length < 2) {
+                Utils.showAlert('Please enter a valid name (at least 2 characters)', 'error');
+                return;
+            }
+            
+            if (!email || !email.includes('@')) {
+                Utils.showAlert('Please enter a valid email address', 'error');
+                return;
+            }
             
             submitBtn.disabled = true;
             submitBtn.textContent = 'Updating...';
 
             try {
-                await User.updateProfile({
-                    name: formData.get('name'),
-                    email: formData.get('email')
+                console.log('Sending request with:', { name, email });
+                const response = await fetch('/api/user/profile.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        name: name,
+                        email: email
+                    })
                 });
+                
+                console.log('Response status:', response.status);
 
-                Utils.showAlert('Account updated successfully!', 'success');
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to update profile');
+                }
+
+                Utils.showAlert('Profile updated successfully!', 'success');
+                
+                // Optional: Update the UI to reflect changes
+                document.querySelector('input[name="name"]').value = name;
+                document.querySelector('input[name="email"]').value = email;
+                
             } catch (error) {
-                Utils.showAlert(error.message, 'error');
+                console.error('Error:', error);
+                Utils.showAlert(error.message || 'Failed to update profile', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Update Account';
@@ -221,52 +294,47 @@ $profile = getUserProfile(getCurrentUserId());
                 });
             }
         }
+        // Fitness form
+        const fitnessForm = document.getElementById('fitnessForm');
+        if (fitnessForm) {
+            fitnessForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const validator = new FormValidator(e.target);
+                const isValid = validator.validate({
+                    fitness_goal: { required: true },
+                    fitness_level: { required: true },
+                    activity_level: { required: true },
+                    height: { required: true, minLength: 1 }
+                });
+
+                if (!isValid) return;
+
+                const formData = new FormData(e.target);
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Updating...';
+
+                try {
+                    await User.updateProfile({
+                        fitness_goal: formData.get('fitness_goal'),
+                        fitness_level: formData.get('fitness_level'),
+                        activity_level: formData.get('activity_level'),
+                        height: formData.get('height'),
+                        height_unit: formData.get('height_unit')
+                    });
+
+                    Utils.showAlert('Fitness profile updated!', 'success');
+                } catch (error) {
+                    Utils.showAlert(error.message, 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Update Fitness Profile';
+                }
+            });
+        }
     </script>
 
-    <style>
-        .profile-info {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .info-item {
-            padding: 0.75rem;
-            background-color: var(--bg-light);
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .info-item strong {
-            color: var(--text-dark);
-        }
-        
-        .logout-btn {
-            width: 100%;
-            padding: 14px 24px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
-        }
-        
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(238, 90, 111, 0.4);
-        }
-        
-        .logout-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(238, 90, 111, 0.3);
-        }
-    </style>
 </body>
 </html>

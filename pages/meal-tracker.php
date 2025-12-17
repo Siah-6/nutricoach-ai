@@ -20,6 +20,24 @@ if (!isOnboardingCompleted(getCurrentUserId())) {
 
 $user = getCurrentUser();
 $profile = getUserProfile(getCurrentUserId());
+
+// Recalculate calorie/macro targets in case stored values are off
+$bmr = calculateBMR(
+    $profile['weight'],
+    $profile['height'],
+    $profile['age'],
+    $profile['gender'],
+    $profile['weight_unit'],
+    $profile['height_unit']
+);
+$dailyCalories = calculateDailyCalories($bmr, $profile['activity_level'], $profile['fitness_goal']);
+$macros = calculateMacros($dailyCalories, $profile['fitness_goal']);
+
+// Use recalculated values for display
+$profile['daily_calories'] = $dailyCalories;
+$profile['protein_grams'] = $macros['protein'];
+$profile['carbs_grams'] = $macros['carbs'];
+$profile['fats_grams'] = $macros['fats'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

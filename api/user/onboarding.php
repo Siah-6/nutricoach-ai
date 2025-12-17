@@ -39,7 +39,23 @@ $weight = (float)$data['weight'];
 $weightUnit = sanitize($data['weight_unit'] ?? 'kg');
 $workoutFrequency = (int)$data['workout_frequency'];
 $workoutDays = json_encode($data['workout_days'] ?? []);
-$targetWeight = isset($data['target_weight']) ? (float)$data['target_weight'] : null;
+
+// Calculate target weight based on fitness goal if not provided
+if (isset($data['target_weight']) && !empty($data['target_weight'])) {
+    $targetWeight = (float)$data['target_weight'];
+} else {
+    // Auto-calculate target weight based on fitness goal
+    if ($fitnessGoal === 'lose_weight') {
+        // Aim to lose 10% of current weight (healthy target)
+        $targetWeight = round($weight * 0.9, 1);
+    } elseif ($fitnessGoal === 'build_muscle') {
+        // Aim to gain 5-8% of current weight
+        $targetWeight = round($weight * 1.07, 1);
+    } else {
+        // Maintain current weight for other goals
+        $targetWeight = $weight;
+    }
+}
 
 // Validate enums
 $validGenders = ['male', 'female', 'other'];

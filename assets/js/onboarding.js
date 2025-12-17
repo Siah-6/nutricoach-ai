@@ -6,7 +6,7 @@
 let Utils, User;
 
 let currentStep = 1;
-const totalSteps = 8;
+const totalSteps = 6;
 
 // Update progress bar
 function updateProgress() {
@@ -120,16 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
             data.height_unit = formData.get('height_unit');
             data.weight = parseFloat(formData.get('weight'));
             data.weight_unit = formData.get('weight_unit');
-            data.workout_frequency = parseInt(formData.get('workout_frequency'));
-            
-            // Get workout days (array)
-            data.workout_days = formData.getAll('workout_days[]');
-            
-            // Validate workout days match frequency
-            if (data.workout_days.length === 0) {
-                Utils.showAlert('Please select at least one workout day', 'warning');
-                return;
-            }
+            // Provide safe defaults for legacy fields that may be missing
+            data.workout_frequency = 3;
+            data.workout_days = [];
             
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;

@@ -155,9 +155,13 @@ try {
         // Column already exists, continue
     }
     
+    // Initialize XP and level if NULL (important for Hostinger/production)
+    $stmt = $db->prepare("UPDATE users SET xp = COALESCE(xp, 0), level = COALESCE(level, 1) WHERE id = ? AND (xp IS NULL OR level IS NULL)");
+    $stmt->execute([$userId]);
+    
     // Award EXP for completing meal plan (50 EXP + 10 per meal logged)
     $expGained = 50 + ($mealsLogged * 10);
-    $updateExp = $db->prepare("UPDATE users SET xp = xp + ? WHERE id = ?");
+    $updateExp = $db->prepare("UPDATE users SET xp = COALESCE(xp, 0) + ? WHERE id = ?");
     $updateExp->execute([$expGained, $userId]);
     
     // Check if user leveled up

@@ -5,7 +5,7 @@
 console.log('onboarding-clean.js loading...');
 
 let currentStep = 1;
-const totalSteps = 8;
+const totalSteps = 6;
 
 // Update progress bar and back button
 function updateProgress() {
@@ -106,14 +106,6 @@ window.prevStep = function() {
     }
 };
 
-// Update frequency display
-window.updateFrequency = function(value) {
-    const frequencyValue = document.getElementById('frequencyValue');
-    if (frequencyValue) {
-        frequencyValue.textContent = `${value} day${value > 1 ? 's' : ''} per week`;
-    }
-};
-
 // Go to dashboard
 window.goToDashboard = function() {
     window.location.href = 'dashboard.php';
@@ -159,22 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
             data.height_unit = formData.get('height_unit');
             data.weight = parseFloat(formData.get('weight'));
             data.weight_unit = formData.get('weight_unit');
-            data.workout_frequency = parseInt(formData.get('workout_frequency'));
-            
-            // Get workout days (array)
-            data.workout_days = formData.getAll('workout_days[]');
-            
-            console.log('Collected data:', data);
-            
-            // Validate workout days
-            if (data.workout_days.length === 0) {
-                if (Utils) {
-                    Utils.showAlert('Please select at least one workout day', 'warning');
-                } else {
-                    alert('Please select at least one workout day');
-                }
-                return;
-            }
+            // Fallback defaults to satisfy older APIs
+            data.workout_frequency = 3;
+            data.workout_days = [];
             
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;

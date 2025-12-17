@@ -59,8 +59,12 @@ try {
         errorResponse('XP system not initialized. Please contact administrator.', 500);
     }
     
+    // Initialize XP and level if NULL (important for Hostinger/production)
+    $stmt = $db->prepare("UPDATE users SET xp = COALESCE(xp, 0), level = COALESCE(level, 1) WHERE id = ? AND (xp IS NULL OR level IS NULL)");
+    $stmt->execute([$userId]);
+    
     // Add XP to user
-    $stmt = $db->prepare("UPDATE users SET xp = xp + ? WHERE id = ?");
+    $stmt = $db->prepare("UPDATE users SET xp = COALESCE(xp, 0) + ? WHERE id = ?");
     $result = $stmt->execute([$xpEarned, $userId]);
     logError("XP added to user. Rows affected: " . $stmt->rowCount());
     

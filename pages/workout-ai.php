@@ -30,6 +30,8 @@ $profile = getUserProfile(getCurrentUserId());
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/dark-theme.css">
     <link rel="stylesheet" href="../assets/css/workout-session-dark.css">
+    <script src="../assets/js/register-sw.js"></script>
+    <script src="../assets/js/background-timer.js"></script>
 </head>
 <body class="dark-theme">
     <div class="workout-session-container">
@@ -120,9 +122,20 @@ $profile = getUserProfile(getCurrentUserId());
         let currentRestExercise = null;
         let exerciseSets = {}; // Track completed sets per exercise
         let currentRestSet = null; // Track which set is resting
+        let backgroundTimer = new BackgroundTimer(); // Background timer instance
 
         // Generate AI workout on page load
         window.addEventListener('DOMContentLoaded', async () => {
+            // Check if timer is running in background first
+            if (backgroundTimer.isRunning()) {
+                const timerData = backgroundTimer.getTimerData();
+                const savedState = sessionStorage.getItem('aiWorkoutState');
+                if (savedState) {
+                    restoreWorkoutState(JSON.parse(savedState));
+                }
+                return;
+            }
+            
             // Check if already completed today
             const isCompleted = await checkCompletionStatus();
             
@@ -134,6 +147,13 @@ $profile = getUserProfile(getCurrentUserId());
                 } else {
                     generateAIWorkout();
                 }
+            }
+        });
+
+        // Save state before leaving page
+        window.addEventListener('beforeunload', () => {
+            if (currentSession) {
+                saveWorkoutState();
             }
         });
 
@@ -286,6 +306,18 @@ $profile = getUserProfile(getCurrentUserId());
                 `;
                 exerciseList.appendChild(exerciseCard);
             });
+            
+            // After rebuilding DOM, check if timer is running and show it
+            const timerData = backgroundTimer.getTimerData();
+            if (timerData && backgroundTimer.getRemainingTime() > 0) {
+                const exerciseIndex = timerData.exerciseIndex;
+                const timerContainer = document.getElementById(`restTimer${exerciseIndex}`);
+                if (timerContainer) {
+                    timerContainer.style.display = 'block';
+                    restTimeRemaining = backgroundTimer.getRemainingTime();
+                    updateRestDisplay(exerciseIndex);
+                }
+            }
         }
 
         async function startWorkout() {
@@ -319,7 +351,10 @@ $profile = getUserProfile(getCurrentUserId());
                 exercises: currentExercises,
                 completed: Array.from(completedExercises),
                 sessionId: currentSession,
-                hasStarted: currentSession !== null
+                hasStarted: currentSession !== null,
+                exerciseSets: exerciseSets,
+                currentRestExercise: currentRestExercise,
+                timerData: backgroundTimer.getTimerData()
             };
             sessionStorage.setItem('aiWorkoutState', JSON.stringify(state));
         }
@@ -328,6 +363,16 @@ $profile = getUserProfile(getCurrentUserId());
             currentExercises = state.exercises;
             completedExercises = new Set(state.completed);
             currentSession = state.sessionId;
+            
+            // Restore exercise sets progress
+            if (state.exerciseSets) {
+                exerciseSets = state.exerciseSets;
+            }
+            
+            // Restore current rest exercise
+            if (state.currentRestExercise !== undefined) {
+                currentRestExercise = state.currentRestExercise;
+            }
 
             document.getElementById('loadingState').style.display = 'none';
             document.getElementById('workoutContent').style.display = 'block';
@@ -341,6 +386,33 @@ $profile = getUserProfile(getCurrentUserId());
             }
 
             displayExercises();
+            
+            // Restore timer if it was running - check background timer directly
+            const remaining = backgroundTimer.getRemainingTime();
+            if (remaining > 0) {
+                const timerData = backgroundTimer.getTimerData();
+                if (timerData) {
+                    const exerciseIndex = timerData.exerciseIndex;
+                    currentRestExercise = exerciseIndex;
+                    
+                    // Show timer container and resume
+                    const timerContainer = document.getElementById(`restTimer${exerciseIndex}`);
+                    if (timerContainer) {
+                        timerContainer.style.display = 'block';
+                        
+                        // Resume the timer (don't start a new one)
+                        backgroundTimer.checkTimer(
+                            (remaining, exerciseIndex) => {
+                                restTimeRemaining = remaining;
+                                updateRestDisplay(exerciseIndex);
+                            },
+                            (exerciseIndex) => {
+                                finishRest(exerciseIndex);
+                            }
+                        );
+                    }
+                }
+            }
 
             if (completedExercises.size === currentExercises.length) {
                 document.getElementById('completeSection').style.display = 'block';
@@ -460,30 +532,31 @@ $profile = getUserProfile(getCurrentUserId());
         }
 
         function startRestTimer(index) {
-            // CRITICAL: Clear any existing timer first to prevent multiple timers running
-            if (restTimer) {
-                clearInterval(restTimer);
-                restTimer = null;
-            }
-            
             const exercise = currentExercises[index];
             const restTime = getRestTime(exercise.name);
-            restTimeRemaining = restTime;
             currentRestExercise = index;
             
             const timerContainer = document.getElementById(`restTimer${index}`);
             if (timerContainer) {
                 timerContainer.style.display = 'block';
-                updateRestDisplay(index);
                 
-                restTimer = setInterval(() => {
-                    restTimeRemaining--;
-                    updateRestDisplay(index);
-                    
-                    if (restTimeRemaining <= 0) {
-                        finishRest(index);
+                // Use background timer for persistent timing
+                backgroundTimer.start(
+                    restTime,
+                    index,
+                    (remaining, exerciseIndex) => {
+                        // On tick callback
+                        restTimeRemaining = remaining;
+                        updateRestDisplay(exerciseIndex);
+                    },
+                    (exerciseIndex) => {
+                        // On complete callback
+                        finishRest(exerciseIndex);
                     }
-                }, 1000);
+                );
+                
+                // Save state immediately after starting timer
+                saveWorkoutState();
             }
         }
 
@@ -505,26 +578,20 @@ $profile = getUserProfile(getCurrentUserId());
         }
 
         function finishRest(index) {
-            clearInterval(restTimer);
-            restTimer = null;
+            backgroundTimer.stop();
             
             const timerContainer = document.getElementById(`restTimer${index}`);
             if (timerContainer) {
                 timerContainer.style.display = 'none';
             }
             
-            // Vibrate and play sound
-            if (navigator.vibrate) {
-                navigator.vibrate([200, 100, 200]);
-            }
-            
-            // Show notification
+            // Vibrate (already handled by background timer)
+            // Show notification (already handled by background timer)
             showNotification('✅ Rest complete! Ready for next set?');
         }
 
         function skipRest(index) {
-            clearInterval(restTimer);
-            restTimer = null;
+            backgroundTimer.stop();
             restTimeRemaining = 0;
             
             const timerContainer = document.getElementById(`restTimer${index}`);
@@ -534,6 +601,7 @@ $profile = getUserProfile(getCurrentUserId());
         }
 
         function addRestTime(index, seconds) {
+            backgroundTimer.addTime(seconds);
             restTimeRemaining += seconds;
             updateRestDisplay(index);
         }
@@ -641,126 +709,6 @@ $profile = getUserProfile(getCurrentUserId());
         }
     </script>
     <style>
-        /* Fallback CSS for set buttons and rest timer */
-        .sets-tracker {
-            display: flex !important;
-            gap: 0.5rem !important;
-            padding: 1rem !important;
-            justify-content: center !important;
-            flex-wrap: wrap !important;
-        }
-        
-        .set-button {
-            width: 50px !important;
-            height: 50px !important;
-            border-radius: 50% !important;
-            border: 2px solid rgba(255, 255, 255, 0.2) !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            color: #C5D2E0 !important;
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-        }
-
-        .set-button.current {
-            border-color: #4a9eff !important;
-            background: rgba(74, 158, 255, 0.2) !important;
-            color: #4a9eff !important;
-            box-shadow: 0 0 20px rgba(74, 158, 255, 0.3) !important;
-        }
-
-        .set-button.completed {
-            border-color: #4CAF50 !important;
-            background: #4CAF50 !important;
-            color: white !important;
-            transform: scale(0.95) !important;
-        }
-
-        .set-button:hover:not(.completed) {
-            border-color: #4a9eff !important;
-            background: rgba(74, 158, 255, 0.1) !important;
-            transform: scale(1.05) !important;
-        }
-
-        /* Rest Timer Styling */
-        .rest-timer-container {
-            margin-top: 1rem !important;
-            padding: 1.5rem !important;
-            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%) !important;
-            border-radius: 12px !important;
-        }
-
-        .rest-timer-content {
-            text-align: center !important;
-        }
-
-        .rest-timer-label {
-            font-size: 0.875rem !important;
-            font-weight: 600 !important;
-            color: rgba(255, 255, 255, 0.9) !important;
-            margin-bottom: 0.5rem !important;
-            text-transform: uppercase !important;
-            letter-spacing: 1px !important;
-        }
-
-        .rest-timer-display {
-            font-size: 2.5rem !important;
-            font-weight: 700 !important;
-            color: white !important;
-            margin: 0.5rem 0 !important;
-            font-variant-numeric: tabular-nums !important;
-        }
-
-        .rest-timer-progress {
-            width: 100% !important;
-            height: 8px !important;
-            background: rgba(255, 255, 255, 0.2) !important;
-            border-radius: 4px !important;
-            overflow: hidden !important;
-            margin: 1rem 0 !important;
-        }
-
-        .rest-timer-bar {
-            height: 100% !important;
-            background: white !important;
-            border-radius: 4px !important;
-            transition: width 1s linear !important;
-        }
-
-        .rest-timer-next {
-            font-size: 0.875rem !important;
-            color: rgba(255, 255, 255, 0.9) !important;
-            margin: 0.5rem 0 !important;
-            font-weight: 500 !important;
-        }
-
-        .rest-timer-actions {
-            display: flex !important;
-            gap: 0.5rem !important;
-            justify-content: center !important;
-            margin-top: 1rem !important;
-        }
-
-        .btn-rest-action {
-            background: rgba(255, 255, 255, 0.2) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            color: white !important;
-            padding: 0.5rem 1rem !important;
-            border-radius: 8px !important;
-            font-weight: 600 !important;
-            cursor: pointer !important;
-            transition: all 0.2s ease !important;
-        }
-
-        .btn-rest-action:hover {
-            background: rgba(255, 255, 255, 0.3) !important;
-            transform: scale(1.05) !important;
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }

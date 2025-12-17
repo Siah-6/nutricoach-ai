@@ -32,6 +32,95 @@ $calorieGoal = $profile['daily_calorie_goal'] ?? 2000;
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/dark-theme.css">
     <link rel="stylesheet" href="../assets/css/meal-plan-dark.css">
+    <style>
+        /* Completion Screen Styling */
+        .completion-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #0A1628 0%, #1a2332 100%);
+        }
+        
+        .completion-content {
+            text-align: center;
+            max-width: 500px;
+            background: rgba(26, 35, 50, 0.8);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        
+        .completion-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s ease infinite;
+        }
+        
+        .completion-content h2 {
+            color: #fff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .completion-content p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .completion-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(74, 158, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+        }
+        
+        .stat-label {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .btn-back {
+            background: linear-gradient(135deg, #4A9EFF 0%, #357abd 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.4);
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
 </head>
 <body class="dark-theme">
     <div class="meal-plan-container">

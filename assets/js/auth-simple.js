@@ -79,9 +79,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Login Form
     const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
     if (loginForm) {
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Hide previous errors
+            if (loginError) {
+                loginError.style.display = 'none';
+            }
             
             const validator = new FormValidator(loginForm);
             const isValid = validator.validate({
@@ -114,7 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
                 
             } catch (error) {
-                Utils.showAlert(error.message, 'error');
+                // Show error in modal
+                if (loginError) {
+                    loginError.textContent = error.message || 'Invalid email or password';
+                    loginError.style.display = 'block';
+                }
+                Utils.showAlert(error.message || 'Invalid email or password', 'error');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Login';
             }
@@ -123,9 +134,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Signup Form
     const signupForm = document.getElementById('signupForm');
+    const signupError = document.getElementById('signupError');
+    const emailError = document.getElementById('emailError');
+    const passwordMatchError = document.getElementById('passwordMatchError');
+    const signupPassword = document.getElementById('signupPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    
     if (signupForm) {
+        // Real-time password match validation
+        if (confirmPassword) {
+            confirmPassword.addEventListener('input', function() {
+                if (signupPassword && confirmPassword.value) {
+                    if (signupPassword.value !== confirmPassword.value) {
+                        passwordMatchError.textContent = '⚠️ Passwords do not match';
+                        passwordMatchError.style.display = 'block';
+                        confirmPassword.style.borderColor = '#ff6b6b';
+                    } else {
+                        passwordMatchError.style.display = 'none';
+                        confirmPassword.style.borderColor = '';
+                    }
+                }
+            });
+        }
+        
         signupForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Hide previous errors
+            if (signupError) signupError.style.display = 'none';
+            if (emailError) emailError.style.display = 'none';
+            if (passwordMatchError) passwordMatchError.style.display = 'none';
             
             const validator = new FormValidator(signupForm);
             const isValid = validator.validate({
@@ -143,6 +181,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const formData = new FormData(signupForm);
             const submitBtn = signupForm.querySelector('button[type="submit"]');
+            
+            // Check password match before submitting
+            if (formData.get('password') !== formData.get('confirm_password')) {
+                if (passwordMatchError) {
+                    passwordMatchError.textContent = '⚠️ Passwords do not match';
+                    passwordMatchError.style.display = 'block';
+                }
+                return;
+            }
             
             submitBtn.disabled = true;
             submitBtn.textContent = 'Creating account...';
@@ -162,6 +209,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
                 
             } catch (error) {
+                // Check if it's a duplicate email error
+                if (error.message && error.message.toLowerCase().includes('already registered')) {
+                    if (emailError) {
+                        emailError.textContent = '⚠️ This email is already registered. Please login instead.';
+                        emailError.style.display = 'block';
+                    }
+                } else if (signupError) {
+                    signupError.textContent = error.message;
+                    signupError.style.display = 'block';
+                }
                 Utils.showAlert(error.message, 'error');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Sign Up';

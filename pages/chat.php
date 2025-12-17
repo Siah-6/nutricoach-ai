@@ -147,45 +147,71 @@ $currentUser = getCurrentUser();
 
         // Handle form submit
         chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const message = messageInput.value.trim();
-            if (!message) return;
+    e.preventDefault();
 
-            // Clear welcome message on first message
-            if (isFirstMessage) {
-                chatMessages.innerHTML = '';
-                isFirstMessage = false;
-            }
+    const message = messageInput.value.trim();
+    if (!message) return;
 
-            // Add user message
-            addMessage(message, 'user');
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
+    // Clear welcome message on first message
+    if (isFirstMessage) {
+        chatMessages.innerHTML = '';
+        isFirstMessage = false;
+    }
 
-            // Show typing indicator
-            showTypingIndicator();
+    // 1️⃣ Add user message immediately
+    const userTimestamp = new Date().toISOString();
+    addMessage(message, 'user', userTimestamp);
 
-            try {
-                const response = await window.NutriCoach.Chat.sendMessage(message);
-                
-                // Remove typing indicator
-                removeTypingIndicator();
+    // 2️⃣ Clear input immediately
+    messageInput.value = '';
+    messageInput.style.height = 'auto';
 
-                if (response.success || response.response) {
-                    const aiResponse = response.response || response.data?.response;
-                    addMessage(aiResponse, 'ai');
-                } else {
-                    addMessage('Sorry, I encountered an error. Please try again.', 'ai');
-                }
-            } catch (error) {
-                console.error('Chat error:', error);
-                removeTypingIndicator();
-                addMessage('Sorry, I encountered an error. Please try again.', 'ai');
-            }
-        });
+    // 3️⃣ Show typing indicator
+    showTypingIndicator();
+
+    try {
+        const response = await window.NutriCoach.Chat.sendMessage(message);
+
+        removeTypingIndicator();
+
+        if (response?.success || response?.response || response?.data?.response) {
+            const aiResponse = response.response || response.data?.response;
+            const aiTimestamp = response.data?.timestamp || new Date().toISOString();
+
+            addMessage(aiResponse, 'ai', aiTimestamp);
+        } else {
+            addMessage('Sorry, something went wrong. Please try again.', 'ai');
+        }
+
+    } catch (error) {
+        console.error('Chat error:', error);
+        removeTypingIndicator();
+        addMessage('Sorry, I encountered an error. Please try again.', 'ai');
+    }
+});
 
         function addMessage(text, sender, timestamp = null) {
+            // Create date object from timestamp or current time
+            let date;
+
+            if (timestamp) {
+                // Force timestamp to be treated as LOCAL time (not UTC)
+                date = new Date(timestamp.replace(' ', 'T'));
+            } else {
+                date = new Date();
+            }
+
+            
+            // Convert to Philippine Time (UTC+8)
+            const options = {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+            
+            // Format the time in Philippine Time
+            const timeString = date.toLocaleTimeString('en-PH', options);
+            
             const messageDiv = document.createElement('div');
             messageDiv.className = `chat-message ${sender}`;
             
@@ -203,13 +229,8 @@ $currentUser = getCurrentUser();
             const time = document.createElement('div');
             time.className = 'message-time';
             
-            // Use provided timestamp or current time
-            if (timestamp) {
-                const date = new Date(timestamp);
-                time.textContent = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            } else {
-                time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            }
+            time.textContent = timeString;
+            time.setAttribute('data-timestamp', date.toISOString());
             
             content.appendChild(bubble);
             content.appendChild(time);
@@ -260,8 +281,8 @@ $currentUser = getCurrentUser();
                     
                     history.forEach(chat => {
                         // Pass the timestamp from database
-                        addMessage(chat.message, 'user', chat.created_at);
-                        addMessage(chat.response, 'ai', chat.created_at);
+                        if (chat.message) addMessage(chat.message, 'user', chat.created_at || chat.timestamp);
+                        if (chat.response) addMessage(chat.response, 'ai', chat.updated_at || chat.timestamp || chat.created_at);
                     });
                     
                     console.log('Loaded', history.length, 'chat messages');

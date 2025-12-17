@@ -370,14 +370,42 @@
     padding: 1rem;
     background: rgba(255, 255, 255, 0.02);
     border-radius: 12px;
+    position: relative;
+}
+
+.edit-goal-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+}
+
+.edit-goal-btn:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.edit-goal-btn svg {
+    color: var(--accent-blue);
+    width: 14px;
+    height: 14px;
 }
 
 .weight-label {
     font-size: 0.75rem;
     color: var(--text-secondary);
-    margin-bottom: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+    display: block;
 }
 
 .weight-value {

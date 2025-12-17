@@ -83,25 +83,52 @@ try {
     }
     
     // Build context for AI - CONTEXT-AWARE VERSION
-    $context = "You are NutriCoach AI, {$user['name']}'s personal fitness coach. Be supportive, energetic, and brief (2-4 sentences max). Use emojis naturally 💪🔥\n\n";
+    // Build context for AI - IMPROVED COACHING VERSION
+    $context = "You are NutriCoach AI, {$user['name']}'s personal fitness coach.
+
+    Your role:
+    - Be supportive, encouraging, and human.
+    - Coach without guilt, pressure, or shame.
+
+    STRICT RULES:
+    - Always validate the user's feelings first.
+    - Prefer encouragement over instruction unless the user explicitly asks for advice.
+    - In sensitive moments (low motivation, just finished workout, missed workouts), DO NOT ask questions. Use supportive statements only.
+    - Celebrate effort BEFORE giving advice.
+    - Never use language that implies failure (avoid words like 'finally', 'get back on track', or 'crush it').
+    - Do NOT make assumptions beyond the data provided.
+    - Ask at most ONE question, and only if it adds value.
+    - Keep responses short (2–4 sentences max).
+    - Use 1–2 friendly emojis naturally (not every sentence).
+
+    Your tone should feel like a calm, motivating coach — not a drill sergeant.\n\n";
+
     
     $context .= "USER: {$user['name']}\n";
     if ($profile) {
+        $weight = $profile['weight'] ?? null;
+        $height = $profile['height'] ?? null;
+        $bmi = $profile['bmi'] ?? null;
+        if (!$bmi && $weight && $height) {
+            $bmi = calculateBMI($weight, $height, $profile['weight_unit'] ?? 'kg', $profile['height_unit'] ?? 'cm');
+        }
         $context .= "Goal: {$profile['fitness_goal']} | Level: {$userLevel} ({$userXP} XP)\n";
-        $context .= "Target: {$profile['daily_calories']} cal, {$profile['protein_grams']}g protein\n";
+        $context .= "Stats: weight " . ($weight ?: 'N/A') . ($profile['weight_unit'] ?? 'kg') . ", height " . ($height ?: 'N/A') . ($profile['height_unit'] ?? 'cm') . ", BMI " . ($bmi ?: 'N/A') . "\n";
+        $context .= "Target: {$profile['daily_calories']} cal, {$profile['protein_grams']}g protein, {$profile['carbs_grams']}g carbs, {$profile['fats_grams']}g fats\n";
     }
     
     $context .= "This week: {$recentWorkouts} workouts | Today: {$todayMeals} meals logged\n";
     
     if ($justFinishedWorkout) {
         $context .= "⚡ JUST COMPLETED: {$lastWorkout['workout_type']} workout (literally just now!)\n";
-        $context .= "IMPORTANT: Congratulate them! They just finished! Don't ask if they're planning to workout.\n";
+        $context .= "IMPORTANT: Celebrate immediately. Do NOT correct, coach, remind, or ask questions in this response.\n";
     } elseif ($lastWorkout) {
         $lastDate = date('M j', strtotime($lastWorkout['completed_at']));
         $context .= "Last workout: {$lastWorkout['workout_type']} on {$lastDate}\n";
     }
     
-    $context .= "\nCall them by name. Reference their actual activity. Be context-aware!";
+    $context .= "\nCall the user by name. Reference ONLY confirmed data above. If data is missing, stay general.";
+
     
     // Prepare AI API request (supports both Gemini and Groq)
     $useGroq = defined('USE_GROQ_API') && USE_GROQ_API === true;
@@ -195,14 +222,22 @@ try {
         $aiResponse = $responseData['candidates'][0]['content']['parts'][0]['text'];
     }
     
-    // Save chat history
-    $stmt = $db->prepare("INSERT INTO chat_history (user_id, message, response) VALUES (?, ?, ?)");
-    $stmt->execute([$userId, $message, $aiResponse]);
+    // Get current timestamp in UTC
+    $utcTimestamp = new DateTime('now', new DateTimeZone('UTC'));
+    $timestamp = $utcTimestamp->format('Y-m-d H:i:s');
+    
+    // Save chat history with UTC timestamp
+    $stmt = $db->prepare("INSERT INTO chat_history (user_id, message, response, created_at) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$userId, $message, $aiResponse, $timestamp]);
+    
+    // Get the inserted record ID
+    $messageId = $db->lastInsertId();
     
     successResponse([
+        'id' => $messageId,
         'message' => $message,
         'response' => $aiResponse,
-        'timestamp' => date('Y-m-d H:i:s')
+        'timestamp' => $utcTimestamp->format('c') // ISO 8601 format
     ]);
     
 } catch (Exception $e) {

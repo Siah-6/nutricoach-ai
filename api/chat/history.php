@@ -24,7 +24,11 @@ try {
     $db = getDB();
     
     $stmt = $db->prepare("
-        SELECT id, message, response, created_at
+        SELECT 
+            id, 
+            message, 
+            response, 
+            DATE_FORMAT(created_at, '%Y-%m-%dT%H:%i:%sZ') AS created_at
         FROM chat_history
         WHERE user_id = ?
         ORDER BY created_at DESC
